@@ -638,13 +638,15 @@ final class PhptTestCase implements Reorderable, SelfDescribing, Test
         $coverage = RawCodeCoverageData::fromXdebugWithoutPathCoverage([]);
         $files    = $this->getCoverageFiles();
 
-        $buffer = @file_get_contents($files['coverage']);
+        if (is_file($files['coverage'])) {
+            $buffer = @file_get_contents($files['coverage']);
 
-        if ($buffer !== false) {
-            $coverage = @unserialize($buffer);
+            if ($buffer !== false) {
+                $coverage = @unserialize($buffer);
 
-            if ($coverage === false) {
-                $coverage = RawCodeCoverageData::fromXdebugWithoutPathCoverage([]);
+                if ($coverage === false) {
+                    $coverage = RawCodeCoverageData::fromXdebugWithoutPathCoverage([]);
+                }
             }
         }
 

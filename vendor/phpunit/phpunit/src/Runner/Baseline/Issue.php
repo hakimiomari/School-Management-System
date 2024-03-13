@@ -123,13 +123,12 @@ final class Issue
      */
     private static function calculateHash(string $file, int $line): string
     {
-        $lines = @file($file, FILE_IGNORE_NEW_LINES);
-
-        if ($lines === false && !is_file($file)) {
+        if (!is_file($file)) {
             throw new FileDoesNotExistException($file);
         }
 
-        $key = $line - 1;
+        $lines = file($file, FILE_IGNORE_NEW_LINES);
+        $key   = $line - 1;
 
         if (!isset($lines[$key])) {
             throw new FileDoesNotHaveLineException($file, $line);

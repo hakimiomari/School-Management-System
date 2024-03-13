@@ -173,8 +173,6 @@ final class TestRunner
                         $test->valueObjectForEvents(),
                         $cce->getMessage(),
                     );
-
-                    $append = false;
                 }
             }
 
@@ -420,13 +418,12 @@ final class TestRunner
     private function runTestWithTimeout(TestCase $test): bool
     {
         $_timeout = $this->configuration->defaultTimeLimit();
-        $testSize = $test->size();
 
-        if ($testSize->isSmall()) {
+        if ($test->size()->isSmall()) {
             $_timeout = $this->configuration->timeoutForSmallTests();
-        } elseif ($testSize->isMedium()) {
+        } elseif ($test->size()->isMedium()) {
             $_timeout = $this->configuration->timeoutForMediumTests();
-        } elseif ($testSize->isLarge()) {
+        } elseif ($test->size()->isLarge()) {
             $_timeout = $this->configuration->timeoutForLargeTests();
         }
 

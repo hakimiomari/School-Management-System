@@ -89,10 +89,10 @@ final class Filter
             $script = '';
         }
 
-        return $fileIsNotPrefixed &&
-               $file !== $script &&
+        return is_file($file) &&
                self::fileIsExcluded($file, $excludeList) &&
-               is_file($file);
+               $fileIsNotPrefixed &&
+               $file !== $script;
     }
 
     private static function fileIsExcluded(string $file, ExcludeList $excludeList): bool

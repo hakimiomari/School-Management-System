@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Carbon package.
  *
@@ -210,7 +212,7 @@ class Language implements JsonSerializable
      *
      * @param string $isoName
      */
-    public function setIsoName(string $isoName): self
+    public function setIsoName(string $isoName): static
     {
         $this->isoName = $isoName;
 
@@ -236,7 +238,7 @@ class Language implements JsonSerializable
      *
      * @param string $nativeName
      */
-    public function setNativeName(string $nativeName): self
+    public function setNativeName(string $nativeName): static
     {
         $this->nativeName = $nativeName;
 

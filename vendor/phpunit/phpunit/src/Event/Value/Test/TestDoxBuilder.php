@@ -40,12 +40,10 @@ final class TestDoxBuilder
     {
         $prettifier = new NamePrettifier;
 
-        $prettifiedMethodName = $prettifier->prettifyTestMethodName($methodName);
-
         return new TestDox(
             $prettifier->prettifyTestClassName($className),
-            $prettifiedMethodName,
-            $prettifiedMethodName,
+            $prettifier->prettifyTestMethodName($methodName),
+            $prettifier->prettifyTestMethodName($methodName),
         );
     }
 }
