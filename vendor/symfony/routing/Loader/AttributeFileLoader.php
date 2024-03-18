@@ -25,7 +25,7 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class AttributeFileLoader extends FileLoader
 {
-    protected AttributeClassLoader $loader;
+    protected $loader;
 
     public function __construct(FileLocatorInterface $locator, AttributeClassLoader $loader)
     {
@@ -65,7 +65,11 @@ class AttributeFileLoader extends FileLoader
 
     public function supports(mixed $resource, ?string $type = null): bool
     {
-        return \is_string($resource) && 'php' === pathinfo($resource, \PATHINFO_EXTENSION) && (!$type || 'attribute' === $type);
+        if ('annotation' === $type) {
+            trigger_deprecation('symfony/routing', '6.4', 'The "annotation" route type is deprecated, use the "attribute" route type instead.');
+        }
+
+        return \is_string($resource) && 'php' === pathinfo($resource, \PATHINFO_EXTENSION) && (!$type || \in_array($type, ['annotation', 'attribute'], true));
     }
 
     /**
@@ -134,4 +138,8 @@ class AttributeFileLoader extends FileLoader
 
         return false;
     }
+}
+
+if (!class_exists(AnnotationFileLoader::class, false)) {
+    class_alias(AttributeFileLoader::class, AnnotationFileLoader::class);
 }

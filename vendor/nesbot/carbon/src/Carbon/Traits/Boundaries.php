@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -14,7 +12,6 @@ declare(strict_types=1);
 namespace Carbon\Traits;
 
 use Carbon\Exceptions\UnknownUnitException;
-use Carbon\WeekDay;
 
 /**
  * Trait Boundaries.
@@ -270,18 +267,13 @@ trait Boundaries
      * echo Carbon::parse('2018-07-25 12:45:16')->startOfWeek(Carbon::SUNDAY) . "\n";
      * ```
      *
-     * @param WeekDay|int|null $weekStartsAt optional start allow you to specify the day of week to use to start the week
+     * @param int $weekStartsAt optional start allow you to specify the day of week to use to start the week
      *
      * @return static
      */
-    public function startOfWeek(WeekDay|int|null $weekStartsAt = null): static
+    public function startOfWeek($weekStartsAt = null)
     {
-        return $this
-            ->subDays(
-                (static::DAYS_PER_WEEK + $this->dayOfWeek - (WeekDay::int($weekStartsAt) ?? $this->firstWeekDay)) %
-                static::DAYS_PER_WEEK,
-            )
-            ->startOfDay();
+        return $this->subDays((7 + $this->dayOfWeek - ($weekStartsAt ?? $this->firstWeekDay)) % 7)->startOfDay();
     }
 
     /**
@@ -294,18 +286,13 @@ trait Boundaries
      * echo Carbon::parse('2018-07-25 12:45:16')->endOfWeek(Carbon::SATURDAY) . "\n";
      * ```
      *
-     * @param WeekDay|int|null $weekEndsAt optional start allow you to specify the day of week to use to end the week
+     * @param int $weekEndsAt optional start allow you to specify the day of week to use to end the week
      *
      * @return static
      */
-    public function endOfWeek(WeekDay|int|null $weekEndsAt = null): static
+    public function endOfWeek($weekEndsAt = null)
     {
-        return $this
-            ->addDays(
-                (static::DAYS_PER_WEEK - $this->dayOfWeek + (WeekDay::int($weekEndsAt) ?? $this->lastWeekDay)) %
-                static::DAYS_PER_WEEK,
-            )
-            ->endOfDay();
+        return $this->addDays((7 - $this->dayOfWeek + ($weekEndsAt ?? $this->lastWeekDay)) % 7)->endOfDay();
     }
 
     /**
@@ -315,8 +302,10 @@ trait Boundaries
      * ```
      * echo Carbon::parse('2018-07-25 12:45:16')->startOfHour();
      * ```
+     *
+     * @return static
      */
-    public function startOfHour(): static
+    public function startOfHour()
     {
         return $this->setTime($this->hour, 0, 0, 0);
     }
@@ -328,8 +317,10 @@ trait Boundaries
      * ```
      * echo Carbon::parse('2018-07-25 12:45:16')->endOfHour();
      * ```
+     *
+     * @return static
      */
-    public function endOfHour(): static
+    public function endOfHour()
     {
         return $this->setTime($this->hour, static::MINUTES_PER_HOUR - 1, static::SECONDS_PER_MINUTE - 1, static::MICROSECONDS_PER_SECOND - 1);
     }
@@ -341,8 +332,10 @@ trait Boundaries
      * ```
      * echo Carbon::parse('2018-07-25 12:45:16')->startOfMinute();
      * ```
+     *
+     * @return static
      */
-    public function startOfMinute(): static
+    public function startOfMinute()
     {
         return $this->setTime($this->hour, $this->minute, 0, 0);
     }
@@ -354,8 +347,10 @@ trait Boundaries
      * ```
      * echo Carbon::parse('2018-07-25 12:45:16')->endOfMinute();
      * ```
+     *
+     * @return static
      */
-    public function endOfMinute(): static
+    public function endOfMinute()
     {
         return $this->setTime($this->hour, $this->minute, static::SECONDS_PER_MINUTE - 1, static::MICROSECONDS_PER_SECOND - 1);
     }
@@ -369,8 +364,10 @@ trait Boundaries
      *   ->startOfSecond()
      *   ->format('H:i:s.u');
      * ```
+     *
+     * @return static
      */
-    public function startOfSecond(): static
+    public function startOfSecond()
     {
         return $this->setTime($this->hour, $this->minute, $this->second, 0);
     }
@@ -384,8 +381,10 @@ trait Boundaries
      *   ->endOfSecond()
      *   ->format('H:i:s.u');
      * ```
+     *
+     * @return static
      */
-    public function endOfSecond(): static
+    public function endOfSecond()
     {
         return $this->setTime($this->hour, $this->minute, $this->second, static::MICROSECONDS_PER_SECOND - 1);
     }
@@ -399,8 +398,13 @@ trait Boundaries
      *   ->startOf('month')
      *   ->endOf('week', Carbon::FRIDAY);
      * ```
+     *
+     * @param string            $unit
+     * @param array<int, mixed> $params
+     *
+     * @return static
      */
-    public function startOf(string $unit, mixed ...$params): static
+    public function startOf($unit, ...$params)
     {
         $ucfUnit = ucfirst(static::singularUnit($unit));
         $method = "startOf$ucfUnit";
@@ -420,8 +424,13 @@ trait Boundaries
      *   ->startOf('month')
      *   ->endOf('week', Carbon::FRIDAY);
      * ```
+     *
+     * @param string            $unit
+     * @param array<int, mixed> $params
+     *
+     * @return static
      */
-    public function endOf(string $unit, mixed ...$params): static
+    public function endOf($unit, ...$params)
     {
         $ucfUnit = ucfirst(static::singularUnit($unit));
         $method = "endOf$ucfUnit";

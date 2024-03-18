@@ -592,7 +592,7 @@ trait MakesHttpRequests
             $response = $this->followRedirects($response);
         }
 
-        return static::$latestResponse = $this->createTestResponse($response, $request);
+        return static::$latestResponse = $this->createTestResponse($response);
     }
 
     /**
@@ -725,12 +725,11 @@ trait MakesHttpRequests
      * Create the test response instance from the given response.
      *
      * @param  \Illuminate\Http\Response  $response
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Testing\TestResponse
      */
-    protected function createTestResponse($response, $request)
+    protected function createTestResponse($response)
     {
-        return tap(TestResponse::fromBaseResponse($response, $request), function ($response) {
+        return tap(TestResponse::fromBaseResponse($response), function ($response) {
             $response->withExceptions(
                 $this->app->bound(LoggedExceptionCollection::class)
                     ? $this->app->make(LoggedExceptionCollection::class)

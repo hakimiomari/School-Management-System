@@ -3,13 +3,12 @@
 namespace Illuminate\Mail\Transport;
 
 use Illuminate\Support\Collection;
-use Stringable;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\RawMessage;
 
-class ArrayTransport implements Stringable, TransportInterface
+class ArrayTransport implements TransportInterface
 {
     /**
      * The collection of Symfony Messages.

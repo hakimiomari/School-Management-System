@@ -638,7 +638,7 @@ class LazyCollection implements CanBeEscapedWhenCastToString, Enumerable
      * @param  callable(TValue, TValue): int  $callback
      * @return static
      */
-    public function intersectUsing($items, callable $callback)
+    public function intersectUsing()
     {
         return $this->passthru('intersectUsing', func_get_args());
     }
@@ -1093,11 +1093,12 @@ class LazyCollection implements CanBeEscapedWhenCastToString, Enumerable
     /**
      * Shuffle the items in the collection.
      *
+     * @param  int|null  $seed
      * @return static
      */
-    public function shuffle()
+    public function shuffle($seed = null)
     {
-        return $this->passthru('shuffle', []);
+        return $this->passthru('shuffle', func_get_args());
     }
 
     /**

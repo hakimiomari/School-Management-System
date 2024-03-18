@@ -6,7 +6,6 @@ use ArgumentCountError;
 use ArrayAccess;
 use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;
-use Random\Randomizer;
 
 class Arr
 {
@@ -704,24 +703,24 @@ class Arr
             );
         }
 
-        if (empty($array) || (! is_null($number) && $number <= 0)) {
-            return is_null($number) ? null : [];
-        }
-
-        $keys = (new Randomizer)->pickArrayKeys($array, $requested);
-
         if (is_null($number)) {
-            return $array[$keys[0]];
+            return $array[array_rand($array)];
         }
+
+        if ((int) $number === 0) {
+            return [];
+        }
+
+        $keys = array_rand($array, $number);
 
         $results = [];
 
         if ($preserveKeys) {
-            foreach ($keys as $key) {
+            foreach ((array) $keys as $key) {
                 $results[$key] = $array[$key];
             }
         } else {
-            foreach ($keys as $key) {
+            foreach ((array) $keys as $key) {
                 $results[] = $array[$key];
             }
         }
@@ -773,11 +772,20 @@ class Arr
      * Shuffle the given array and return the result.
      *
      * @param  array  $array
+     * @param  int|null  $seed
      * @return array
      */
-    public static function shuffle($array)
+    public static function shuffle($array, $seed = null)
     {
-        return (new Randomizer)->shuffleArray($array);
+        if (is_null($seed)) {
+            shuffle($array);
+        } else {
+            mt_srand($seed);
+            shuffle($array);
+            mt_srand();
+        }
+
+        return $array;
     }
 
     /**

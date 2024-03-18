@@ -18,12 +18,12 @@ final class IgnitionSolutionsRepository implements SolutionsRepository
      *
      * @var \Spatie\Ignition\Contracts\SolutionProviderRepository
      */
-    protected $solutionProviderRepository; // @phpstan-ignore-line
+    protected $solutionProviderRepository;
 
     /**
      * IgnitionSolutionsRepository constructor.
      */
-    public function __construct(SolutionProviderRepository $solutionProviderRepository) // @phpstan-ignore-line
+    public function __construct(SolutionProviderRepository $solutionProviderRepository)
     {
         $this->solutionProviderRepository = $solutionProviderRepository;
     }
@@ -31,8 +31,8 @@ final class IgnitionSolutionsRepository implements SolutionsRepository
     /**
      * {@inheritdoc}
      */
-    public function getFromThrowable(Throwable $throwable): array // @phpstan-ignore-line
+    public function getFromThrowable(Throwable $throwable): array
     {
-        return $this->solutionProviderRepository->getSolutionsForThrowable($throwable); // @phpstan-ignore-line
+        return $this->solutionProviderRepository->getSolutionsForThrowable($throwable);
     }
 }

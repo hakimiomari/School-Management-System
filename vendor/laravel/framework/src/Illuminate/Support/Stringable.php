@@ -6,15 +6,14 @@ use ArrayAccess;
 use Closure;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Traits\Conditionable;
-use Illuminate\Support\Traits\Dumpable;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\Tappable;
 use JsonSerializable;
-use Stringable as BaseStringable;
+use Symfony\Component\VarDumper\VarDumper;
 
-class Stringable implements JsonSerializable, ArrayAccess, BaseStringable
+class Stringable implements JsonSerializable, ArrayAccess
 {
-    use Conditionable, Dumpable, Macroable, Tappable;
+    use Conditionable, Macroable, Tappable;
 
     /**
      * The underlying string value.
@@ -506,16 +505,6 @@ class Stringable implements JsonSerializable, ArrayAccess, BaseStringable
     public function test($pattern)
     {
         return $this->isMatch($pattern);
-    }
-
-    /**
-     * Remove all non-numeric characters from a string.
-     *
-     * @return static
-     */
-    public function numbers()
-    {
-        return new static(Str::numbers($this->value));
     }
 
     /**
@@ -1281,14 +1270,25 @@ class Stringable implements JsonSerializable, ArrayAccess, BaseStringable
     /**
      * Dump the string.
      *
-     * @param  mixed  ...$args
      * @return $this
      */
-    public function dump(...$args)
+    public function dump()
     {
-        dump($this->value, ...$args);
+        VarDumper::dump($this->value);
 
         return $this;
+    }
+
+    /**
+     * Dump the string and end the script.
+     *
+     * @return never
+     */
+    public function dd()
+    {
+        $this->dump();
+
+        exit(1);
     }
 
     /**

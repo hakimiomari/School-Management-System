@@ -173,6 +173,7 @@ final class CodeRenderer
      * Splits tokens into lines.
      *
      * @param  array<int, array{0: string, 1: string}>  $tokens
+     * @param  int  $startLine
      * @return array<int, array<int, array{0: string, 1: non-empty-string}>>
      */
     private function splitToLines(array $tokens, int $startLine): array
@@ -227,6 +228,8 @@ final class CodeRenderer
      * Prepends line numbers into lines.
      *
      * @param  array<int, string>  $lines
+     * @param  int  $markLine
+     * @return string
      */
     private function lineNumbers(array $lines, int $markLine): string
     {
@@ -239,7 +242,7 @@ final class CodeRenderer
         foreach ($lines as $i => $line) {
             $coloredLineNumber = $this->coloredLineNumber(self::LINE_NUMBER, $i, $lineLength);
 
-            if ($markLine !== 0) {
+            if (0 !== $markLine) {
                 $snippet .= ($markLine === $i + 1
                     ? $this->styleToken(self::ACTUAL_LINE_MARK, $mark)
                     : self::NO_MARK

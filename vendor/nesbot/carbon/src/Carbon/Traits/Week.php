@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -12,9 +10,6 @@ declare(strict_types=1);
  */
 
 namespace Carbon\Traits;
-
-use Carbon\CarbonInterface;
-use Carbon\CarbonInterval;
 
 /**
  * Trait Week.
@@ -30,14 +25,14 @@ use Carbon\CarbonInterval;
  *
  * Depends on the following methods:
  *
- * @method CarbonInterface addWeeks(int $weeks = 1)
- * @method CarbonInterface copy()
- * @method CarbonInterface dayOfYear(int $dayOfYear)
+ * @method static addWeeks(int $weeks = 1)
+ * @method static copy()
+ * @method static dayOfYear(int $dayOfYear)
  * @method string getTranslationMessage(string $key, ?string $locale = null, ?string $default = null, $translator = null)
- * @method CarbonInterface next(int|string $modifier = null)
- * @method CarbonInterface startOfWeek(int $day = null)
- * @method CarbonInterface subWeeks(int $weeks = 1)
- * @method CarbonInterface year(int $year = null)
+ * @method static next(int|string $day = null)
+ * @method static startOfWeek(int $day = 1)
+ * @method static subWeeks(int $weeks = 1)
+ * @method static year(int $year = null)
  */
 trait Week
 {
@@ -56,8 +51,8 @@ trait Week
     {
         return $this->weekYear(
             $year,
-            $dayOfWeek ?? static::MONDAY,
-            $dayOfYear ?? static::THURSDAY,
+            $dayOfWeek ?? 1,
+            $dayOfYear ?? 4
         );
     }
 
@@ -74,7 +69,7 @@ trait Week
      */
     public function weekYear($year = null, $dayOfWeek = null, $dayOfYear = null)
     {
-        $dayOfWeek = $dayOfWeek ?? $this->getTranslationMessage('first_day_of_week') ?? static::SUNDAY;
+        $dayOfWeek = $dayOfWeek ?? $this->getTranslationMessage('first_day_of_week') ?? 0;
         $dayOfYear = $dayOfYear ?? $this->getTranslationMessage('day_of_first_week_of_year') ?? 1;
 
         if ($year !== null) {
@@ -87,16 +82,18 @@ trait Week
             $week = $this->week(null, $dayOfWeek, $dayOfYear);
             $day = $this->dayOfWeek;
             $date = $this->year($year);
+            switch ($date->weekYear(null, $dayOfWeek, $dayOfYear) - $year) {
+                case 1:
+                    $date = $date->subWeeks(26);
 
-            $date = match ($date->weekYear(null, $dayOfWeek, $dayOfYear) - $year) {
-                CarbonInterval::POSITIVE => $date->subWeeks(static::WEEKS_PER_YEAR / 2),
-                CarbonInterval::NEGATIVE => $date->addWeeks(static::WEEKS_PER_YEAR / 2),
-                default => $date,
-            };
+                    break;
+                case -1:
+                    $date = $date->addWeeks(26);
 
-            $date = $date
-                ->addWeeks($week - $date->week(null, $dayOfWeek, $dayOfYear))
-                ->startOfWeek($dayOfWeek);
+                    break;
+            }
+
+            $date = $date->addWeeks($week - $date->week(null, $dayOfWeek, $dayOfYear))->startOfWeek($dayOfWeek);
 
             if ($date->dayOfWeek === $day) {
                 return $date;
@@ -135,8 +132,8 @@ trait Week
     public function isoWeeksInYear($dayOfWeek = null, $dayOfYear = null)
     {
         return $this->weeksInYear(
-            $dayOfWeek ?? static::MONDAY,
-            $dayOfYear ?? static::THURSDAY,
+            $dayOfWeek ?? 1,
+            $dayOfYear ?? 4
         );
     }
 
@@ -152,7 +149,7 @@ trait Week
      */
     public function weeksInYear($dayOfWeek = null, $dayOfYear = null)
     {
-        $dayOfWeek = $dayOfWeek ?? $this->getTranslationMessage('first_day_of_week') ?? static::SUNDAY;
+        $dayOfWeek = $dayOfWeek ?? $this->getTranslationMessage('first_day_of_week') ?? 0;
         $dayOfYear = $dayOfYear ?? $this->getTranslationMessage('day_of_first_week_of_year') ?? 1;
         $year = $this->year;
         $start = $this->avoidMutation()->dayOfYear($dayOfYear)->startOfWeek($dayOfWeek);
@@ -166,7 +163,7 @@ trait Week
             $endDay += $this->daysInYear;
         }
 
-        return (int) round(($endDay - $startDay) / static::DAYS_PER_WEEK);
+        return (int) round(($endDay - $startDay) / 7);
     }
 
     /**
@@ -190,14 +187,12 @@ trait Week
             return $date->addWeeks(round($week) - $this->week(null, $dayOfWeek, $dayOfYear));
         }
 
-        $start = $date->avoidMutation()->shiftTimezone('UTC')->dayOfYear($dayOfYear)->startOfWeek($dayOfWeek);
-        $end = $date->avoidMutation()->shiftTimezone('UTC')->startOfWeek($dayOfWeek);
-
+        $start = $date->avoidMutation()->dayOfYear($dayOfYear)->startOfWeek($dayOfWeek);
+        $end = $date->avoidMutation()->startOfWeek($dayOfWeek);
         if ($start > $end) {
-            $start = $start->subWeeks(static::WEEKS_PER_YEAR / 2)->dayOfYear($dayOfYear)->startOfWeek($dayOfWeek);
+            $start = $start->subWeeks(26)->dayOfYear($dayOfYear)->startOfWeek($dayOfWeek);
         }
-
-        $week = (int) ($start->diffInDays($end) / static::DAYS_PER_WEEK + 1);
+        $week = (int) ($start->diffInDays($end) / 7 + 1);
 
         return $week > $end->weeksInYear($dayOfWeek, $dayOfYear) ? 1 : $week;
     }
@@ -217,8 +212,8 @@ trait Week
     {
         return $this->week(
             $week,
-            $dayOfWeek ?? static::MONDAY,
-            $dayOfYear ?? static::THURSDAY,
+            $dayOfWeek ?? 1,
+            $dayOfYear ?? 4
         );
     }
 }

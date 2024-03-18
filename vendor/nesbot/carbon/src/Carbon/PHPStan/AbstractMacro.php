@@ -100,7 +100,7 @@ abstract class AbstractMacro implements BuiltinMethodReflection
                 $closure = $rawReflectionFunction->getClosure();
                 $boundClosure = Closure::bind($closure, new stdClass());
                 $this->static = (!$boundClosure || (new ReflectionFunction($boundClosure))->getClosureThis() === null);
-            } catch (Throwable) {
+            } catch (Throwable $e) {
                 $this->static = true;
             }
         }

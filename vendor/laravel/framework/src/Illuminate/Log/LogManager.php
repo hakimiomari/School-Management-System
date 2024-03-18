@@ -3,7 +3,6 @@
 namespace Illuminate\Log;
 
 use Closure;
-use Illuminate\Log\Context\Repository as ContextRepository;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Monolog\Formatter\LineFormatter;
@@ -136,18 +135,7 @@ class LogManager implements LoggerInterface
     {
         try {
             return $this->channels[$name] ?? with($this->resolve($name, $config), function ($logger) use ($name) {
-                return $this->channels[$name] = tap($this->tap($name, new Logger($logger, $this->app['events']))
-                    ->withContext($this->sharedContext))
-                    ->pushProcessor(function ($record) {
-                        if (! $this->app->bound(ContextRepository::class)) {
-                            return $record;
-                        }
-
-                        return $record->with(extra: [
-                            ...$record->extra,
-                            ...$this->app[ContextRepository::class]->all(),
-                        ]);
-                    });
+                return $this->channels[$name] = $this->tap($name, new Logger($logger, $this->app['events']))->withContext($this->sharedContext);
             });
         } catch (Throwable $e) {
             return tap($this->createEmergencyLogger(), function ($logger) use ($e) {
@@ -757,19 +745,6 @@ class LogManager implements LoggerInterface
     public function log($level, $message, array $context = []): void
     {
         $this->driver()->log($level, $message, $context);
-    }
-
-    /**
-     * Set the application instance used by the manager.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @return $this
-     */
-    public function setApplication($app)
-    {
-        $this->app = $app;
-
-        return $this;
     }
 
     /**

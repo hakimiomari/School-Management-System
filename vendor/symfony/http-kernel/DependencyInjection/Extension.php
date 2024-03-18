@@ -34,8 +34,10 @@ abstract class Extension extends BaseExtension
      * Adds annotated classes to the class cache.
      *
      * @param array $annotatedClasses An array of class patterns
+     *
+     * @return void
      */
-    public function addAnnotatedClassesToCompile(array $annotatedClasses): void
+    public function addAnnotatedClassesToCompile(array $annotatedClasses)
     {
         $this->annotatedClasses = array_merge($this->annotatedClasses, $annotatedClasses);
     }

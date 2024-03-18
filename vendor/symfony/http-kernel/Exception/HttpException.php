@@ -39,7 +39,10 @@ class HttpException extends \RuntimeException implements HttpExceptionInterface
         return $this->headers;
     }
 
-    public function setHeaders(array $headers): void
+    /**
+     * @return void
+     */
+    public function setHeaders(array $headers)
     {
         $this->headers = $headers;
     }

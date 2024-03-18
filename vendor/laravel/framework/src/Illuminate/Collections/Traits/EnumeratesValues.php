@@ -13,6 +13,7 @@ use Illuminate\Support\Enumerable;
 use Illuminate\Support\HigherOrderCollectionProxy;
 use InvalidArgumentException;
 use JsonSerializable;
+use Symfony\Component\VarDumper\VarDumper;
 use Traversable;
 use UnexpectedValueException;
 use UnitEnum;
@@ -199,7 +200,7 @@ trait EnumeratesValues
     }
 
     /**
-     * Dump the given arguments and terminate execution.
+     * Dump the items and end the script.
      *
      * @param  mixed  ...$args
      * @return never
@@ -208,18 +209,21 @@ trait EnumeratesValues
     {
         $this->dump(...$args);
 
-        dd();
+        exit(1);
     }
 
     /**
      * Dump the items.
      *
-     * @param  mixed  ...$args
      * @return $this
      */
-    public function dump(...$args)
+    public function dump()
     {
-        dump($this->all(), ...$args);
+        (new Collection(func_get_args()))
+            ->push($this->all())
+            ->each(function ($item) {
+                VarDumper::dump($item);
+            });
 
         return $this;
     }

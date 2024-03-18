@@ -12,6 +12,12 @@
 namespace Symfony\Component\Routing\Attribute;
 
 /**
+ * Annotation class for @Route().
+ *
+ * @Annotation
+ * @NamedArgumentConstructor
+ * @Target({"CLASS", "METHOD"})
+ *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Alexander M. Turek <me@derrabus.de>
  */
@@ -70,17 +76,26 @@ class Route
         }
     }
 
-    public function setPath(string $path): void
+    /**
+     * @return void
+     */
+    public function setPath(string $path)
     {
         $this->path = $path;
     }
 
-    public function getPath(): ?string
+    /**
+     * @return string|null
+     */
+    public function getPath()
     {
         return $this->path;
     }
 
-    public function setLocalizedPaths(array $localizedPaths): void
+    /**
+     * @return void
+     */
+    public function setLocalizedPaths(array $localizedPaths)
     {
         $this->localizedPaths = $localizedPaths;
     }
@@ -90,82 +105,130 @@ class Route
         return $this->localizedPaths;
     }
 
-    public function setHost(string $pattern): void
+    /**
+     * @return void
+     */
+    public function setHost(string $pattern)
     {
         $this->host = $pattern;
     }
 
-    public function getHost(): ?string
+    /**
+     * @return string|null
+     */
+    public function getHost()
     {
         return $this->host;
     }
 
-    public function setName(string $name): void
+    /**
+     * @return void
+     */
+    public function setName(string $name)
     {
         $this->name = $name;
     }
 
-    public function getName(): ?string
+    /**
+     * @return string|null
+     */
+    public function getName()
     {
         return $this->name;
     }
 
-    public function setRequirements(array $requirements): void
+    /**
+     * @return void
+     */
+    public function setRequirements(array $requirements)
     {
         $this->requirements = $requirements;
     }
 
-    public function getRequirements(): array
+    /**
+     * @return array
+     */
+    public function getRequirements()
     {
         return $this->requirements;
     }
 
-    public function setOptions(array $options): void
+    /**
+     * @return void
+     */
+    public function setOptions(array $options)
     {
         $this->options = $options;
     }
 
-    public function getOptions(): array
+    /**
+     * @return array
+     */
+    public function getOptions()
     {
         return $this->options;
     }
 
-    public function setDefaults(array $defaults): void
+    /**
+     * @return void
+     */
+    public function setDefaults(array $defaults)
     {
         $this->defaults = $defaults;
     }
 
-    public function getDefaults(): array
+    /**
+     * @return array
+     */
+    public function getDefaults()
     {
         return $this->defaults;
     }
 
-    public function setSchemes(array|string $schemes): void
+    /**
+     * @return void
+     */
+    public function setSchemes(array|string $schemes)
     {
         $this->schemes = (array) $schemes;
     }
 
-    public function getSchemes(): array
+    /**
+     * @return array
+     */
+    public function getSchemes()
     {
         return $this->schemes;
     }
 
-    public function setMethods(array|string $methods): void
+    /**
+     * @return void
+     */
+    public function setMethods(array|string $methods)
     {
         $this->methods = (array) $methods;
     }
 
-    public function getMethods(): array
+    /**
+     * @return array
+     */
+    public function getMethods()
     {
         return $this->methods;
     }
 
-    public function setCondition(?string $condition): void
+    /**
+     * @return void
+     */
+    public function setCondition(?string $condition)
     {
         $this->condition = $condition;
     }
 
-    public function getCondition(): ?string
+    /**
+     * @return string|null
+     */
+    public function getCondition()
     {
         return $this->condition;
     }

@@ -23,7 +23,15 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 abstract class AbstractSurrogate implements SurrogateInterface
 {
-    protected array $contentTypes;
+    protected $contentTypes;
+
+    /**
+     * @deprecated since Symfony 6.3
+     */
+    protected $phpEscapeMap = [
+        ['<?', '<%', '<s', '<S'],
+        ['<?php echo "<?"; ?>', '<?php echo "<%"; ?>', '<?php echo "<s"; ?>', '<?php echo "<S"; ?>'],
+    ];
 
     /**
      * @param array $contentTypes An array of content-type that should be parsed for Surrogate information
@@ -51,7 +59,10 @@ abstract class AbstractSurrogate implements SurrogateInterface
         return str_contains($value, sprintf('%s/1.0', strtoupper($this->getName())));
     }
 
-    public function addSurrogateCapability(Request $request): void
+    /**
+     * @return void
+     */
+    public function addSurrogateCapability(Request $request)
     {
         $current = $request->headers->get('Surrogate-Capability');
         $new = sprintf('symfony="%s/1.0"', strtoupper($this->getName()));
@@ -97,8 +108,10 @@ abstract class AbstractSurrogate implements SurrogateInterface
 
     /**
      * Remove the Surrogate from the Surrogate-Control header.
+     *
+     * @return void
      */
-    protected function removeFromControl(Response $response): void
+    protected function removeFromControl(Response $response)
     {
         if (!$response->headers->has('Surrogate-Control')) {
             return;

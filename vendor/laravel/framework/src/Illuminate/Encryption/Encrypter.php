@@ -18,13 +18,6 @@ class Encrypter implements EncrypterContract, StringEncrypter
     protected $key;
 
     /**
-     * The previous / legacy encryption keys.
-     *
-     * @var array
-     */
-    protected $previousKeys = [];
-
-    /**
      * The algorithm used for encryption.
      *
      * @var string
@@ -120,7 +113,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
 
         $mac = self::$supportedCiphers[strtolower($this->cipher)]['aead']
             ? '' // For AEAD-algorithms, the tag / MAC is returned by openssl_encrypt...
-            : $this->hash($iv, $value, $this->key);
+            : $this->hash($iv, $value);
 
         $json = json_encode(compact('iv', 'value', 'mac', 'tag'), JSON_UNESCAPED_SLASHES);
 
@@ -166,15 +159,9 @@ class Encrypter implements EncrypterContract, StringEncrypter
         // Here we will decrypt the value. If we are able to successfully decrypt it
         // we will then unserialize it and return it out to the caller. If we are
         // unable to decrypt this value we will throw out an exception message.
-        foreach ($this->getAllKeys() as $key) {
-            $decrypted = \openssl_decrypt(
-                $payload['value'], strtolower($this->cipher), $key, 0, $iv, $tag ?? ''
-            );
-
-            if ($decrypted !== false) {
-                break;
-            }
-        }
+        $decrypted = \openssl_decrypt(
+            $payload['value'], strtolower($this->cipher), $this->key, 0, $iv, $tag ?? ''
+        );
 
         if ($decrypted === false) {
             throw new DecryptException('Could not decrypt the data.');
@@ -201,12 +188,11 @@ class Encrypter implements EncrypterContract, StringEncrypter
      *
      * @param  string  $iv
      * @param  mixed  $value
-     * @param  string  $key
      * @return string
      */
-    protected function hash($iv, $value, $key)
+    protected function hash($iv, $value)
     {
-        return hash_hmac('sha256', $iv.$value, $key);
+        return hash_hmac('sha256', $iv.$value, $this->key);
     }
 
     /**
@@ -272,17 +258,9 @@ class Encrypter implements EncrypterContract, StringEncrypter
      */
     protected function validMac(array $payload)
     {
-        foreach ($this->getAllKeys() as $key) {
-            $valid = hash_equals(
-                $this->hash($payload['iv'], $payload['value'], $key), $payload['mac']
-            );
-
-            if ($valid === true) {
-                return true;
-            }
-        }
-
-        return false;
+        return hash_equals(
+            $this->hash($payload['iv'], $payload['value']), $payload['mac']
+        );
     }
 
     /**
@@ -310,46 +288,5 @@ class Encrypter implements EncrypterContract, StringEncrypter
     public function getKey()
     {
         return $this->key;
-    }
-
-    /**
-     * Get the current encryption key and all previous encryption keys.
-     *
-     * @return array
-     */
-    public function getAllKeys()
-    {
-        return [$this->key, ...$this->previousKeys];
-    }
-
-    /**
-     * Get the previous encryption keys.
-     *
-     * @return array
-     */
-    public function getPreviousKeys()
-    {
-        return $this->previousKeys;
-    }
-
-    /**
-     * Set the previous / legacy encryption keys that should be utilized if decryption fails.
-     *
-     * @param  array  $key
-     * @return $this
-     */
-    public function previousKeys(array $keys)
-    {
-        foreach ($keys as $key) {
-            if (! static::supported($key, $this->cipher)) {
-                $ciphers = implode(', ', array_keys(self::$supportedCiphers));
-
-                throw new RuntimeException("Unsupported cipher or incorrect key length. Supported ciphers are: {$ciphers}.");
-            }
-        }
-
-        $this->previousKeys = $keys;
-
-        return $this;
     }
 }

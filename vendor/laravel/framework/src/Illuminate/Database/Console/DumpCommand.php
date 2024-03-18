@@ -69,12 +69,8 @@ class DumpCommand extends Command
      */
     protected function schemaState(Connection $connection)
     {
-        $migrations = Config::get('database.migrations', 'migrations');
-
-        $migrationTable = is_array($migrations) ? ($migrations['table'] ?? 'migrations') : $migrations;
-
         return $connection->getSchemaState()
-                ->withMigrationTable($connection->getTablePrefix().$migrationTable)
+                ->withMigrationTable($connection->getTablePrefix().Config::get('database.migrations', 'migrations'))
                 ->handleOutputUsing(function ($type, $buffer) {
                     $this->output->write($buffer);
                 });

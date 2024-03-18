@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Store implements StoreInterface
 {
-    protected string $root;
+    protected $root;
     /** @var \SplObjectStorage<Request, string> */
     private \SplObjectStorage $keyCache;
     /** @var array<string, resource> */
@@ -55,8 +55,10 @@ class Store implements StoreInterface
 
     /**
      * Cleanups storage.
+     *
+     * @return void
      */
-    public function cleanup(): void
+    public function cleanup()
     {
         // unlock everything
         foreach ($this->locks as $lock) {
@@ -247,9 +249,11 @@ class Store implements StoreInterface
     /**
      * Invalidates all cache entries that match the request.
      *
+     * @return void
+     *
      * @throws \RuntimeException
      */
-    public function invalidate(Request $request): void
+    public function invalidate(Request $request)
     {
         $modified = false;
         $key = $this->getCacheKey($request);
@@ -413,7 +417,10 @@ class Store implements StoreInterface
         return true;
     }
 
-    public function getPath(string $key): string
+    /**
+     * @return string
+     */
+    public function getPath(string $key)
     {
         return $this->root.\DIRECTORY_SEPARATOR.substr($key, 0, 2).\DIRECTORY_SEPARATOR.substr($key, 2, 2).\DIRECTORY_SEPARATOR.substr($key, 4, 2).\DIRECTORY_SEPARATOR.substr($key, 6);
     }

@@ -18,6 +18,7 @@ use Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolve
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestAttributeValueResolver;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestValueResolver;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver\SessionValueResolver;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver\TraceableValueResolver;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactory;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactoryInterface;
@@ -36,7 +37,7 @@ final class ArgumentResolver implements ArgumentResolverInterface
     private ?ContainerInterface $namedResolvers;
 
     /**
-     * @param iterable<mixed, ValueResolverInterface> $argumentValueResolvers
+     * @param iterable<mixed, ArgumentValueResolverInterface|ValueResolverInterface> $argumentValueResolvers
      */
     public function __construct(?ArgumentMetadataFactoryInterface $argumentMetadataFactory = null, iterable $argumentValueResolvers = [], ?ContainerInterface $namedResolvers = null)
     {
@@ -79,6 +80,9 @@ final class ArgumentResolver implements ArgumentResolverInterface
             }
 
             foreach ($argumentValueResolvers as $name => $resolver) {
+                if ((!$resolver instanceof ValueResolverInterface || $resolver instanceof TraceableValueResolver) && !$resolver->supports($request, $metadata)) {
+                    continue;
+                }
                 if (isset($disabledResolvers[\is_int($name) ? $resolver::class : $name])) {
                     continue;
                 }
@@ -97,6 +101,10 @@ final class ArgumentResolver implements ArgumentResolverInterface
                     // continue to the next controller argument
                     continue 2;
                 }
+
+                if (!$resolver instanceof ValueResolverInterface) {
+                    throw new \InvalidArgumentException(sprintf('"%s::resolve()" must yield at least one value.', get_debug_type($resolver)));
+                }
             }
 
             throw new \RuntimeException(sprintf('Controller "%s" requires that you provide a value for the "$%s" argument. Either the argument is nullable and no null value has been provided, no default value has been provided or there is a non-optional argument after this one.', $this->getPrettyName($controller), $metadata->getName()));
@@ -106,7 +114,7 @@ final class ArgumentResolver implements ArgumentResolverInterface
     }
 
     /**
-     * @return iterable<int, ValueResolverInterface>
+     * @return iterable<int, ArgumentValueResolverInterface>
      */
     public static function getDefaultArgumentValueResolvers(): iterable
     {

@@ -1,11 +1,6 @@
 CHANGELOG
 =========
 
-7.0
----
-
- * Remove the OhMySmtp bridge in favor of the MailPace bridge
-
 6.4
 ---
 

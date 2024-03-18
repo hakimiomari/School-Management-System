@@ -206,10 +206,9 @@ class Application extends SymfonyApplication implements ApplicationContract
      * Add a command to the console.
      *
      * @param  \Symfony\Component\Console\Command\Command  $command
-     * @return \Symfony\Component\Console\Command\Command|null
+     * @return \Symfony\Component\Console\Command\Command
      */
-    #[\Override]
-    public function add(SymfonyCommand $command): ?SymfonyCommand
+    public function add(SymfonyCommand $command)
     {
         if ($command instanceof Command) {
             $command->setLaravel($this->laravel);
@@ -286,7 +285,6 @@ class Application extends SymfonyApplication implements ApplicationContract
      *
      * @return \Symfony\Component\Console\Input\InputDefinition
      */
-    #[\Override]
     protected function getDefaultInputDefinition(): InputDefinition
     {
         return tap(parent::getDefaultInputDefinition(), function ($definition) {

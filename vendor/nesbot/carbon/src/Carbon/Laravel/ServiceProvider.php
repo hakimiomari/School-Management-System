@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -81,7 +79,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             try {
                 $root = Date::getFacadeRoot();
                 $root->setLocale($locale);
-            } catch (Throwable) {
+            } catch (Throwable $e) {
                 // Non Carbon class in use in Date facade
             }
         }

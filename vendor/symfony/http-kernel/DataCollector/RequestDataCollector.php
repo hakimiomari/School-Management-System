@@ -195,47 +195,74 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['path_info'];
     }
 
-    public function getRequestRequest(): ParameterBag
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestRequest()
     {
         return new ParameterBag($this->data['request_request']->getValue());
     }
 
-    public function getRequestQuery(): ParameterBag
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestQuery()
     {
         return new ParameterBag($this->data['request_query']->getValue());
     }
 
-    public function getRequestFiles(): ParameterBag
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestFiles()
     {
         return new ParameterBag($this->data['request_files']->getValue());
     }
 
-    public function getRequestHeaders(): ParameterBag
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestHeaders()
     {
         return new ParameterBag($this->data['request_headers']->getValue());
     }
 
-    public function getRequestServer(bool $raw = false): ParameterBag
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestServer(bool $raw = false)
     {
         return new ParameterBag($this->data['request_server']->getValue($raw));
     }
 
-    public function getRequestCookies(bool $raw = false): ParameterBag
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestCookies(bool $raw = false)
     {
         return new ParameterBag($this->data['request_cookies']->getValue($raw));
     }
 
-    public function getRequestAttributes(): ParameterBag
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestAttributes()
     {
         return new ParameterBag($this->data['request_attributes']->getValue());
     }
 
-    public function getResponseHeaders(): ParameterBag
+    /**
+     * @return ParameterBag
+     */
+    public function getResponseHeaders()
     {
         return new ParameterBag($this->data['response_headers']->getValue());
     }
 
-    public function getResponseCookies(): ParameterBag
+    /**
+     * @return ParameterBag
+     */
+    public function getResponseCookies()
     {
         return new ParameterBag($this->data['response_cookies']->getValue());
     }
@@ -273,12 +300,18 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['content'];
     }
 
-    public function isJsonRequest(): bool
+    /**
+     * @return bool
+     */
+    public function isJsonRequest()
     {
         return 1 === preg_match('{^application/(?:\w+\++)*json$}i', $this->data['request_headers']['content-type']);
     }
 
-    public function getPrettyJson(): ?string
+    /**
+     * @return string|null
+     */
+    public function getPrettyJson()
     {
         $decoded = json_decode($this->getContent());
 
@@ -310,7 +343,10 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['locale'];
     }
 
-    public function getDotenvVars(): ParameterBag
+    /**
+     * @return ParameterBag
+     */
+    public function getDotenvVars()
     {
         return new ParameterBag($this->data['dotenv_vars']->getValue());
     }
@@ -474,7 +510,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
             }
             $controller['method'] = $r->name;
 
-            if ($class = $r->getClosureCalledClass()) {
+            if ($class = \PHP_VERSION_ID >= 80111 ? $r->getClosureCalledClass() : $r->getClosureScopeClass()) {
                 $controller['class'] = $class->name;
             } else {
                 return $r->name;

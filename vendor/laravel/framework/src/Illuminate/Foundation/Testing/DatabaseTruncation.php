@@ -83,7 +83,7 @@ trait DatabaseTruncation
 
         $connection->unsetEventDispatcher();
 
-        collect(static::$allTables[$name] ??= $connection->getSchemaBuilder()->getTableListing())
+        collect(static::$allTables[$name] ??= $connection->getDoctrineSchemaManager()->listTableNames())
             ->when(
                 property_exists($this, 'tablesToTruncate'),
                 fn ($tables) => $tables->intersect($this->tablesToTruncate),
@@ -130,11 +130,9 @@ trait DatabaseTruncation
      */
     protected function exceptTables(?string $connectionName): array
     {
-        $migrations = $this->app['config']->get('database.migrations');
-
-        $migrationsTable = is_array($migrations) ? ($migrations['table'] ?? null) : $migrations;
-
         if (property_exists($this, 'exceptTables')) {
+            $migrationsTable = $this->app['config']->get('database.migrations');
+
             if (array_is_list($this->exceptTables ?? [])) {
                 return array_merge(
                     $this->exceptTables ?? [],
@@ -148,7 +146,7 @@ trait DatabaseTruncation
             );
         }
 
-        return [$migrationsTable];
+        return [$this->app['config']->get('database.migrations')];
     }
 
     /**

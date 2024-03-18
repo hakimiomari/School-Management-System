@@ -1146,11 +1146,12 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Shuffle the items in the collection.
      *
+     * @param  int|null  $seed
      * @return static
      */
-    public function shuffle()
+    public function shuffle($seed = null)
     {
-        return new static(Arr::shuffle($this->items));
+        return new static(Arr::shuffle($this->items, $seed));
     }
 
     /**

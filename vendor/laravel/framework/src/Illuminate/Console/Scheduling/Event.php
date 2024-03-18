@@ -5,7 +5,6 @@ namespace Illuminate\Console\Scheduling;
 use Closure;
 use Cron\CronExpression;
 use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\ClientInterface as HttpClientInterface;
 use GuzzleHttp\Exception\TransferException;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -637,31 +636,12 @@ class Event
      */
     protected function pingCallback($url)
     {
-        return function (Container $container) use ($url) {
+        return function (Container $container, HttpClient $http) use ($url) {
             try {
-                $this->getHttpClient($container)->request('GET', $url);
+                $http->request('GET', $url);
             } catch (ClientExceptionInterface|TransferException $e) {
                 $container->make(ExceptionHandler::class)->report($e);
             }
-        };
-    }
-
-    /**
-     * Get the Guzzle HTTP client to use to send pings.
-     *
-     * @param  \Illuminate\Contracts\Container\Container  $container
-     * @return \GuzzleHttp\ClientInterface
-     */
-    protected function getHttpClient(Container $container)
-    {
-        return match (true) {
-            $container->bound(HttpClientInterface::class) => $container->make(HttpClientInterface::class),
-            $container->bound(HttpClient::class) => $container->make(HttpClient::class),
-            default => new HttpClient([
-                'connect_timeout' => 10,
-                'crypto_method' => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT,
-                'timeout' => 30,
-            ]),
         };
     }
 

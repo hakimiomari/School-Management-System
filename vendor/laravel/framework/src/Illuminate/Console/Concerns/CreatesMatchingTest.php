@@ -14,7 +14,7 @@ trait CreatesMatchingTest
      */
     protected function addTestOptions()
     {
-        foreach (['test' => 'Test', 'pest' => 'Pest', 'phpunit' => 'PHPUnit'] as $option => $name) {
+        foreach (['test' => 'PHPUnit', 'pest' => 'Pest'] as $option => $name) {
             $this->getDefinition()->addOption(new InputOption(
                 $option,
                 null,
@@ -32,14 +32,13 @@ trait CreatesMatchingTest
      */
     protected function handleTestCreation($path)
     {
-        if (! $this->option('test') && ! $this->option('pest') && ! $this->option('phpunit')) {
+        if (! $this->option('test') && ! $this->option('pest')) {
             return false;
         }
 
         return $this->callSilent('make:test', [
             'name' => Str::of($path)->after($this->laravel['path'])->beforeLast('.php')->append('Test')->replace('\\', '/'),
             '--pest' => $this->option('pest'),
-            '--phpunit' => $this->option('phpunit'),
         ]) == 0;
     }
 }

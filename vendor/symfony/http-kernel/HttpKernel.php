@@ -51,9 +51,9 @@ class_exists(KernelEvents::class);
  */
 class HttpKernel implements HttpKernelInterface, TerminableInterface
 {
-    protected EventDispatcherInterface $dispatcher;
-    protected ControllerResolverInterface $resolver;
-    protected RequestStack $requestStack;
+    protected $dispatcher;
+    protected $resolver;
+    protected $requestStack;
     private ArgumentResolverInterface $argumentResolver;
     private bool $handleAllThrowables;
 
@@ -107,7 +107,10 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
         }
     }
 
-    public function terminate(Request $request, Response $response): void
+    /**
+     * @return void
+     */
+    public function terminate(Request $request, Response $response)
     {
         $this->dispatcher->dispatch(new TerminateEvent($this, $request, $response), KernelEvents::TERMINATE);
     }

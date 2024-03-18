@@ -30,11 +30,11 @@ class ThrottlesExceptions
     protected $maxAttempts;
 
     /**
-     * The number of seconds until the maximum attempts are reset.
+     * The number of minutes until the maximum attempts are reset.
      *
      * @var int
      */
-    protected $decaySeconds;
+    protected $decayMinutes;
 
     /**
      * The number of minutes to wait before retrying the job after an exception.
@@ -68,13 +68,13 @@ class ThrottlesExceptions
      * Create a new middleware instance.
      *
      * @param  int  $maxAttempts
-     * @param  int  $decaySeconds
+     * @param  int  $decayMinutes
      * @return void
      */
-    public function __construct($maxAttempts = 10, $decaySeconds = 600)
+    public function __construct($maxAttempts = 10, $decayMinutes = 10)
     {
         $this->maxAttempts = $maxAttempts;
-        $this->decaySeconds = $decaySeconds;
+        $this->decayMinutes = $decayMinutes;
     }
 
     /**
@@ -101,7 +101,7 @@ class ThrottlesExceptions
                 throw $throwable;
             }
 
-            $this->limiter->hit($jobKey, $this->decaySeconds);
+            $this->limiter->hit($jobKey, $this->decayMinutes * 60);
 
             return $job->release($this->retryAfterMinutes * 60);
         }

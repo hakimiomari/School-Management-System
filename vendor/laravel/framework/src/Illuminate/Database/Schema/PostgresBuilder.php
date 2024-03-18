@@ -3,7 +3,6 @@
 namespace Illuminate\Database\Schema;
 
 use Illuminate\Database\Concerns\ParsesSearchPath;
-use InvalidArgumentException;
 
 class PostgresBuilder extends Builder
 {
@@ -45,40 +44,13 @@ class PostgresBuilder extends Builder
      */
     public function hasTable($table)
     {
-        [$schema, $table] = $this->parseSchemaAndTable($table);
+        [$database, $schema, $table] = $this->parseSchemaAndTable($table);
 
         $table = $this->connection->getTablePrefix().$table;
 
-        foreach ($this->getTables() as $value) {
-            if (strtolower($table) === strtolower($value['name'])
-                && strtolower($schema) === strtolower($value['schema'])) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine if the given view exists.
-     *
-     * @param  string  $view
-     * @return bool
-     */
-    public function hasView($view)
-    {
-        [$schema, $view] = $this->parseSchemaAndTable($view);
-
-        $view = $this->connection->getTablePrefix().$view;
-
-        foreach ($this->getViews() as $value) {
-            if (strtolower($view) === strtolower($value['name'])
-                && strtolower($schema) === strtolower($value['schema'])) {
-                return true;
-            }
-        }
-
-        return false;
+        return count($this->connection->selectFromWriteConnection(
+            $this->grammar->compileTableExists(), [$database, $schema, $table]
+        )) > 0;
     }
 
     /**
@@ -90,6 +62,42 @@ class PostgresBuilder extends Builder
     {
         return $this->connection->getPostProcessor()->processTypes(
             $this->connection->selectFromWriteConnection($this->grammar->compileTypes())
+        );
+    }
+
+    /**
+     * Get all of the table names for the database.
+     *
+     * @deprecated Will be removed in a future Laravel version.
+     *
+     * @return array
+     */
+    public function getAllTables()
+    {
+        return $this->connection->select(
+            $this->grammar->compileGetAllTables(
+                $this->parseSearchPath(
+                    $this->connection->getConfig('search_path') ?: $this->connection->getConfig('schema')
+                )
+            )
+        );
+    }
+
+    /**
+     * Get all of the view names for the database.
+     *
+     * @deprecated Will be removed in a future Laravel version.
+     *
+     * @return array
+     */
+    public function getAllViews()
+    {
+        return $this->connection->select(
+            $this->grammar->compileGetAllViews(
+                $this->parseSearchPath(
+                    $this->connection->getConfig('search_path') ?: $this->connection->getConfig('schema')
+                )
+            )
         );
     }
 
@@ -153,6 +161,20 @@ class PostgresBuilder extends Builder
     }
 
     /**
+     * Get all of the type names for the database.
+     *
+     * @deprecated Will be removed in a future Laravel version.
+     *
+     * @return array
+     */
+    public function getAllTypes()
+    {
+        return $this->connection->select(
+            $this->grammar->compileGetAllTypes()
+        );
+    }
+
+    /**
      * Drop all types from the database.
      *
      * @return void
@@ -191,12 +213,12 @@ class PostgresBuilder extends Builder
      */
     public function getColumns($table)
     {
-        [$schema, $table] = $this->parseSchemaAndTable($table);
+        [$database, $schema, $table] = $this->parseSchemaAndTable($table);
 
         $table = $this->connection->getTablePrefix().$table;
 
         $results = $this->connection->selectFromWriteConnection(
-            $this->grammar->compileColumns($schema, $table)
+            $this->grammar->compileColumns($database, $schema, $table)
         );
 
         return $this->connection->getPostProcessor()->processColumns($results);
@@ -210,7 +232,7 @@ class PostgresBuilder extends Builder
      */
     public function getIndexes($table)
     {
-        [$schema, $table] = $this->parseSchemaAndTable($table);
+        [, $schema, $table] = $this->parseSchemaAndTable($table);
 
         $table = $this->connection->getTablePrefix().$table;
 
@@ -227,7 +249,7 @@ class PostgresBuilder extends Builder
      */
     public function getForeignKeys($table)
     {
-        [$schema, $table] = $this->parseSchemaAndTable($table);
+        [, $schema, $table] = $this->parseSchemaAndTable($table);
 
         $table = $this->connection->getTablePrefix().$table;
 
@@ -249,7 +271,7 @@ class PostgresBuilder extends Builder
     }
 
     /**
-     * Parse the database object reference and extract the schema and table.
+     * Parse the database object reference and extract the database, schema, and table.
      *
      * @param  string  $reference
      * @return array
@@ -258,10 +280,14 @@ class PostgresBuilder extends Builder
     {
         $parts = explode('.', $reference);
 
-        if (count($parts) > 2) {
-            $database = $parts[0];
+        $database = $this->connection->getConfig('database');
 
-            throw new InvalidArgumentException("Using three-part reference is not supported, you may use `Schema::connection('$database')` instead.");
+        // If the reference contains a database name, we will use that instead of the
+        // default database name for the connection. This allows the database name
+        // to be specified in the query instead of at the full connection level.
+        if (count($parts) === 3) {
+            $database = $parts[0];
+            array_shift($parts);
         }
 
         // We will use the default schema unless the schema has been specified in the
@@ -274,7 +300,7 @@ class PostgresBuilder extends Builder
             array_shift($parts);
         }
 
-        return [$schema, $parts[0]];
+        return [$database, $schema, $parts[0]];
     }
 
     /**

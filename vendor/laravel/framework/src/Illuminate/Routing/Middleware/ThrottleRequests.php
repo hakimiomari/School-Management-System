@@ -94,7 +94,7 @@ class ThrottleRequests
                 (object) [
                     'key' => $prefix.$this->resolveRequestSignature($request),
                     'maxAttempts' => $this->resolveMaxAttempts($request, $maxAttempts),
-                    'decaySeconds' => 60 * $decayMinutes,
+                    'decayMinutes' => $decayMinutes,
                     'responseCallback' => null,
                 ],
             ]
@@ -129,7 +129,7 @@ class ThrottleRequests
                 return (object) [
                     'key' => self::$shouldHashKeys ? md5($limiterName.$limit->key) : $limiterName.':'.$limit->key,
                     'maxAttempts' => $limit->maxAttempts,
-                    'decaySeconds' => $limit->decaySeconds,
+                    'decayMinutes' => $limit->decayMinutes,
                     'responseCallback' => $limit->responseCallback,
                 ];
             })->all()
@@ -153,7 +153,7 @@ class ThrottleRequests
                 throw $this->buildException($request, $limit->key, $limit->maxAttempts, $limit->responseCallback);
             }
 
-            $this->limiter->hit($limit->key, $limit->decaySeconds);
+            $this->limiter->hit($limit->key, $limit->decayMinutes * 60);
         }
 
         $response = $next($request);

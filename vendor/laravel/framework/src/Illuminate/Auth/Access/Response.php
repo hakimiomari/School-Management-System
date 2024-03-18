@@ -3,9 +3,8 @@
 namespace Illuminate\Auth\Access;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Stringable;
 
-class Response implements Arrayable, Stringable
+class Response implements Arrayable
 {
     /**
      * Indicates whether the response was allowed.

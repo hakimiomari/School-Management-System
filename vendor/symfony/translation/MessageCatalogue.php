@@ -80,7 +80,10 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
         return $allMessages;
     }
 
-    public function set(string $id, string $translation, string $domain = 'messages'): void
+    /**
+     * @return void
+     */
+    public function set(string $id, string $translation, string $domain = 'messages')
     {
         $this->add([$id => $translation], $domain);
     }
@@ -120,14 +123,20 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
         return $id;
     }
 
-    public function replace(array $messages, string $domain = 'messages'): void
+    /**
+     * @return void
+     */
+    public function replace(array $messages, string $domain = 'messages')
     {
         unset($this->messages[$domain], $this->messages[$domain.self::INTL_DOMAIN_SUFFIX]);
 
         $this->add($messages, $domain);
     }
 
-    public function add(array $messages, string $domain = 'messages'): void
+    /**
+     * @return void
+     */
+    public function add(array $messages, string $domain = 'messages')
     {
         $altDomain = str_ends_with($domain, self::INTL_DOMAIN_SUFFIX) ? substr($domain, 0, -\strlen(self::INTL_DOMAIN_SUFFIX)) : $domain.self::INTL_DOMAIN_SUFFIX;
         foreach ($messages as $id => $message) {
@@ -140,7 +149,10 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
         }
     }
 
-    public function addCatalogue(MessageCatalogueInterface $catalogue): void
+    /**
+     * @return void
+     */
+    public function addCatalogue(MessageCatalogueInterface $catalogue)
     {
         if ($catalogue->getLocale() !== $this->locale) {
             throw new LogicException(sprintf('Cannot add a catalogue for locale "%s" as the current locale for this catalogue is "%s".', $catalogue->getLocale(), $this->locale));
@@ -169,7 +181,10 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
         }
     }
 
-    public function addFallbackCatalogue(MessageCatalogueInterface $catalogue): void
+    /**
+     * @return void
+     */
+    public function addFallbackCatalogue(MessageCatalogueInterface $catalogue)
     {
         // detect circular references
         $c = $catalogue;
@@ -208,7 +223,10 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
         return array_values($this->resources);
     }
 
-    public function addResource(ResourceInterface $resource): void
+    /**
+     * @return void
+     */
+    public function addResource(ResourceInterface $resource)
     {
         $this->resources[$resource->__toString()] = $resource;
     }
@@ -232,12 +250,18 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
         return null;
     }
 
-    public function setMetadata(string $key, mixed $value, string $domain = 'messages'): void
+    /**
+     * @return void
+     */
+    public function setMetadata(string $key, mixed $value, string $domain = 'messages')
     {
         $this->metadata[$domain][$key] = $value;
     }
 
-    public function deleteMetadata(string $key = '', string $domain = 'messages'): void
+    /**
+     * @return void
+     */
+    public function deleteMetadata(string $key = '', string $domain = 'messages')
     {
         if ('' == $domain) {
             $this->metadata = [];
@@ -267,12 +291,18 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
         return null;
     }
 
-    public function setCatalogueMetadata(string $key, mixed $value, string $domain = 'messages'): void
+    /**
+     * @return void
+     */
+    public function setCatalogueMetadata(string $key, mixed $value, string $domain = 'messages')
     {
         $this->catalogueMetadata[$domain][$key] = $value;
     }
 
-    public function deleteCatalogueMetadata(string $key = '', string $domain = 'messages'): void
+    /**
+     * @return void
+     */
+    public function deleteCatalogueMetadata(string $key = '', string $domain = 'messages')
     {
         if (!$domain) {
             $this->catalogueMetadata = [];

@@ -48,8 +48,10 @@ class FragmentHandler
 
     /**
      * Adds a renderer.
+     *
+     * @return void
      */
-    public function addRenderer(FragmentRendererInterface $renderer): void
+    public function addRenderer(FragmentRendererInterface $renderer)
     {
         $this->renderers[$renderer->getName()] = $renderer;
     }

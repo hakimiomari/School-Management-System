@@ -3,6 +3,9 @@
 namespace Illuminate\Database\Console;
 
 use BackedEnum;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Types\DecimalType;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -67,6 +70,10 @@ class ShowModelCommand extends DatabaseInspectionCommand
      */
     public function handle()
     {
+        if (! $this->ensureDependenciesExist()) {
+            return 1;
+        }
+
         $class = $this->qualifyModel($this->argument('model'));
 
         try {
@@ -74,9 +81,7 @@ class ShowModelCommand extends DatabaseInspectionCommand
 
             $class = get_class($model);
         } catch (BindingResolutionException $e) {
-            $this->components->error($e->getMessage());
-
-            return 1;
+            return $this->components->error($e->getMessage());
         }
 
         if ($this->option('database')) {
@@ -92,8 +97,6 @@ class ShowModelCommand extends DatabaseInspectionCommand
             $this->getRelations($model),
             $this->getObservers($model),
         );
-
-        return 0;
     }
 
     /**
@@ -118,23 +121,25 @@ class ShowModelCommand extends DatabaseInspectionCommand
     protected function getAttributes($model)
     {
         $connection = $model->getConnection();
-        $schema = $connection->getSchemaBuilder();
-        $table = $model->getTable();
-        $columns = $schema->getColumns($table);
-        $indexes = $schema->getIndexes($table);
+        $schema = $connection->getDoctrineSchemaManager();
+        $this->registerTypeMappings($connection->getDoctrineConnection()->getDatabasePlatform());
+        $table = $model->getConnection()->getTablePrefix().$model->getTable();
+        $columns = $schema->listTableColumns($table);
+        $indexes = $schema->listTableIndexes($table);
 
         return collect($columns)
-            ->map(fn ($column) => [
-                'name' => $column['name'],
-                'type' => $column['type'],
-                'increments' => $column['auto_increment'],
-                'nullable' => $column['nullable'],
+            ->values()
+            ->map(fn (Column $column) => [
+                'name' => $column->getName(),
+                'type' => $this->getColumnType($column),
+                'increments' => $column->getAutoincrement(),
+                'nullable' => ! $column->getNotnull(),
                 'default' => $this->getColumnDefault($column, $model),
-                'unique' => $this->columnIsUnique($column['name'], $indexes),
-                'fillable' => $model->isFillable($column['name']),
-                'hidden' => $this->attributeIsHidden($column['name'], $model),
+                'unique' => $this->columnIsUnique($column->getName(), $indexes),
+                'fillable' => $model->isFillable($column->getName()),
+                'hidden' => $this->attributeIsHidden($column->getName(), $model),
                 'appended' => null,
-                'cast' => $this->getCastType($column['name'], $model),
+                'cast' => $this->getCastType($column->getName(), $model),
             ])
             ->merge($this->getVirtualAttributes($model, $columns));
     }
@@ -143,7 +148,7 @@ class ShowModelCommand extends DatabaseInspectionCommand
      * Get the virtual (non-column) attributes for the given model.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  array  $columns
+     * @param  \Doctrine\DBAL\Schema\Column[]  $columns
      * @return \Illuminate\Support\Collection
      */
     protected function getVirtualAttributes($model, $columns)
@@ -165,7 +170,7 @@ class ShowModelCommand extends DatabaseInspectionCommand
                     return [];
                 }
             })
-            ->reject(fn ($cast, $name) => collect($columns)->contains('name', $name))
+            ->reject(fn ($cast, $name) => collect($columns)->has($name))
             ->map(fn ($cast, $name) => [
                 'name' => $name,
                 'type' => null,
@@ -424,20 +429,44 @@ class ShowModelCommand extends DatabaseInspectionCommand
     }
 
     /**
+     * Get the type of the given column.
+     *
+     * @param  \Doctrine\DBAL\Schema\Column  $column
+     * @return string
+     */
+    protected function getColumnType($column)
+    {
+        $name = $column->getType()->getName();
+
+        $unsigned = $column->getUnsigned() ? ' unsigned' : '';
+
+        $details = match (get_class($column->getType())) {
+            DecimalType::class => $column->getPrecision().','.$column->getScale(),
+            default => $column->getLength(),
+        };
+
+        if ($details) {
+            return sprintf('%s(%s)%s', $name, $details, $unsigned);
+        }
+
+        return sprintf('%s%s', $name, $unsigned);
+    }
+
+    /**
      * Get the default value for the given column.
      *
-     * @param  array  $column
+     * @param  \Doctrine\DBAL\Schema\Column  $column
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return mixed|null
      */
     protected function getColumnDefault($column, $model)
     {
-        $attributeDefault = $model->getAttributes()[$column['name']] ?? null;
+        $attributeDefault = $model->getAttributes()[$column->getName()] ?? null;
 
         return match (true) {
             $attributeDefault instanceof BackedEnum => $attributeDefault->value,
             $attributeDefault instanceof UnitEnum => $attributeDefault->name,
-            default => $attributeDefault ?? $column['default'],
+            default => $attributeDefault ?? $column->getDefault(),
         };
     }
 
@@ -465,14 +494,14 @@ class ShowModelCommand extends DatabaseInspectionCommand
      * Determine if the given attribute is unique.
      *
      * @param  string  $column
-     * @param  array  $indexes
+     * @param  \Doctrine\DBAL\Schema\Index[]  $indexes
      * @return bool
      */
     protected function columnIsUnique($column, $indexes)
     {
-        return collect($indexes)->contains(
-            fn ($index) => count($index['columns']) === 1 && $index['columns'][0] === $column && $index['unique']
-        );
+        return collect($indexes)
+            ->filter(fn (Index $index) => count($index->getColumns()) === 1 && $index->getColumns()[0] === $column)
+            ->contains(fn (Index $index) => $index->isUnique());
     }
 
     /**

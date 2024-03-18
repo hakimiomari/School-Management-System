@@ -389,7 +389,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
      * @param  mixed  $default
      * @return mixed
      */
-    #[\Override]
     public function get(string $key, mixed $default = null): mixed
     {
         return parent::get($key, $default);
@@ -500,7 +499,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
      *
      * @return static
      */
-    #[\Override]
     public function duplicate(array $query = null, array $request = null, array $attributes = null, array $cookies = null, array $files = null, array $server = null): static
     {
         return parent::duplicate($query, $request, $attributes, $cookies, $this->filterFiles($files), $server);
@@ -534,20 +532,18 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function hasSession(bool $skipIfUninitialized = false): bool
     {
-        return $this->session instanceof SymfonySessionDecorator;
+        return ! is_null($this->session);
     }
 
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function getSession(): SessionInterface
     {
         return $this->hasSession()
-                    ? $this->session
+                    ? new SymfonySessionDecorator($this->session())
                     : throw new SessionNotFoundException;
     }
 
@@ -564,7 +560,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
             throw new RuntimeException('Session store not set on request.');
         }
 
-        return $this->session->store;
+        return $this->session;
     }
 
     /**
@@ -575,7 +571,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
      */
     public function setLaravelSession($session)
     {
-        $this->session = new SymfonySessionDecorator($session);
+        $this->session = $session;
     }
 
     /**

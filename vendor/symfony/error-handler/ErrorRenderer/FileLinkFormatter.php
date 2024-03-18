@@ -48,7 +48,10 @@ class FileLinkFormatter
         $this->urlFormat = $urlFormat;
     }
 
-    public function format(string $file, int $line): string|false
+    /**
+     * @return string|false
+     */
+    public function format(string $file, int $line): string|bool
     {
         if ($fmt = $this->getFileLinkFormat()) {
             for ($i = 1; isset($fmt[$i]); ++$i) {
@@ -105,4 +108,8 @@ class FileLinkFormatter
 
         return false;
     }
+}
+
+if (!class_exists(\Symfony\Component\HttpKernel\Debug\FileLinkFormatter::class, false)) {
+    class_alias(FileLinkFormatter::class, \Symfony\Component\HttpKernel\Debug\FileLinkFormatter::class);
 }

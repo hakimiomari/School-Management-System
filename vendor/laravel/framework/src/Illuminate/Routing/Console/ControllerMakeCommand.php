@@ -110,7 +110,6 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected function buildClass($name)
     {
-        $rootNamespace = $this->rootNamespace();
         $controllerNamespace = $this->getNamespace($name);
 
         $replace = [];
@@ -127,20 +126,11 @@ class ControllerMakeCommand extends GeneratorCommand
             $replace['abort(404);'] = '//';
         }
 
-        $baseControllerExists = class_exists($rootNamespace.'Http\Controllers\Controller');
+        $replace["use {$controllerNamespace}\Controller;\n"] = '';
 
-        if ($baseControllerExists) {
-            $replace["use {$controllerNamespace}\Controller;\n"] = '';
-        } else {
-            $replace[' extends Controller'] = '';
-            $replace["use {$rootNamespace}Http\Controllers\Controller;\n"] = '';
-        }
-
-        $class = str_replace(
+        return str_replace(
             array_keys($replace), array_values($replace), parent::buildClass($name)
         );
-
-        return $class;
     }
 
     /**

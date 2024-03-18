@@ -5,7 +5,7 @@ namespace Illuminate\Http\Middleware;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 
-class TrustHosts
+abstract class TrustHosts
 {
     /**
      * The application instance.
@@ -13,13 +13,6 @@ class TrustHosts
      * @var \Illuminate\Contracts\Foundation\Application
      */
     protected $app;
-
-    /**
-     * The trusted hosts that have been configured to always be trusted.
-     *
-     * @var array<int, string>|null
-     */
-    protected static $alwaysTrust;
 
     /**
      * Create a new middleware instance.
@@ -37,12 +30,7 @@ class TrustHosts
      *
      * @return array
      */
-    public function hosts()
-    {
-        return is_array(static::$alwaysTrust)
-            ? static::$alwaysTrust
-            : [$this->allSubdomainsOfApplicationUrl()];
-    }
+    abstract public function hosts();
 
     /**
      * Handle the incoming request.
@@ -58,24 +46,6 @@ class TrustHosts
         }
 
         return $next($request);
-    }
-
-    /**
-     * Specify the hosts that should always be trusted.
-     *
-     * @param  array<int, string>  $hosts
-     * @param  bool  $subdomains
-     * @return void
-     */
-    public static function at(array $hosts, bool $subdomains = true)
-    {
-        if ($subdomains) {
-            if ($host = parse_url(config('app.url'), PHP_URL_HOST)) {
-                $hosts[] = '^(.+\.)?'.preg_quote($host).'$';
-            }
-        }
-
-        static::$alwaysTrust = $hosts;
     }
 
     /**
@@ -99,15 +69,5 @@ class TrustHosts
         if ($host = parse_url($this->app['config']->get('app.url'), PHP_URL_HOST)) {
             return '^(.+\.)?'.preg_quote($host).'$';
         }
-    }
-
-    /**
-     * Flush the state of the middleware.
-     *
-     * @return void
-     */
-    public static function flushState()
-    {
-        static::$alwaysTrust = null;
     }
 }

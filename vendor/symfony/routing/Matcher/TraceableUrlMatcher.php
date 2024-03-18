@@ -27,9 +27,12 @@ class TraceableUrlMatcher extends UrlMatcher
     public const ROUTE_ALMOST_MATCHES = 1;
     public const ROUTE_MATCHES = 2;
 
-    protected array $traces;
+    protected $traces;
 
-    public function getTraces(string $pathinfo): array
+    /**
+     * @return array
+     */
+    public function getTraces(string $pathinfo)
     {
         $this->traces = [];
 
@@ -41,7 +44,10 @@ class TraceableUrlMatcher extends UrlMatcher
         return $this->traces;
     }
 
-    public function getTracesForRequest(Request $request): array
+    /**
+     * @return array
+     */
+    public function getTracesForRequest(Request $request)
     {
         $this->request = $request;
         $traces = $this->getTraces($request->getPathInfo());

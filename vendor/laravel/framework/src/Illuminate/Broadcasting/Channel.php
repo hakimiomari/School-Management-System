@@ -3,9 +3,8 @@
 namespace Illuminate\Broadcasting;
 
 use Illuminate\Contracts\Broadcasting\HasBroadcastChannel;
-use Stringable;
 
-class Channel implements Stringable
+class Channel
 {
     /**
      * The channel's name.

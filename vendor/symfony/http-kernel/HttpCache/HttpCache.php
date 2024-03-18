@@ -83,6 +83,11 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *                            the cache can serve a stale response when an error is encountered (default: 60).
      *                            This setting is overridden by the stale-if-error HTTP Cache-Control extension
      *                            (see RFC 5861).
+     *
+     *   * terminate_on_cache_hit Specifies if the kernel.terminate event should be dispatched even when the cache
+     *                            was hit (default: true).
+     *                            Unless your application needs to process events on cache hits, it is recommended
+     *                            to set this to false to avoid having to bootstrap the Symfony framework on a cache hit.
      */
     public function __construct(HttpKernelInterface $kernel, StoreInterface $store, ?SurrogateInterface $surrogate = null, array $options = [])
     {
@@ -104,6 +109,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             'stale_if_error' => 60,
             'trace_level' => 'none',
             'trace_header' => 'X-Symfony-Cache',
+            'terminate_on_cache_hit' => true,
         ], $options);
 
         if (!isset($options['trace_level'])) {
@@ -236,12 +242,17 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         return $response;
     }
 
-    public function terminate(Request $request, Response $response): void
+    /**
+     * @return void
+     */
+    public function terminate(Request $request, Response $response)
     {
         // Do not call any listeners in case of a cache hit.
         // This ensures identical behavior as if you had a separate
         // reverse caching proxy such as Varnish and the like.
-        if (\in_array('fresh', $this->traces[$this->getTraceKey($request)] ?? [], true)) {
+        if ($this->options['terminate_on_cache_hit']) {
+            trigger_deprecation('symfony/http-kernel', '6.2', 'Setting "terminate_on_cache_hit" to "true" is deprecated and will be changed to "false" in Symfony 7.0.');
+        } elseif (\in_array('fresh', $this->traces[$this->getTraceKey($request)] ?? [], true)) {
             return;
         }
 
@@ -451,8 +462,10 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @param bool          $catch Whether to catch exceptions or not
      * @param Response|null $entry A Response instance (the stale entry if present, null otherwise)
+     *
+     * @return Response
      */
-    protected function forward(Request $request, bool $catch = false, ?Response $entry = null): Response
+    protected function forward(Request $request, bool $catch = false, ?Response $entry = null)
     {
         $this->surrogate?->addSurrogateCapability($request);
 
@@ -582,9 +595,11 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Writes the Response to the cache.
      *
+     * @return void
+     *
      * @throws \Exception
      */
-    protected function store(Request $request, Response $response): void
+    protected function store(Request $request, Response $response)
     {
         try {
             $restoreHeaders = [];
@@ -659,7 +674,10 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         $response->headers->remove('X-Body-File');
     }
 
-    protected function processResponseBody(Request $request, Response $response): void
+    /**
+     * @return void
+     */
+    protected function processResponseBody(Request $request, Response $response)
     {
         if ($this->surrogate?->needsParsing($response)) {
             $this->surrogate->process($request, $response);

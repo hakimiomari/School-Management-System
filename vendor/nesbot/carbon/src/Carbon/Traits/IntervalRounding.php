@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Carbon package.
  *
@@ -22,7 +20,7 @@ use DateInterval;
  */
 trait IntervalRounding
 {
-    protected function callRoundMethod(string $method, array $parameters): ?static
+    protected function callRoundMethod(string $method, array $parameters)
     {
         $action = substr($method, 0, 4);
 
@@ -37,7 +35,7 @@ trait IntervalRounding
         return null;
     }
 
-    protected function roundWith(DateInterval|string|float|int $precision, callable|string $function): ?static
+    protected function roundWith($precision, $function)
     {
         $unit = 'second';
 
