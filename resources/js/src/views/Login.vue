@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { useLogin } from "@/composables/useLogin.js";
+import { useLogin } from "@/composables/user/useLogin.js";
 
 const { login, errors, loading } = useLogin();
 
