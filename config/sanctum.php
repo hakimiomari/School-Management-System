@@ -46,8 +46,10 @@ return [
     |
     */
 
-    'expiration' => null,
-
+    'expiration' => 129600, // 90 days in hours
+    // 'stateful' => [
+    //     'expiration' => 129600, // 90 days in hours
+    // ],
     /*
     |--------------------------------------------------------------------------
     | Sanctum Middleware

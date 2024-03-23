@@ -15,18 +15,30 @@
                         >
                             <img
                                 class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
-                                src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=296&q=80"
+                                :src="
+                                    imageUrl
+                                        ? imageUrl
+                                        : 'https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=296&q=80'
+                                "
                                 alt="Bordered avatar"
                             />
 
                             <div class="flex flex-col space-y-5 sm:ml-8">
-                                <button
-                                    :disabled="!isEdit"
+                                <input
+                                    hidden
+                                    accept="image/*"
+                                    type="file"
+                                    @change="handleFileChange"
+                                    id="file"
+                                />
+                                <label
+                                    for="file"
+                                    v-if="isEdit"
                                     type="button"
-                                    class="py-2 px-2 text-base font-normal text-indigo-100 focus:outline-none bg-[#202142] rounded-lg border border-indigo-200 hover:bg-indigo-900 focus:z-10 focus:ring-4 focus:ring-indigo-200"
+                                    class="py-2 cursor-pointer px-2 text-base font-normal text-indigo-100 focus:outline-none bg-[#202142] rounded-lg border border-indigo-200 hover:bg-indigo-900 focus:z-10 focus:ring-4 focus:ring-indigo-200"
                                 >
                                     Change picture
-                                </button>
+                                </label>
                             </div>
                         </div>
 
@@ -145,7 +157,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useUser } from "@/composables/user/useUser";
-const { userInfo, data } = useUser();
+const { userInfo, data, handleFileChange, imageUrl } = useUser();
 
 const isEdit = ref(false);
 onMounted(() => {

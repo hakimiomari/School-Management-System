@@ -10,8 +10,40 @@ export const useLogin = () => {
     const router = useRouter();
     const errors = ref("");
     const loading = ref(false);
-    
     const token = ref("");
+
+    // Function to set a cookie with an expiration time
+    const setCookie = (name, value, expirationDays) => {
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + expirationDays);
+
+        const expires = "expires=" + expirationDate.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    };
+
+    // Function to get the value of a cookie by its name
+    const getCookie = (name) => {
+        const cookieString = document.cookie;
+        const cookies = cookieString.split(";");
+
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+
+            // Check if the cookie starts with the provided name
+            if (cookie.startsWith(name + "=")) {
+                // Extract and return the cookie value
+                return cookie.substring(name.length + 1);
+            }
+        }
+        // Return null if the cookie is not found
+        return null;
+    };
+
+    // Function to remove a cookie by its name
+    const removeCookie = (name) => {
+        document.cookie =
+            name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    };
 
     const login = async (form) => {
         loading.value = true;
@@ -24,10 +56,7 @@ export const useLogin = () => {
             .then((res) => {
                 user.userData = res.data.user;
                 loading.value = false;
-                localStorage.setItem(
-                    "access_token",
-                    JSON.stringify(res.data.token)
-                );
+                setCookie("access_token", res.data.token, 90);
                 router.push("/dashboard");
             })
             .catch((err) => {
@@ -45,7 +74,7 @@ export const useLogin = () => {
     };
 
     const logout = async () => {
-        token.value = JSON.parse(localStorage.getItem("access_token"));
+        token.value = getCookie("access_token");
         axios
             .get("/api/logout", {
                 headers: {
@@ -53,12 +82,20 @@ export const useLogin = () => {
                 },
             })
             .then((res) => {
-                localStorage.removeItem("access_token");
+                removeCookie("access_token");
                 router.push("/");
             })
             .catch((err) => {
                 console.log(err);
             });
     };
-    return { logout, login, errors, loading };
+    return {
+        logout,
+        login,
+        errors,
+        loading,
+        setCookie,
+        getCookie,
+        removeCookie,
+    };
 };

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\ApiController;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
@@ -11,31 +12,32 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
 
-    public function login(LoginRequest $request){
+    public function login(LoginRequest $request)
+    {
         // validator($request->all(),['email'=>['required','email'],'password'=>['required']])->validate();
 
-        if(auth()->attempt($request->only(['email','password']))){
-            $token = auth()->user()->createToken('user');
+        if (auth()->attempt($request->only(['email', 'password']))) {
+            $token = auth()->user()->createToken('user', ["*"], now()->addDays(90));
             $string = 'lacalhost';
             $user = Auth::user();
             return response()->json([
                 'status' => 'success',
                 'user' => $user,
-                'token'=>$token->plainTextToken
+                'token' => $token->plainTextToken
             ]);
-        }
-        else{
-            return response()->json('Invalid Credentials',401);
+        } else {
+            return response()->json('Invalid Credentials', 401);
         }
     }
-    public function userInfo(){
+    public function userInfo()
+    {
         $user = Auth::user();
         return response()->json($user);
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         $request->user()->currentAccessToken()->delete();
-        return response()->json('success',204);
+        return response()->json('success', 204);
     }
-
 }
