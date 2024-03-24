@@ -7,7 +7,7 @@ export const useUser = () => {
     const data = ref("");
     const imageUrl = ref(null);
 
-    const { getCookie } = useLogin();
+    const { getCookie, removeCookie } = useLogin();
 
     const userInfo = async () => {
         token.value = getCookie("access_token");
@@ -21,7 +21,9 @@ export const useUser = () => {
                 data.value = res.data;
             })
             .catch((err) => {
-                console.log(err);
+                if (err.response.status == 401) {
+                    removeCookie();
+                }
             });
     };
 

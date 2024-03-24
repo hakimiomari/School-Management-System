@@ -33,7 +33,7 @@
                                 />
                                 <label
                                     for="file"
-                                    v-if="isEdit"
+                                    v-if="!isEdit"
                                     type="button"
                                     class="py-2 cursor-pointer px-2 text-base font-normal text-indigo-100 focus:outline-none bg-[#202142] rounded-lg border border-indigo-200 hover:bg-indigo-900 focus:z-10 focus:ring-4 focus:ring-indigo-200"
                                 >
@@ -53,10 +53,15 @@
                                         >Your first name</label
                                     >
                                     <input
-                                        :disabled="!isEdit"
+                                        :disabled="isEdit"
                                         type="text"
                                         id="first_name"
-                                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                                        :class="
+                                            isEdit
+                                                ? 'bg-gray-200'
+                                                : 'bg-indigo-50'
+                                        "
+                                        class="border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                                         placeholder="Your first name"
                                         v-model="data.name"
                                         required
@@ -70,10 +75,15 @@
                                         >Your last name</label
                                     >
                                     <input
-                                        :disabled="!isEdit"
+                                        :disabled="isEdit"
+                                        :class="
+                                            isEdit
+                                                ? 'bg-gray-200'
+                                                : 'bg-indigo-50'
+                                        "
                                         type="text"
                                         id="last_name"
-                                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                                        class="border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                                         placeholder="Your last name"
                                         v-model="data.name"
                                         required
@@ -88,10 +98,13 @@
                                     >Your email</label
                                 >
                                 <input
-                                    :disabled="!isEdit"
+                                    :disabled="isEdit"
+                                    :class="
+                                        isEdit ? 'bg-gray-200' : 'bg-indigo-50'
+                                    "
                                     type="email"
                                     id="email"
-                                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                                    class="border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                                     placeholder="your.email@mail.com"
                                     v-model="data.email"
                                     required
@@ -105,10 +118,13 @@
                                     >Profession</label
                                 >
                                 <input
-                                    :disabled="!isEdit"
+                                    :disabled="isEdit"
+                                    :class="
+                                        isEdit ? 'bg-gray-200' : 'bg-indigo-50'
+                                    "
                                     type="text"
                                     id="profession"
-                                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                                    class="border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                                     placeholder="your profession"
                                     v-model="data.profession"
                                     required
@@ -122,18 +138,21 @@
                                     >Bio</label
                                 >
                                 <textarea
-                                    :disabled="!isEdit"
+                                    :disabled="isEdit"
+                                    :class="
+                                        isEdit ? 'bg-gray-200' : 'bg-indigo-50'
+                                    "
                                     id="message"
                                     rows="6"
                                     v-model="data.bio"
-                                    class="block p-2.5 w-full text-sm text-indigo-900 bg-indigo-50 rounded-lg border border-indigo-300 focus:ring-indigo-500 focus:border-indigo-500"
+                                    class="block p-2.5 w-full text-sm text-indigo-900 rounded-lg border border-indigo-300 focus:ring-indigo-500 focus:border-indigo-500"
                                     placeholder="Write your bio here..."
                                 ></textarea>
                             </div>
 
                             <div class="flex justify-end mt-10">
                                 <button
-                                    v-if="!isEdit"
+                                    v-if="isEdit"
                                     @click="isEdit = !isEdit"
                                     class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
                                 >
@@ -159,7 +178,7 @@ import { onMounted, ref } from "vue";
 import { useUser } from "@/composables/user/useUser";
 const { userInfo, data, handleFileChange, imageUrl } = useUser();
 
-const isEdit = ref(false);
+const isEdit = ref(true);
 onMounted(() => {
     userInfo();
 });

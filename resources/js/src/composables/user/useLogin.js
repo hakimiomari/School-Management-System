@@ -43,6 +43,7 @@ export const useLogin = () => {
     const removeCookie = (name) => {
         document.cookie =
             name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        router.push("/");
     };
 
     const login = async (form) => {
@@ -83,10 +84,9 @@ export const useLogin = () => {
             })
             .then((res) => {
                 removeCookie("access_token");
-                router.push("/");
             })
             .catch((err) => {
-                console.log(err);
+                removeCookie("access_token");
             });
     };
     return {
