@@ -9,7 +9,8 @@ import Login from "./views/Login.vue";
 import Modal from "./views/Modal.vue";
 import Card from "./views/Card.vue";
 import Blank from "./views/Blank.vue";
-import Profile from "./components/profile/Profile.vue";
+import Profile from "./views/profile/Profile.vue";
+import NotFound from "./views/not_found/NotFound.vue";
 
 const routes: RouteRecordRaw[] = [
     {
@@ -57,6 +58,12 @@ const routes: RouteRecordRaw[] = [
         path: "/blank",
         name: "Blank",
         component: Blank,
+    },
+    {
+        path: "/:pathMatch(.*)*",
+        name: "NotFound",
+        component: NotFound,
+        meta: { layout: "empty" },
     },
 ];
 

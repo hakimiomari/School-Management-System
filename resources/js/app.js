@@ -14,12 +14,9 @@ import axios from "axios";
 import Vue3Toasity from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
-// const token = JSON.parse(localStorage.getItem("access_token"));
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:8000";
-// axios.defaults.headers.common["Authorization"] =
-//     `Bearer ` + localStorage.getItem("access_token");
 
 const pinia = createPinia();
 const app = createApp(App);
