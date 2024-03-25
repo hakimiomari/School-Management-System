@@ -63,6 +63,7 @@ export const useUser = () => {
         user.loading = true;
         token.value = getCookie("access_token");
         const formData = new FormData();
+        formData.append("id", info.id);
         formData.append("file", userFile);
         formData.append("name", info.name);
         formData.append("email", info.email);

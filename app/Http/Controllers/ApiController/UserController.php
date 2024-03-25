@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
@@ -45,7 +46,7 @@ class UserController extends Controller
     }
 
     // update profile
-    public function updateProfile(Request $request)
+    public function updateProfile(UserUpdateRequest $request)
     {
         $image = $request->file('file');
         $user = Auth::user(); // Assuming you have user authentication in place
@@ -60,6 +61,7 @@ class UserController extends Controller
             $user->save();
         }
         $data = $request->except('file');
+        $data = $request->except('id');
         $user->update($data);
         return response()->json($user);
     }
