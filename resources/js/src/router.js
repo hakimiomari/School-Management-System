@@ -88,7 +88,7 @@ router.beforeEach((to, from, next) => {
     const requiresAuth = to.meta.isAuth;
     const requiredRoles = to.meta.role;
 
-    const { getCookie } = useLogin();
+    const { getCookie, removeCookie } = useLogin();
     const { getUserRole } = useUser();
     const user = userStore();
     const token = getCookie("access_token");
@@ -106,6 +106,9 @@ router.beforeEach((to, from, next) => {
                     }
                 })
                 .catch((err) => {
+                    if (err.response.status == 401) {
+                        removeCookie("access_token");
+                    }
                     next({ name: "Login" });
                     return;
                 });

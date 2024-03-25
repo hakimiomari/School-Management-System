@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::get('/logout', [UserController::class, 'logout']);
     Route::get('/user', [UserController::class, 'userInfo']);
     Route::get('/user/role', [UserController::class, 'getUserRole']);
+    Route::post('/user/update', [UserController::class, 'updateProfile']);
 });

@@ -9,7 +9,6 @@ export const useLogin = () => {
     const user = userStore();
     const router = useRouter();
     const errors = ref("");
-    const loading = ref(false);
     const token = ref("");
 
     // Function to set a cookie with an expiration time
@@ -43,11 +42,12 @@ export const useLogin = () => {
     const removeCookie = (name) => {
         document.cookie =
             name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        user.userRole = "";
         router.push("/");
     };
 
     const login = async (form) => {
-        loading.value = true;
+        user.loading = true;
         await axios.get("/sanctum/csrf-cookie");
         await axios
             .post("/api/login", {
@@ -57,12 +57,12 @@ export const useLogin = () => {
             .then((res) => {
                 user.userData = res.data.user;
                 user.userRole = res.data.role;
-                loading.value = false;
+                user.loading = false;
                 router.push("/dashboard");
                 setCookie("access_token", res.data.token, 90);
             })
             .catch((err) => {
-                loading.value = false;
+                user.loading = false;
                 if (err.response.status == 401) {
                     toast(err.response.data, {
                         theme: "auto",
@@ -94,7 +94,6 @@ export const useLogin = () => {
         logout,
         login,
         errors,
-        loading,
         setCookie,
         getCookie,
         removeCookie,

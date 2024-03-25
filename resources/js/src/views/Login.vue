@@ -1,9 +1,12 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useLogin } from "@/composables/user/useLogin.js";
+import { userStore } from "@/store/userStore.js";
 
-const { login, errors, loading } = useLogin();
+const user = userStore();
+const { login, errors } = useLogin();
 
+const loading = computed(() => user.loading);
 const form = ref({
     email: "",
     password: "",

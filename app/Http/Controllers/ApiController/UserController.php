@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -28,11 +29,14 @@ class UserController extends Controller
             return response()->json('Invalid Credentials', 401);
         }
     }
+    // get user info
     public function userInfo()
     {
         $user = Auth::user();
         return response()->json($user);
     }
+
+    // get user role
     public function getUserRole()
     {
         $user = Auth::user();
@@ -40,6 +44,26 @@ class UserController extends Controller
         return response()->json($userRole);
     }
 
+    // update profile
+    public function updateProfile(Request $request)
+    {
+        $image = $request->file('file');
+        $user = Auth::user(); // Assuming you have user authentication in place
+        if ($image) {
+            $previousImagePath = $user->image; // Get the previous file path
+
+            if ($previousImagePath) {
+                Storage::disk('public')->delete($previousImagePath); // Unlink the previous file
+            }
+            $path = $image->store('userImages', 'public');
+            $user->image = $path;
+            $user->save();
+        }
+        $data = $request->except('file');
+        $user->update($data);
+        return response()->json($user);
+    }
+    // logout
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
