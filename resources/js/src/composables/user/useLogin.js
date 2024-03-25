@@ -56,9 +56,10 @@ export const useLogin = () => {
             })
             .then((res) => {
                 user.userData = res.data.user;
+                user.userRole = res.data.role;
                 loading.value = false;
-                setCookie("access_token", res.data.token, 90);
                 router.push("/dashboard");
+                setCookie("access_token", res.data.token, 90);
             })
             .catch((err) => {
                 loading.value = false;
@@ -76,7 +77,7 @@ export const useLogin = () => {
 
     const logout = async () => {
         token.value = getCookie("access_token");
-        axios
+        await axios
             .get("/api/logout", {
                 headers: {
                     Authorization: `Bearer ${token.value}`,

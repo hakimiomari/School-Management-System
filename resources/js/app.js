@@ -14,9 +14,9 @@ import axios from "axios";
 import Vue3Toasity from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
-
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:8000";
+
 
 const pinia = createPinia();
 const app = createApp(App);

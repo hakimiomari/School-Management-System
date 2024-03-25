@@ -14,14 +14,13 @@ class UserController extends Controller
 
     public function login(LoginRequest $request)
     {
-        // validator($request->all(),['email'=>['required','email'],'password'=>['required']])->validate();
-
         if (auth()->attempt($request->only(['email', 'password']))) {
             $token = auth()->user()->createToken('user', ["*"], now()->addDays(90));
-            $string = 'lacalhost';
             $user = Auth::user();
+            $userRole = $user->roles->first()->name;
             return response()->json([
                 'status' => 'success',
+                'role' => $userRole,
                 'user' => $user,
                 'token' => $token->plainTextToken
             ]);
@@ -33,6 +32,12 @@ class UserController extends Controller
     {
         $user = Auth::user();
         return response()->json($user);
+    }
+    public function getUserRole()
+    {
+        $user = Auth::user();
+        $userRole = $user->roles->first()->name;
+        return response()->json($userRole);
     }
 
     public function logout(Request $request)

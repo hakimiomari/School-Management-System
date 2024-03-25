@@ -1,17 +1,20 @@
 import axios from "axios";
 import { ref } from "vue";
 import { useLogin } from "@/composables/user/useLogin";
+import { userStore } from "@/store/userStore";
 
 export const useUser = () => {
     const token = ref("");
     const data = ref("");
     const imageUrl = ref(null);
+    const user = userStore();
 
     const { getCookie, removeCookie } = useLogin();
 
+    // used for getting user information
     const userInfo = async () => {
         token.value = getCookie("access_token");
-        axios
+        await axios
             .get("/api/user", {
                 headers: {
                     Authorization: `Bearer ${token.value}`,
@@ -27,6 +30,24 @@ export const useUser = () => {
             });
     };
 
+    // used for getting user role
+    const getUserRole = async (access_token) => {
+        const response = await axios.get("/api/user/role", {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            },
+        });
+        return response;
+        // .then((res) => {
+        //     user.isAuthenticated = true;
+        //     user.userRole = res.data;
+        // })
+        // .catch((err) => {
+        //     console.log(err);
+        // });
+    };
+
+    // handle change function using for live preview of images
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -41,5 +62,5 @@ export const useUser = () => {
             imageUrl.value = null;
         }
     };
-    return { userInfo, data, handleFileChange, imageUrl };
+    return { userInfo, data, handleFileChange, imageUrl, getUserRole };
 };
