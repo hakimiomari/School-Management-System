@@ -59,8 +59,8 @@ class UserController extends Controller
             $path = $image->store('userImages', 'public');
             $user->image = $path;
             $user->save();
+            $data = $request->except('file');
         }
-        $data = $request->except('file');
         $data = $request->except('id');
         $user->update($data);
         return response()->json($user);

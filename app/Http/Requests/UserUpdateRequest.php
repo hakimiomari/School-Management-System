@@ -27,7 +27,7 @@ class UserUpdateRequest extends FormRequest
             'email' => 'required|email|unique:users,email,' . $this->input('id'),
             'profession' => 'required|string|max:255|min:3',
             'bio' => 'required|string|max:2000',
-            'file' => 'image|mimes:jpeg,png,jpg,gif,webp,avif|max:4196',
+            'file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,avif|max:4196',
         ];
     }
 }

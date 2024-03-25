@@ -28,6 +28,7 @@
                                 "
                                 alt="Bordered avatar"
                             />
+
                             <svg
                                 v-else
                                 aria-hidden="true"
@@ -46,11 +47,15 @@
                                     fill="currentColor"
                                 />
                             </svg>
-
+                            <p
+                                v-if="errors?.file"
+                                class="text-xs mt-1 text-red-500"
+                            >
+                                {{ errors?.file[0] }}
+                            </p>
                             <div class="flex flex-col space-y-5 sm:ml-8">
                                 <input
                                     hidden
-                                    accept="image/*"
                                     type="file"
                                     @change="handleFileChange"
                                     id="file"
@@ -90,6 +95,12 @@
                                         v-model="data.name"
                                         required
                                     />
+                                    <p
+                                        v-if="errors?.name"
+                                        class="text-xs mt-1 text-red-500"
+                                    >
+                                        {{ errors?.name[0] }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -111,6 +122,12 @@
                                     v-model="data.email"
                                     required
                                 />
+                                <p
+                                    v-if="errors?.email"
+                                    class="text-xs mt-1 text-red-500"
+                                >
+                                    {{ errors?.email[0] }}
+                                </p>
                             </div>
 
                             <div class="mb-2 sm:mb-6">
@@ -131,6 +148,12 @@
                                     v-model="data.profession"
                                     required
                                 />
+                                <p
+                                    v-if="errors?.profession"
+                                    class="text-xs mt-1 text-red-500"
+                                >
+                                    {{ errors?.profession[0] }}
+                                </p>
                             </div>
 
                             <div class="mb-6">
@@ -150,6 +173,12 @@
                                     class="block p-2.5 w-full text-sm text-indigo-900 rounded-lg border border-indigo-300 focus:ring-indigo-500 focus:border-indigo-500"
                                     placeholder="Write your bio here..."
                                 ></textarea>
+                                <p
+                                    v-if="errors?.bio"
+                                    class="text-xs mt-1 text-red-500"
+                                >
+                                    {{ errors?.bio[0] }}
+                                </p>
                             </div>
 
                             <div class="flex justify-end mt-10">
@@ -199,8 +228,15 @@
 import { onMounted, computed } from "vue";
 import { useUser } from "@/composables/user/useUser";
 import { userStore } from "@/store/userStore";
-const { userInfo, data, handleFileChange, imageUrl, file, updateProfile } =
-    useUser();
+const {
+    userInfo,
+    data,
+    handleFileChange,
+    imageUrl,
+    file,
+    updateProfile,
+    errors,
+} = useUser();
 
 const user = userStore();
 const isEdit = computed(() => user.isEdit);

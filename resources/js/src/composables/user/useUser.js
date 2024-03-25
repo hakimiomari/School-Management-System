@@ -11,6 +11,7 @@ export const useUser = () => {
     const imageUrl = ref(null);
     const file = ref(null);
     const user = userStore();
+    const errors = ref("");
 
     const { getCookie, removeCookie } = useLogin();
 
@@ -63,8 +64,10 @@ export const useUser = () => {
         user.loading = true;
         token.value = getCookie("access_token");
         const formData = new FormData();
+        if (userFile) {
+            formData.append("file", userFile);
+        }
         formData.append("id", info.id);
-        formData.append("file", userFile);
         formData.append("name", info.name);
         formData.append("email", info.email);
         formData.append("profession", info.profession);
@@ -84,12 +87,16 @@ export const useUser = () => {
                     autoClose: 1500,
                     dangerouslyHTMLString: true,
                 });
+                errors.value = "";
                 user.isEdit = true;
                 data.value = res.data;
             })
             .catch((err) => {
                 user.loading = false;
                 user.isEdit = true;
+                if ((err.response.status = 422)) {
+                    errors.value = err.response.data.errors;
+                }
                 if (err.response.status == 401) {
                     removeCookie("access_token");
                 }
@@ -104,5 +111,6 @@ export const useUser = () => {
         file,
         getUserRole,
         updateProfile,
+        errors,
     };
 };
