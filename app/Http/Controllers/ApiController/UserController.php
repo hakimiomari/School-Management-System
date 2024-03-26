@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangingUserPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\Models\User;
-use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -70,5 +70,20 @@ class UserController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json('success', 204);
+    }
+
+    // changePassword
+    public function changePassword(ChangingUserPasswordRequest $request)
+    {
+        $user = Auth::user();
+        if (Hash::check($request->current_password, $user->password)) {
+            $user->update([
+                'password' => Hash::make($request->new_password)
+            ]);
+            return response()->json('password successfully changed');
+        } else {
+
+            return response()->json(['errors' => ['current_password' => ["The current password is incorrect"]]], 422);
+        }
     }
 }

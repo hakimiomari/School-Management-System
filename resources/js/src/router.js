@@ -12,6 +12,7 @@ import Modal from "@/views/Modal.vue";
 import Card from "@/views/Card.vue";
 import Blank from "@/views/Blank.vue";
 import Profile from "@/views/profile/Profile.vue";
+import ChangePassword from "@/views/profile/ChangePassword.vue";
 import NotFound from "@/views/not_found/NotFound.vue";
 
 const routes = [
@@ -40,6 +41,13 @@ const routes = [
         path: "/profile",
         name: "Profile",
         component: Profile,
+        meta: { isAuth: true, role: "Admin" },
+    },
+    {
+        path: "/profile/change-password",
+        name: "ChangePassword",
+        component: ChangePassword,
+        meta: { isAuth: true, role: "Admin" },
     },
     {
         path: "/forms",

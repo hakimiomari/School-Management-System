@@ -4,6 +4,7 @@ import { useLogin } from "@/composables/user/useLogin";
 import { userStore } from "@/store/userStore";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
+import { useRouter } from "vue-router";
 
 export const useUser = () => {
     const token = ref("");
@@ -12,6 +13,7 @@ export const useUser = () => {
     const file = ref(null);
     const user = userStore();
     const errors = ref("");
+    const router = useRouter();
 
     const { getCookie, removeCookie } = useLogin();
 
@@ -103,7 +105,34 @@ export const useUser = () => {
             });
     };
 
+    const changePassword = async (userData) => {
+        user.loading = true;
+        token.value = getCookie("access_token");
+        await axios
+            .post("/api/user/change/password", userData, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                toast("Password successfully changed!", {
+                    theme: "auto",
+                    type: "success",
+                    autoClose: 2000,
+                    dangerouslyHTMLString: true,
+                });
+                user.loading = false;
+                errors.value = "";
+                router.push({ name: "Profile" });
+            })
+            .catch((err) => {
+                user.loading = false;
+                errors.value = err.response.data.errors;
+            });
+    };
+
     return {
+        changePassword,
         userInfo,
         data,
         handleFileChange,

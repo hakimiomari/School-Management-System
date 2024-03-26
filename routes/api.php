@@ -22,4 +22,5 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::get('/user', [UserController::class, 'userInfo']);
     Route::get('/user/role', [UserController::class, 'getUserRole']);
     Route::post('/user/update', [UserController::class, 'updateProfile']);
+    Route::post('/user/change/password', [UserController::class, 'changePassword']);
 });
