@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useSidebar } from "../composables/useSidebar";
+import { useSidebar } from "@/composables/useSidebar";
 
 const { isOpen } = useSidebar();
 const activeClass = ref(
@@ -57,6 +57,7 @@ const inactiveClass = ref(
 
             <nav class="mt-10">
                 <router-link
+                    @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
                         $route.name === 'Dashboard'
@@ -85,6 +86,7 @@ const inactiveClass = ref(
                 </router-link>
 
                 <router-link
+                    @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4 profile"
                     :class="[
                         $route.name === 'Profile' ? activeClass : inactiveClass,
@@ -104,6 +106,7 @@ const inactiveClass = ref(
                     <span class="mx-4">Profile</span>
                 </router-link>
                 <router-link
+                    @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
                         $route.name === 'UIElements'
@@ -140,6 +143,7 @@ const inactiveClass = ref(
                 </router-link>
 
                 <router-link
+                    @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
                         $route.name === 'Tables' ? activeClass : inactiveClass,
@@ -170,6 +174,7 @@ const inactiveClass = ref(
                 </router-link>
 
                 <router-link
+                    @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
                         $route.name === 'Forms' ? activeClass : inactiveClass,
@@ -195,6 +200,7 @@ const inactiveClass = ref(
                 </router-link>
 
                 <router-link
+                    @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
                         $route.name === 'Cards' ? activeClass : inactiveClass,
@@ -219,6 +225,7 @@ const inactiveClass = ref(
                 </router-link>
 
                 <router-link
+                    @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
                         $route.name === 'Modal' ? activeClass : inactiveClass,
@@ -246,6 +253,7 @@ const inactiveClass = ref(
                 </router-link>
 
                 <router-link
+                    @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
                         $route.name === 'Blank' ? activeClass : inactiveClass,

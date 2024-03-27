@@ -181,8 +181,14 @@
                                 </p>
                             </div>
 
-                            <div class="flex justify-between mt-10">
+                            <div
+                                class="flex flex-col gap-3 sm:flex-row mt-10"
+                                :class="
+                                    isEdit ? 'justify-between' : 'justify-end'
+                                "
+                            >
                                 <button
+                                    v-if="isEdit"
                                     type="button"
                                     @click="
                                         router.push({ name: 'ChangePassword' })
