@@ -5,7 +5,9 @@
         <main class="w-full min-h-screen py-1">
             <div class="p-2 md:p-4">
                 <div class="w-full px-6 pb-8 mt-8 sm:max-w-xl sm:rounded-lg">
-                    <h2 class="pl-6 text-2xl font-bold sm:text-xl">
+                    <h2
+                        class="pl-6 text-2xl text-center sm:text-start font-bold sm:text-xl"
+                    >
                         User Profile
                     </h2>
 
