@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController\ClassController;
 use App\Http\Controllers\ApiController\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +24,6 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::get('/user/role', [UserController::class, 'getUserRole']);
     Route::post('/user/update', [UserController::class, 'updateProfile']);
     Route::post('/user/change/password', [UserController::class, 'changePassword']);
+    Route::post('/class/store', [ClassController::class, 'store']);
+    Route::get('/class/index', [ClassController::class, 'index']);
 });

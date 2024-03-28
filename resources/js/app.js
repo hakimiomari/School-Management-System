@@ -17,9 +17,12 @@ import "vue3-toastify/dist/index.css";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:8000";
 
-
 const pinia = createPinia();
 const app = createApp(App);
+
+app.use(PrimeVue, {
+    unstyled: false,
+});
 
 app.component("DefaultLayout", DashboardLayout);
 app.component("EmptyLayout", EmptyLayout);

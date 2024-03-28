@@ -14,6 +14,7 @@ import Blank from "@/views/Blank.vue";
 import Profile from "@/views/profile/Profile.vue";
 import ChangePassword from "@/views/profile/ChangePassword.vue";
 import NotFound from "@/views/not_found/NotFound.vue";
+import ClassesIndex from "@/views/classes/index.vue";
 
 const routes = [
     {
@@ -47,6 +48,12 @@ const routes = [
         path: "/profile/change-password",
         name: "ChangePassword",
         component: ChangePassword,
+        meta: { isAuth: true, role: "Admin" },
+    },
+    {
+        path: "/school/classes",
+        name: "classes-list",
+        component: ClassesIndex,
         meta: { isAuth: true, role: "Admin" },
     },
     {
