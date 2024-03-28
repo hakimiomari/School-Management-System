@@ -1,11 +1,6 @@
 <template>
-    <ProgressBar
-        :value="99"
-        class="fixed w-full top-0"
-        style="z-index: 99999 !important"
-    />
-    <div class="mt-8">
-        <div class="mt-6">
+    <div>
+        <div class="mt-3">
             <h2 class="text-xl font-semibold leading-tight text-gray-700">
                 Classes
             </h2>
@@ -108,6 +103,11 @@
                 <div
                     class="inline-block min-w-full overflow-hidden rounded-lg shadow"
                 >
+                    <ProgressBar
+                        v-if="loading && paginatedData.length > 0"
+                        mode="indeterminate"
+                        style="height: 4px; top: 45px"
+                    ></ProgressBar>
                     <table
                         v-if="paginatedData.length > 0"
                         class="min-w-full leading-normal"
@@ -136,6 +136,7 @@
                                 </th>
                             </tr>
                         </thead>
+
                         <tbody class="w-full">
                             <tr
                                 v-for="(u, index) in paginatedData"
@@ -359,6 +360,7 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import ProgressBar from "primevue/progressbar";
+
 import {
     Dialog,
     DialogPanel,
@@ -387,3 +389,11 @@ onMounted(() => {
     appStore.getData(appStore.url);
 });
 </script>
+<style>
+.p-progressbar-value {
+    background: rgb(10, 126, 235) !important;
+}
+.p-progressbar {
+    background-color: white !important;
+}
+</style>

@@ -20,6 +20,7 @@ export const useAppStore = defineStore("app", () => {
 
     const getData = async (baseUrl) => {
         token.value = getCookie("access_token");
+        loading.value = true;
         await axios
             .get(baseUrl, {
                 headers: {
@@ -27,6 +28,7 @@ export const useAppStore = defineStore("app", () => {
                 },
             })
             .then((res) => {
+                loading.value = false;
                 paginatedData.value = res.data.data;
                 next_page_url.value = res.data.next_page_url;
                 prev_page_url.value = res.data.prev_page_url;
@@ -37,6 +39,7 @@ export const useAppStore = defineStore("app", () => {
                 DisplayedPages();
             })
             .catch((err) => {
+                loading.value = false;
                 if (err.response.status == 401) {
                     removeCookie("access_token");
                 }
