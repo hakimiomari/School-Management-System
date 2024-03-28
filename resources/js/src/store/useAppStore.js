@@ -13,6 +13,7 @@ export const useAppStore = defineStore("app", () => {
     const total = ref("");
     const asPerPage = ref("");
     const url = ref("");
+    const displayedPages = ref("");
 
     const token = ref("");
     const { getCookie, removeCookie } = useLogin();
@@ -33,6 +34,7 @@ export const useAppStore = defineStore("app", () => {
                 current_page.value = res.data.current_page;
                 total.value = res.data.total;
                 asPerPage.value = res.data.to;
+                DisplayedPages();
             })
             .catch((err) => {
                 if (err.response.status == 401) {
@@ -42,11 +44,49 @@ export const useAppStore = defineStore("app", () => {
     };
 
     const onPageChange = async (page) => {
+        DisplayedPages();
         current_page.value = page;
         await getData(`${url.value}?page=${current_page.value}`);
     };
 
+    // Display pages
+    const DisplayedPages = () => {
+        let pagesToShow = [];
+
+        if (last_page.value <= 5) {
+            pagesToShow = Array.from(
+                { length: last_page.value },
+                (_, index) => index + 1
+            );
+        } else {
+            if (current_page.value <= 3) {
+                pagesToShow = [1, 2, 3, 4, "...", last_page.value];
+            } else if (current_page.value >= last_page.value - 2) {
+                pagesToShow = [
+                    1,
+                    "...",
+                    last_page.value - 3,
+                    last_page.value - 2,
+                    last_page.value - 1,
+                    last_page.value,
+                ];
+            } else {
+                pagesToShow = [
+                    1,
+                    "...",
+                    current_page.value - 1,
+                    current_page.value,
+                    current_page.value + 1,
+                    "...",
+                    last_page.value,
+                ];
+            }
+        }
+        displayedPages.value = pagesToShow;
+    };
+
     return {
+        displayedPages,
         url,
         current_page,
         last_page,

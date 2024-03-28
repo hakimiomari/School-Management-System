@@ -85,7 +85,7 @@
                         :disabled="loading"
                         v-if="loading"
                         type="submit"
-                        class="w-full px-4 py-2 text-sm text-center text-white bg-indigo-600 rounded-md focus:outline-none hover:bg-indigo-500"
+                        class="w-full cursor-not-allowed px-4 py-2 text-sm text-center text-white bg-indigo-600 rounded-md focus:outline-none hover:bg-indigo-500"
                     >
                         <svg
                             aria-hidden="true"

@@ -19,15 +19,18 @@
             >
                 Prev
             </button>
-            <div v-for="page in last_page" key="page">
+            <div v-for="page in displayedPages" key="page">
                 <button
                     @click="appStore.onPageChange(page)"
-                    :class="
+                    :class="[
                         current_page == page
                             ? 'bg-indigo-600 text-white hover:bg-indigo-700'
-                            : 'bg-gray-200 text-gray-800'
-                    "
-                    class="px-4 py-2 text-sm font-semibold rounded-l"
+                            : page != '...'
+                            ? 'bg-slate-100 text-gray-800 hover:bg-indigo-700 hover:text-white'
+                            : '',
+                    ]"
+                    class="px-4 py-2 mx-1 text-sm font-semibold rounded-l"
+                    :disabled="page == '...'"
                 >
                     {{ page }}
                 </button>
@@ -48,7 +51,7 @@
     </div>
 </template>
 <script setup>
-import { computed } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useAppStore } from "@/store/useAppStore";
 
 const appStore = useAppStore();
@@ -58,4 +61,5 @@ const prev_page_url = computed(() => appStore.prev_page_url);
 const next_page_url = computed(() => appStore.next_page_url);
 const total = computed(() => appStore.total);
 const asPerPage = computed(() => appStore.asPerPage);
+const displayedPages = computed(() => appStore.displayedPages);
 </script>

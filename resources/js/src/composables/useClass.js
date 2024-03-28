@@ -22,7 +22,7 @@ export const useClass = () => {
             .then((res) => {
                 appStore.loading = false;
                 appStore.open = false;
-                appStore.getData(appStore.url);
+                appStore.onPageChange(appStore.current_page);
                 errors.value = "";
                 toast("Class successfully Added", {
                     theme: "auto",

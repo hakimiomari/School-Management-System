@@ -1,4 +1,9 @@
 <template>
+    <ProgressBar
+        :value="99"
+        class="fixed w-full top-0"
+        style="z-index: 99999 !important"
+    />
     <div class="mt-8">
         <div class="mt-6">
             <h2 class="text-xl font-semibold leading-tight text-gray-700">
@@ -103,7 +108,10 @@
                 <div
                     class="inline-block min-w-full overflow-hidden rounded-lg shadow"
                 >
-                    <table class="min-w-full leading-normal">
+                    <table
+                        v-if="paginatedData.length > 0"
+                        class="min-w-full leading-normal"
+                    >
                         <thead>
                             <tr>
                                 <th
@@ -128,7 +136,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="w-full">
                             <tr
                                 v-for="(u, index) in paginatedData"
                                 :key="index"
@@ -160,7 +168,17 @@
                             </tr>
                         </tbody>
                     </table>
-                    <Pagination />
+                    <div v-else class="w-auto">
+                        <div class="h-4 bg-gray-400 mt-3 mb-6 rounded"></div>
+                        <div class="h-4 bg-gray-300 mb-6 rounded"></div>
+                        <div class="h-4 bg-gray-400 mb-6 rounded"></div>
+                        <div class="h-4 bg-gray-300 mb-6 rounded"></div>
+                        <div class="h-4 bg-gray-400 mb-6 rounded"></div>
+                        <div class="h-4 bg-gray-400 mt-3 mb-6 rounded"></div>
+                        <div class="h-4 bg-gray-300 mb-6 rounded"></div>
+                        <div class="h-4 bg-gray-400 mb-6 rounded"></div>
+                    </div>
+                    <Pagination v-if="paginatedData.length > 0" />
                 </div>
             </div>
             <template>
@@ -283,7 +301,7 @@
                                                                     :disabled="
                                                                         loading
                                                                     "
-                                                                    class="inline-flex items-center w-full justify-center rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 sm:ml-3 sm:w-auto"
+                                                                    class="inline-flex cursor-not-allowed items-center w-full justify-center rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 sm:ml-3 sm:w-auto"
                                                                 >
                                                                     <svg
                                                                         aria-hidden="true"
@@ -340,6 +358,7 @@
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
+import ProgressBar from "primevue/progressbar";
 import {
     Dialog,
     DialogPanel,
