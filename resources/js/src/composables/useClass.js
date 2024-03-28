@@ -39,8 +39,38 @@ export const useClass = () => {
                 }
             });
     };
+
+    const updateStatus = async (data) => {
+        token.value = getCookie("access_token");
+        appStore.loading = true;
+        await axios
+            .patch("/api/class/update/status", data, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                appStore.loading = false;
+                appStore.showStatus = false;
+                appStore.onPageChange(appStore.current_page);
+                toast("Status successfully Changed", {
+                    theme: "auto",
+                    type: "success",
+                    autoClose: 1500,
+                    dangerouslyHTMLString: true,
+                });
+            })
+            .catch((err) => {
+                appStore.showStatus = false;
+                appStore.loading = false;
+                if (err.response.status == 401) {
+                    removeCookie("access_token");
+                }
+            });
+    };
     return {
         addClass,
         errors,
+        updateStatus,
     };
 };

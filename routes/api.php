@@ -26,4 +26,5 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::post('/user/change/password', [UserController::class, 'changePassword']);
     Route::post('/class/store', [ClassController::class, 'store']);
     Route::get('/class/index', [ClassController::class, 'index']);
+    Route::patch('/class/update/status', [ClassController::class, 'changeStatus']);
 });

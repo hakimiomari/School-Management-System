@@ -4,6 +4,7 @@ import { useLogin } from "@/composables/user/useLogin";
 
 export const useAppStore = defineStore("app", () => {
     const open = ref(false);
+    const showStatus = ref(false);
     const loading = ref(false);
     const current_page = ref("");
     const last_page = ref("");
@@ -14,13 +15,14 @@ export const useAppStore = defineStore("app", () => {
     const asPerPage = ref("");
     const url = ref("");
     const displayedPages = ref("");
+    const paginatedLoader = ref(false);
 
     const token = ref("");
     const { getCookie, removeCookie } = useLogin();
 
     const getData = async (baseUrl) => {
         token.value = getCookie("access_token");
-        loading.value = true;
+        paginatedLoader.value = true;
         await axios
             .get(baseUrl, {
                 headers: {
@@ -28,7 +30,7 @@ export const useAppStore = defineStore("app", () => {
                 },
             })
             .then((res) => {
-                loading.value = false;
+                paginatedLoader.value = false;
                 paginatedData.value = res.data.data;
                 next_page_url.value = res.data.next_page_url;
                 prev_page_url.value = res.data.prev_page_url;
@@ -39,7 +41,7 @@ export const useAppStore = defineStore("app", () => {
                 DisplayedPages();
             })
             .catch((err) => {
-                loading.value = false;
+                paginatedLoader.value = false;
                 if (err.response.status == 401) {
                     removeCookie("access_token");
                 }
@@ -89,6 +91,8 @@ export const useAppStore = defineStore("app", () => {
     };
 
     return {
+        showStatus,
+        paginatedLoader,
         displayedPages,
         url,
         current_page,
