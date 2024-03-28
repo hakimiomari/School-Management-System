@@ -33,10 +33,8 @@ export const useAppStore = defineStore("app", () => {
                 current_page.value = res.data.current_page;
                 total.value = res.data.total;
                 asPerPage.value = res.data.to;
-                console.log(res);
             })
             .catch((err) => {
-                console.log(err);
                 if (err.response.status == 401) {
                     removeCookie("access_token");
                 }
