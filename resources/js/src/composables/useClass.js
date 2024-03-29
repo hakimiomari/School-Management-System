@@ -68,7 +68,40 @@ export const useClass = () => {
                 }
             });
     };
+
+    const deleteClass = async (id) => {
+        token.value = getCookie("access_token");
+        await axios
+            .delete(`/api/class/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                appStore.onPageChange(appStore.current_page);
+                toast("Class successfully Deleted!", {
+                    theme: "auto",
+                    type: "success",
+                    autoClose: 1500,
+                    dangerouslyHTMLString: true,
+                });
+            })
+            .catch((err) => {
+                if (err.response.status == 422) {
+                    toast("Sorry! Class not found", {
+                        theme: "auto",
+                        type: "error",
+                        autoClose: 1500,
+                        dangerouslyHTMLString: true,
+                    });
+                }
+                if (err.response.status == 401) {
+                    removeCookie("access_token");
+                }
+            });
+    };
     return {
+        deleteClass,
         addClass,
         errors,
         updateStatus,

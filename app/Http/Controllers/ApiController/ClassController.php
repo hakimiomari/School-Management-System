@@ -30,4 +30,16 @@ class ClassController extends Controller
         $class->update($request->all());
         return response()->json('success');
     }
+
+    // delteClass
+    public function delteClass($id)
+    {
+        $class = Classes::find($id);
+        if ($class) {
+            $class->delete();
+            return response()->json("success");
+        } else {
+            return response()->json(['message' => 'Class not found'], 422);
+        }
+    }
 }

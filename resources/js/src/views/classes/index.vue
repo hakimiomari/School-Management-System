@@ -134,6 +134,11 @@
                                 >
                                     Status
                                 </th>
+                                <th
+                                    class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                                >
+                                    Action
+                                </th>
                             </tr>
                         </thead>
 
@@ -162,7 +167,7 @@
                                     </p>
                                 </td>
                                 <td
-                                    class="px-4 py-5 text-sm font-bold bg-white border-b border-gray-200"
+                                    class="px-4 py-5 text-xs font-bold bg-white border-b border-gray-200"
                                 >
                                     <span
                                         :class="
@@ -171,9 +176,23 @@
                                                 : 'bg-gray-500 text-white dark:bg-gray-500 dark:text-white'
                                         "
                                         @click="showStatusModel(u)"
-                                        class="relative cursor-pointer text-sm font-medium me-2 px-2.5 py-0.5 rounded-lg"
+                                        class="relative cursor-pointer text-xs font-normal me-2 px-2.5 py-0.5 rounded-lg"
                                         >{{ u.status }}</span
                                     >
+                                </td>
+                                <td
+                                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                                >
+                                    <svg
+                                        @click="showDeleteAlert(u.id)"
+                                        class="h-4 w-4 fill-red-600 cursor-pointer"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 448 512"
+                                    >
+                                        <path
+                                            d="M268 416h24a12 12 0 0 0 12-12V188a12 12 0 0 0 -12-12h-24a12 12 0 0 0 -12 12v216a12 12 0 0 0 12 12zM432 80h-82.4l-34-56.7A48 48 0 0 0 274.4 0H173.6a48 48 0 0 0 -41.2 23.3L98.4 80H16A16 16 0 0 0 0 96v16a16 16 0 0 0 16 16h16v336a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128h16a16 16 0 0 0 16-16V96a16 16 0 0 0 -16-16zM171.8 50.9A6 6 0 0 1 177 48h94a6 6 0 0 1 5.2 2.9L293.6 80H154.4zM368 464H80V128h288zm-212-48h24a12 12 0 0 0 12-12V188a12 12 0 0 0 -12-12h-24a12 12 0 0 0 -12 12v216a12 12 0 0 0 12 12z"
+                                        />
+                                    </svg>
                                 </td>
                             </tr>
                         </tbody>
@@ -535,6 +554,7 @@
 import { computed, onMounted, ref } from "vue";
 import ProgressBar from "primevue/progressbar";
 import Dropdown from "primevue/dropdown";
+import Swal from "sweetalert2";
 
 import {
     Dialog,
@@ -548,7 +568,7 @@ import Pagination from "@/components/Pagination.vue";
 
 import { useAppStore } from "@/store/useAppStore";
 
-const { addClass, errors, updateStatus } = useClass();
+const { addClass, errors, updateStatus, deleteClass } = useClass();
 const appStore = useAppStore();
 
 const paginatedData = computed(() => appStore.paginatedData);
@@ -574,6 +594,23 @@ const changeClassStatus = () => {
     selectedClass.value.status = status.value.status;
     updateStatus(selectedClass.value);
 };
+
+const showDeleteAlert = (id) => {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteClass(id);
+        }
+    });
+};
+
 onMounted(() => {
     appStore.url = "/api/class/index";
     appStore.getData(appStore.url);
