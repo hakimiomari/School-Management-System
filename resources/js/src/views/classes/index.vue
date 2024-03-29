@@ -88,15 +88,13 @@
                     </div>
                 </div>
 
-                <div>
-                    <button
-                        @click="appStore.open = true"
-                        type="button"
-                        class="text-white hidden sm:block bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
-                    >
-                        Add New Class
-                    </button>
-                </div>
+                <button
+                    @click="appStore.open = true"
+                    type="button"
+                    class="text-white mb-1 hidden sm:block bg-indigo-700 hover:bg-indigo-800 focus:ring-2 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
+                >
+                    Add New Class
+                </button>
             </div>
 
             <div class="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
@@ -197,6 +195,14 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div
+                        class="p-2 border-t-2 border-indigo-500"
+                        v-else-if="
+                            paginatedData.length == 0 && !paginatedLoader
+                        "
+                    >
+                        No record found!
+                    </div>
                     <div v-else class="w-auto">
                         <div class="h-4 bg-gray-400 mt-3 mb-6 rounded"></div>
                         <div class="h-4 bg-gray-300 mb-6 rounded"></div>
