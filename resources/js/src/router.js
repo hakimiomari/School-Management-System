@@ -15,6 +15,8 @@ import Profile from "@/views/profile/Profile.vue";
 import ChangePassword from "@/views/profile/ChangePassword.vue";
 import NotFound from "@/views/not_found/NotFound.vue";
 import ClassesIndex from "@/views/classes/index.vue";
+import StudentList from "@/views/students/index.vue";
+import AddStudent from "@/views/students/AddStudent.vue";
 
 const routes = [
     {
@@ -54,6 +56,18 @@ const routes = [
         path: "/school/classes",
         name: "classes-list",
         component: ClassesIndex,
+        meta: { isAuth: true, role: "Admin" },
+    },
+    {
+        path: "/school/students",
+        name: "StudentList",
+        component: StudentList,
+        meta: { isAuth: true, role: "Admin" },
+    },
+    {
+        path: "/school/student/create",
+        name: "AddStudent",
+        component: AddStudent,
         meta: { isAuth: true, role: "Admin" },
     },
     {

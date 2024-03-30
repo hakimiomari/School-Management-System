@@ -1,7 +1,9 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 import { useSidebar } from "@/composables/useSidebar";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const { isOpen } = useSidebar();
 const activeClass = ref(
     "bg-gray-600 bg-opacity-25 text-gray-100 border-gray-100"
@@ -60,7 +62,7 @@ const inactiveClass = ref(
                     @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
-                        $route.name === 'Dashboard'
+                        route.name === 'Dashboard'
                             ? activeClass
                             : inactiveClass,
                     ]"
@@ -89,7 +91,7 @@ const inactiveClass = ref(
                     @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4 profile"
                     :class="[
-                        $route.name === 'Profile' ? activeClass : inactiveClass,
+                        route.name === 'Profile' ? activeClass : inactiveClass,
                     ]"
                     to="/profile"
                 >
@@ -109,7 +111,7 @@ const inactiveClass = ref(
                     @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
-                        $route.name === 'UIElements'
+                        route.name === 'UIElements'
                             ? activeClass
                             : inactiveClass,
                     ]"
@@ -146,7 +148,7 @@ const inactiveClass = ref(
                     @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
-                        $route.name === 'Tables' ? activeClass : inactiveClass,
+                        route.name === 'Tables' ? activeClass : inactiveClass,
                     ]"
                     to="/tables"
                 >
@@ -176,7 +178,38 @@ const inactiveClass = ref(
                     @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
-                        $route.name === 'classes-list'
+                        route.name === 'StudentList'
+                            ? activeClass
+                            : inactiveClass,
+                    ]"
+                    to="/school/students"
+                >
+                    <svg
+                        class="w-5 h-5"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M10 2C11.6569 2 13 3.34315 13 5C13 6.65685 11.6569 8 10 8C8.34315 8 7 6.65685 7 5C7 3.34315 8.34315 2 10 2Z"
+                            fill="currentColor"
+                        />
+                        <path
+                            d="M10 10C11.6569 10 14 8.65685 14 7C14 5.34315 11.6569 4 10 4C8.34315 4 6 5.34315 6 7C6 8.65685 8.34315 10 10 10Z"
+                            fill="currentColor"
+                        />
+                        <path
+                            d="M3 17C3 15.3431 7.02944 14 10 14C12.9706 14 17 15.3431 17 17H3Z"
+                            fill="currentColor"
+                        />
+                    </svg>
+                    <span class="mx-4">Students</span>
+                </router-link>
+                <router-link
+                    @click="isOpen = false"
+                    class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
+                    :class="[
+                        route.name === 'classes-list'
                             ? activeClass
                             : inactiveClass,
                     ]"
@@ -209,7 +242,7 @@ const inactiveClass = ref(
                     @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
-                        $route.name === 'Forms' ? activeClass : inactiveClass,
+                        route.name === 'Forms' ? activeClass : inactiveClass,
                     ]"
                     to="/forms"
                 >
@@ -235,7 +268,7 @@ const inactiveClass = ref(
                     @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
-                        $route.name === 'Cards' ? activeClass : inactiveClass,
+                        route.name === 'Cards' ? activeClass : inactiveClass,
                     ]"
                     to="/cards"
                 >
@@ -260,7 +293,7 @@ const inactiveClass = ref(
                     @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
-                        $route.name === 'Modal' ? activeClass : inactiveClass,
+                        route.name === 'Modal' ? activeClass : inactiveClass,
                     ]"
                     to="/modal"
                 >
@@ -288,7 +321,7 @@ const inactiveClass = ref(
                     @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
-                        $route.name === 'Blank' ? activeClass : inactiveClass,
+                        route.name === 'Blank' ? activeClass : inactiveClass,
                     ]"
                     to="/blank"
                 >

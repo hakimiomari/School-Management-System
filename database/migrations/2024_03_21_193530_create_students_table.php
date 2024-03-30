@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('contact_number');
             $table->string('address');
             $table->string('email')->unique();
+            $table->string('photo');
             $table->timestamps();
         });
     }
