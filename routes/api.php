@@ -28,4 +28,5 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::get('/class/index', [ClassController::class, 'index']);
     Route::patch('/class/update/status', [ClassController::class, 'changeStatus']);
     Route::delete('/class/delete/{id}', [ClassController::class, 'delteClass']);
+    Route::get('/grade/class/{grade}', [ClassController::class, 'selectGradeClass']);
 });

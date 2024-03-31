@@ -42,4 +42,10 @@ class ClassController extends Controller
             return response()->json(['message' => 'Class not found'], 422);
         }
     }
+    //  selectGradeClass
+    public function selectGradeClass($grade)
+    {
+        $classes = Classes::where('grade',$grade)->get();
+        return response()->json($classes);
+    }
 }

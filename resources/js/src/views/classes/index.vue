@@ -120,6 +120,11 @@
                                 <th
                                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
                                 >
+                                    Grade
+                                </th>
+                                <th
+                                    class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                                >
                                     Class
                                 </th>
                                 <th
@@ -149,6 +154,13 @@
                                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                                 >
                                     {{ u.id }}
+                                </td>
+                                <td
+                                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                                >
+                                    <p class="text-gray-900 whitespace-nowrap">
+                                        {{ u.grade }}
+                                    </p>
                                 </td>
                                 <td
                                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
@@ -463,6 +475,40 @@
                                                         >
                                                             <div class="w-full">
                                                                 <label
+                                                                    class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                                                    htmlfor="grid-password"
+                                                                >
+                                                                    Grade Level
+                                                                </label>
+                                                                <div
+                                                                    class="card flex justify-content-center"
+                                                                >
+                                                                    <Dropdown
+                                                                        v-model="
+                                                                            classData.grade
+                                                                        "
+                                                                        :options="
+                                                                            grades
+                                                                        "
+                                                                        optionLabel="name"
+                                                                        placeholder="Select Grade"
+                                                                        class="w-full md:w-14rem"
+                                                                    />
+                                                                </div>
+                                                                <p
+                                                                    v-if="
+                                                                        errors?.grade
+                                                                    "
+                                                                    class="text-xs mt-2 text-red-500"
+                                                                >
+                                                                    {{
+                                                                        errors
+                                                                            ?.grade[0]
+                                                                    }}
+                                                                </p>
+                                                            </div>
+                                                            <div class="w-full">
+                                                                <label
                                                                     for="class"
                                                                     class="block mb-2 text-sm font-medium text-gray-900"
                                                                     >Class</label
@@ -583,8 +629,23 @@ const loading = computed(() => appStore.loading);
 const paginatedLoader = computed(() => appStore.paginatedLoader);
 
 const classData = ref({
+    grade: null,
     class: "",
 });
+const grades = ref([
+    { name: 1 },
+    { name: 3 },
+    { name: 2 },
+    { name: 4 },
+    { name: 5 },
+    { name: 6 },
+    { name: 7 },
+    { name: 8 },
+    { name: 9 },
+    { name: 10 },
+    { name: 11 },
+    { name: 12 },
+]);
 
 const status = ref({ status: null });
 const selectedClass = ref("");

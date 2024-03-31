@@ -22,6 +22,7 @@ class ClassRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'grade' => 'required|numeric|gte:1|lte:12',
             'class' => 'required|string|min:3|unique:classes,class,' . $this->input('id'),
         ];
     }

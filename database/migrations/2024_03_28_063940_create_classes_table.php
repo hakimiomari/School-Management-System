@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
+            $table->integer('grade');
             $table->string('class');
             $table->enum('status', ['Active', 'Disactive'])->default('Disactive');
             $table->timestamps();

@@ -9,12 +9,17 @@ export const useClass = () => {
     const errors = ref("");
     const appStore = useAppStore();
     const { getCookie, removeCookie } = useLogin();
+    const gradeClasses = ref('')
 
     const addClass = async (data) => {
+        const newData = {
+            grade: data.grade.name,
+            class: data.class,
+        };
         appStore.loading = true;
         token.value = getCookie("access_token");
         await axios
-            .post("/api/class/store", data, {
+            .post("/api/class/store", newData, {
                 headers: {
                     Authorization: `Bearer ${token.value}`,
                 },
@@ -100,7 +105,25 @@ export const useClass = () => {
                 }
             });
     };
+    const selectClass = async (grade) => {
+        token.value = getCookie("access_token");
+        await axios
+            .get(`/api/grade/class/${grade}`, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                console.log(res.data)
+                gradeClasses.value = res.data
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
     return {
+        gradeClasses,
+        selectClass,
         deleteClass,
         addClass,
         errors,
