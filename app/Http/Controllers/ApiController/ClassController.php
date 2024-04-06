@@ -22,7 +22,6 @@ class ClassController extends Controller
         Classes::create($request->all());
         return response()->json('success');
     }
-
     // changeStatus
     public function changeStatus(Request $request)
     {
@@ -30,7 +29,6 @@ class ClassController extends Controller
         $class->update($request->all());
         return response()->json('success');
     }
-
     // delteClass
     public function delteClass($id)
     {
@@ -45,7 +43,13 @@ class ClassController extends Controller
     //  selectGradeClass
     public function selectGradeClass($grade)
     {
-        $classes = Classes::where('grade',$grade)->get();
+        $classes = Classes::where('status', 'Active')->where('grade', $grade)->get();
         return response()->json($classes);
+    }
+
+    public function getAllGrades()
+    {
+        $grades = Classes::where('status', 'Active')->distinct()->pluck('grade');
+        return response()->json($grades);
     }
 }

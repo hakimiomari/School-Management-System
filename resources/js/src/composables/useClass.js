@@ -9,7 +9,8 @@ export const useClass = () => {
     const errors = ref("");
     const appStore = useAppStore();
     const { getCookie, removeCookie } = useLogin();
-    const gradeClasses = ref('')
+    const gradeClasses = ref("");
+    const grades = ref("");
 
     const addClass = async (data) => {
         const newData = {
@@ -114,14 +115,32 @@ export const useClass = () => {
                 },
             })
             .then((res) => {
-                console.log(res.data)
-                gradeClasses.value = res.data
+                gradeClasses.value = res.data;
             })
             .catch((err) => {
                 console.log(err);
             });
     };
+
+    const getGrades = async () => {
+        token.value = getCookie("access_token");
+        await axios
+            .get("/api/grade/all", {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                grades.value = res.data;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     return {
+        grades,
+        getGrades,
         gradeClasses,
         selectClass,
         deleteClass,

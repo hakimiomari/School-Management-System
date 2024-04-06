@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\ApiController\ClassController;
+use App\Http\Controllers\ApiController\GradeController;
+use App\Http\Controllers\ApiController\StudentController;
 use App\Http\Controllers\ApiController\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +30,6 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::patch('/class/update/status', [ClassController::class, 'changeStatus']);
     Route::delete('/class/delete/{id}', [ClassController::class, 'delteClass']);
     Route::get('/grade/class/{grade}', [ClassController::class, 'selectGradeClass']);
+    Route::get('/grade/all', [ClassController::class, 'getAllGrades']);
+    Route::post('/student/add-new-student', [StudentController::class, 'store']);
 });

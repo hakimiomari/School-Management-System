@@ -17,8 +17,7 @@ return new class extends Migration
             $table->string('parent_name');
             $table->date('date_of_birth');
             $table->string('gender');
-            $table->integer('grade_level');
-            $table->integer('class_id');
+            $table->integer('class');
             $table->string('contact_number');
             $table->string('address');
             $table->string('email')->unique();
