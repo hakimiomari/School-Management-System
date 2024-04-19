@@ -8,6 +8,11 @@ use App\Models\Student;
 
 class StudentController extends Controller
 {
+    public function index()
+    {
+        $data = Student::with('students')->paginate(5);
+        return response()->json($data);
+    }
     public function store(StudentRegisterRequest $request)
     {
         $filterData = $request->except('photo');

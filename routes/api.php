@@ -32,4 +32,5 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::get('/grade/class/{grade}', [ClassController::class, 'selectGradeClass']);
     Route::get('/grade/all', [ClassController::class, 'getAllGrades']);
     Route::post('/student/add-new-student', [StudentController::class, 'store']);
+    Route::get('/students/index', [StudentController::class, 'index']);
 });

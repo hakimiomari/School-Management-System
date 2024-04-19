@@ -603,7 +603,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, onBeforeMount } from "vue";
 import ProgressBar from "primevue/progressbar";
 import Dropdown from "primevue/dropdown";
 import Swal from "sweetalert2";
@@ -663,6 +663,10 @@ const showDeleteAlert = (id) => {
         }
     });
 };
+
+onBeforeMount(() => {
+    appStore.paginatedData = "";
+});
 
 onMounted(() => {
     appStore.url = "/api/class/index";

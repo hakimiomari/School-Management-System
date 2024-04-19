@@ -21,4 +21,9 @@ class Student extends Model
         'email',
         'photo'
     ];
+
+    public function students()
+    {
+        return $this->belongsTo(Classes::class, 'class', 'id');
+    }
 }
