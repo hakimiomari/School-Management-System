@@ -120,6 +120,11 @@
                                 <th
                                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
                                 >
+                                    Photo
+                                </th>
+                                <th
+                                    class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                                >
                                     Name
                                 </th>
                                 <th
@@ -164,6 +169,17 @@
                                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p class="text-gray-900 whitespace-nowrap">
+                                        <img
+                                            class="rounded-full w-[50px] h-[50px]"
+                                            :src="`/storage/${student.photo}`"
+                                            alt=""
+                                        />
+                                    </p>
+                                </td>
+                                <td
+                                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                                >
+                                    <p class="text-gray-900 whitespace-nowrap">
                                         {{ student.name }}
                                     </p>
                                 </td>
@@ -201,7 +217,7 @@
                                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                                 >
                                     <svg
-                                        @click="deleteStudent(student.id)"
+                                        @click="deleteFunc(student.id)"
                                         class="h-4 w-4 fill-red-600 cursor-pointer"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 448 512"
@@ -242,17 +258,34 @@
 <script setup>
 import { computed, onMounted, ref, onBeforeMount } from "vue";
 import ProgressBar from "primevue/progressbar";
-
 import { useRouter } from "vue-router";
 import Pagination from "@/components/Pagination.vue";
-
+import { useStudent } from "@/composables/useStudent";
 import { useAppStore } from "@/store/useAppStore";
+import Swal from "sweetalert2";
 
+const { deleteStudent } = useStudent();
 const router = useRouter();
 const appStore = useAppStore();
 
 const paginatedData = computed(() => appStore.paginatedData);
 const paginatedLoader = computed(() => appStore.paginatedLoader);
+
+const deleteFunc = (id) => {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteStudent(id);
+        }
+    });
+};
 
 onBeforeMount(() => {
     appStore.paginatedData = "";

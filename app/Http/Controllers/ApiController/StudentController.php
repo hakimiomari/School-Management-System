@@ -22,4 +22,13 @@ class StudentController extends Controller
         $student->update(['photo' => $related_path]);
         return response()->json('Success');
     }
+
+    // delete
+    public function delete($id)
+    {
+        $student = Student::find($id);
+        $student->status = 'Inactive';
+        $student->save();
+        return response()->json('success');
+    }
 }
