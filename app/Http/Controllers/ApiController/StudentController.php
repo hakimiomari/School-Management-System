@@ -27,8 +27,7 @@ class StudentController extends Controller
     public function delete($id)
     {
         $student = Student::find($id);
-        $student->status = 'Inactive';
-        $student->save();
+        $student->delete();
         return response()->json('success');
     }
 }

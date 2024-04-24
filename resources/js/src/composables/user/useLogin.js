@@ -4,9 +4,11 @@ import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import { userStore } from "@/store/userStore";
+import { useAppStore } from "@/store/useAppStore";
 
 export const useLogin = () => {
     const user = userStore();
+    const appStore = useAppStore();
     const router = useRouter();
     const errors = ref("");
     const token = ref("");
@@ -85,6 +87,8 @@ export const useLogin = () => {
             })
             .then((res) => {
                 removeCookie("access_token");
+                localStorage.clear();
+                appStore.current_page = 1;
             })
             .catch((err) => {
                 removeCookie("access_token");

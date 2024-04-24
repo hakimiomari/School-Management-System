@@ -140,11 +140,6 @@
                                 <th
                                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
                                 >
-                                    Class
-                                </th>
-                                <th
-                                    class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-                                >
                                     Email
                                 </th>
                                 <th
@@ -203,29 +198,43 @@
                                     class="px-4 py-5 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p class="text-gray-900 whitespace-nowrap">
-                                        {{ student.students.class }}
-                                    </p>
-                                </td>
-                                <td
-                                    class="px-4 py-5 text-sm bg-white border-b border-gray-200"
-                                >
-                                    <p class="text-gray-900 whitespace-nowrap">
                                         {{ student.email }}
                                     </p>
                                 </td>
                                 <td
                                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                                 >
-                                    <svg
-                                        @click="deleteFunc(student.id)"
-                                        class="h-4 w-4 fill-red-600 cursor-pointer"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 448 512"
-                                    >
-                                        <path
-                                            d="M268 416h24a12 12 0 0 0 12-12V188a12 12 0 0 0 -12-12h-24a12 12 0 0 0 -12 12v216a12 12 0 0 0 12 12zM432 80h-82.4l-34-56.7A48 48 0 0 0 274.4 0H173.6a48 48 0 0 0 -41.2 23.3L98.4 80H16A16 16 0 0 0 0 96v16a16 16 0 0 0 16 16h16v336a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128h16a16 16 0 0 0 16-16V96a16 16 0 0 0 -16-16zM171.8 50.9A6 6 0 0 1 177 48h94a6 6 0 0 1 5.2 2.9L293.6 80H154.4zM368 464H80V128h288zm-212-48h24a12 12 0 0 0 12-12V188a12 12 0 0 0 -12-12h-24a12 12 0 0 0 -12 12v216a12 12 0 0 0 12 12z"
-                                        />
-                                    </svg>
+                                    <div class="flex items-center gap-2">
+                                        <popover>
+                                            <span
+                                                @click="showModal(student)"
+                                                class="mt-2 material-symbols-outlined text-indigo-800 cursor-pointer"
+                                            >
+                                                visibility
+                                            </span>
+                                        </popover>
+                                        <span
+                                            @click="
+                                                router.push({
+                                                    name: '',
+                                                    params: student.id,
+                                                })
+                                            "
+                                            class="material-symbols-outlined text-emerald-600 mt-2 cursor-pointer"
+                                        >
+                                            edit_square
+                                        </span>
+                                        <svg
+                                            @click="deleteFunc(student.id)"
+                                            class="h-4 w-4 fill-red-600 cursor-pointer mt-2 cursor-pointer"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 448 512"
+                                        >
+                                            <path
+                                                d="M268 416h24a12 12 0 0 0 12-12V188a12 12 0 0 0 -12-12h-24a12 12 0 0 0 -12 12v216a12 12 0 0 0 12 12zM432 80h-82.4l-34-56.7A48 48 0 0 0 274.4 0H173.6a48 48 0 0 0 -41.2 23.3L98.4 80H16A16 16 0 0 0 0 96v16a16 16 0 0 0 16 16h16v336a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128h16a16 16 0 0 0 16-16V96a16 16 0 0 0 -16-16zM171.8 50.9A6 6 0 0 1 177 48h94a6 6 0 0 1 5.2 2.9L293.6 80H154.4zM368 464H80V128h288zm-212-48h24a12 12 0 0 0 12-12V188a12 12 0 0 0 -12-12h-24a12 12 0 0 0 -12 12v216a12 12 0 0 0 12 12z"
+                                            />
+                                        </svg>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -253,6 +262,70 @@
             </div>
         </div>
     </div>
+
+    <!-- modal -->
+    <div class="card flex justify-content-center">
+        <Dialog
+            v-model:visible="visible"
+            modal
+            header="Student Profile"
+            :style="{ width: '25rem' }"
+        >
+            <div class="flex justify-center">
+                <img
+                    class="w-[130px] h-[130px] rounded-full border-[8px] p-1"
+                    :src="`/storage/${studentInfo.photo}`"
+                    alt=""
+                />
+            </div>
+            <div class="mt-4">
+                <div class="w-full flex justify-between border-b-2 py-2">
+                    <span>ID</span>
+                    <span>{{ studentInfo.id }}</span>
+                </div>
+                <div class="w-full flex justify-between border-b-2 py-2">
+                    <span>Name</span>
+                    <span>{{ studentInfo.name }}</span>
+                </div>
+                <div class="w-full flex justify-between border-b-2 py-2">
+                    <span>Father name</span>
+                    <span>{{ studentInfo.parent_name }}</span>
+                </div>
+                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
+                    <span>Email</span>
+                    <span>{{ studentInfo.email }}</span>
+                </div>
+                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
+                    <span>Phone</span>
+                    <span>{{ studentInfo.contact_number }}</span>
+                </div>
+                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
+                    <span>Date of birth</span>
+                    <span>{{ studentInfo.date_of_birth }}</span>
+                </div>
+                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
+                    <span>Gender</span>
+                    <span>{{ studentInfo.gender }}</span>
+                </div>
+                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
+                    <span>status</span>
+                    <span>{{ studentInfo.status }}</span>
+                </div>
+                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
+                    <span>Class</span>
+                    <span
+                        >{{ studentInfo.class }}/{{
+                            studentInfo.students.class
+                        }}</span
+                    >
+                </div>
+                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
+                    <span>Created at</span>
+                    <span>{{ studentInfo.created_at }}</span>
+                </div>
+            </div>
+        </Dialog>
+    </div>
 </template>
 
 <script setup>
@@ -262,6 +335,8 @@ import { useRouter } from "vue-router";
 import Pagination from "@/components/Pagination.vue";
 import { useStudent } from "@/composables/useStudent";
 import { useAppStore } from "@/store/useAppStore";
+import Dialog from "primevue/dialog";
+import Button from "primevue/Button";
 import Swal from "sweetalert2";
 
 const { deleteStudent } = useStudent();
@@ -271,6 +346,12 @@ const appStore = useAppStore();
 const paginatedData = computed(() => appStore.paginatedData);
 const paginatedLoader = computed(() => appStore.paginatedLoader);
 
+const visible = ref(false);
+const studentInfo = ref("");
+const showModal = (student) => {
+    visible.value = true;
+    studentInfo.value = student;
+};
 const deleteFunc = (id) => {
     Swal.fire({
         title: "Are you sure?",
@@ -289,6 +370,7 @@ const deleteFunc = (id) => {
 
 onBeforeMount(() => {
     appStore.paginatedData = "";
+    appStore.current_page = 1;
 });
 
 onMounted(() => {

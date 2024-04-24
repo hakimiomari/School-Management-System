@@ -73,7 +73,9 @@ export const useStudent = () => {
             })
             .then((res) => {
                 Swal.close();
-                appStore.getData(appStore.url);
+                appStore.getData(
+                    `${appStore.url}?page=${appStore.current_page}`
+                );
                 toast("Student successfully Deleted!", {
                     theme: "auto",
                     type: "success",

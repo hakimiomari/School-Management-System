@@ -3,10 +3,12 @@ import { ref } from "vue";
 import { useLogin } from "@/composables/user/useLogin";
 
 export const useAppStore = defineStore("app", () => {
+    const page = JSON.parse(localStorage.getItem("page"));
     const open = ref(false);
     const showStatus = ref(false);
     const loading = ref(false);
     const current_page = ref("");
+    current_page.value = page ? page : 1;
     const last_page = ref("");
     const next_page_url = ref("");
     const prev_page_url = ref("");
@@ -22,9 +24,10 @@ export const useAppStore = defineStore("app", () => {
 
     const getData = async (baseUrl) => {
         token.value = getCookie("access_token");
+        localStorage.setItem("page", JSON.stringify(current_page.value));
         paginatedLoader.value = true;
         await axios
-            .get(baseUrl, {
+            .get(`${baseUrl}?page=${current_page.value}`, {
                 headers: {
                     Authorization: `Bearer ${token.value}`,
                 },
@@ -51,7 +54,7 @@ export const useAppStore = defineStore("app", () => {
     const onPageChange = async (page) => {
         DisplayedPages();
         current_page.value = page;
-        await getData(`${url.value}?page=${current_page.value}`);
+        await getData(`${url.value}`);
     };
 
     // Display pages

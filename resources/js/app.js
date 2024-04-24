@@ -13,6 +13,7 @@ import "primevue/resources/themes/aura-light-green/theme.css";
 import axios from "axios";
 import Vue3Toasity from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
+import VTooltip from "v-tooltip";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:8000";
@@ -23,6 +24,8 @@ const app = createApp(App);
 app.use(PrimeVue, {
     unstyled: false,
 });
+
+app.use(VTooltip);
 
 app.component("DefaultLayout", DashboardLayout);
 app.component("EmptyLayout", EmptyLayout);

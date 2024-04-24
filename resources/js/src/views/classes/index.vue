@@ -666,6 +666,7 @@ const showDeleteAlert = (id) => {
 
 onBeforeMount(() => {
     appStore.paginatedData = "";
+    appStore.current_page = 1;
 });
 
 onMounted(() => {
