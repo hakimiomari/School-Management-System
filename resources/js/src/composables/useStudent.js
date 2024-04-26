@@ -11,8 +11,12 @@ export const useStudent = () => {
     const router = useRouter();
     const appStore = useAppStore();
     const data = new FormData();
+    const updatedData = new FormData();
     const errors = ref("");
+    const studentInfo = ref("");
     const { getCookie, removeCookie } = useLogin();
+
+    // add student function
     const addStudent = async (studentData, file) => {
         token.value = getCookie("access_token");
         appStore.loading = true;
@@ -91,5 +95,75 @@ export const useStudent = () => {
                 errors.value = err.response.data.errors;
             });
     };
-    return { addStudent, errors, deleteStudent };
+
+    // getStudentInfo
+    const getStudentInfo = async (id) => {
+        token.value = getCookie("access_token");
+        await axios
+            .get(`/api/student/inof/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                studentInfo.value = res.data;
+            })
+            .catch((err) => {
+                if (err.response.status == 401) {
+                    removeCookie("access_token");
+                }
+                errors.value = err.response.data.errors;
+            });
+    };
+
+    // updateStudentInfo
+    const updateStudentInfo = async (studentData, file) => {
+        if (file) {
+            updatedData.append("photo", file);
+        }
+        updatedData.append("id", studentData.id);
+        updatedData.append("name", studentData.name);
+        updatedData.append("parent_name", studentData.parent_name);
+        updatedData.append("email", studentData.email);
+        updatedData.append("contact_number", studentData.contact_number);
+        updatedData.append("date_of_birth", studentData.date_of_birth);
+        updatedData.append("gender", studentData.gender);
+        updatedData.append("address", studentData.address);
+        appStore.loading = true;
+        token.value = getCookie("access_token");
+        await axios
+            .post("/api/student/update", updatedData, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                errors.value = "";
+                appStore.loading = false;
+                router.push({ name: "StudentList" });
+                toast("Student successfully Registered", {
+                    theme: "auto",
+                    type: "success",
+                    autoClose: 3000,
+                    dangerouslyHTMLString: true,
+                    zIndex: 9999,
+                });
+            })
+            .catch((err) => {
+                appStore.loading = false;
+                if (err.response.status == 401) {
+                    removeCookie("access_token");
+                }
+                errors.value = err.response.data.errors;
+            });
+    };
+
+    return {
+        addStudent,
+        errors,
+        deleteStudent,
+        updateStudentInfo,
+        getStudentInfo,
+        studentInfo,
+    };
 };

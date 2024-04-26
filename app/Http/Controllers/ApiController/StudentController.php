@@ -4,7 +4,10 @@ namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRegisterRequest;
+use App\Http\Requests\StudentUpdateRequest;
 use App\Models\Student;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -29,5 +32,32 @@ class StudentController extends Controller
         $student = Student::find($id);
         $student->delete();
         return response()->json('success');
+    }
+
+    // get student info
+    public function getStudentData($id)
+    {
+        $student = Student::with('students')->find($id);
+        return response()->json($student);
+    }
+
+    // update student
+    public function update(StudentUpdateRequest $request)
+    {
+        $data = $request->all();
+        $student = Student::find($request->id);
+        $data = $request->except('photo');
+        $data = $request->except('id');
+        $student->update($data);
+        if ($request->photo) {
+            $previousImagePath = $student->photo;
+            if ($previousImagePath) {
+                Storage::disk('public')->delete($previousImagePath);
+            }
+            $related_path = $request->photo->store('student_images', 'public');
+            $student->photo = $related_path;
+            $student->save();
+        }
+        return response()->json('sucesss');
     }
 }

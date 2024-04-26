@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup       >
 import { ref } from "vue";
 import { useSidebar } from "@/composables/useSidebar";
 import { useLogin } from "@/composables/user/useLogin";

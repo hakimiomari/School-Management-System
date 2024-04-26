@@ -216,8 +216,8 @@
                                         <span
                                             @click="
                                                 router.push({
-                                                    name: '',
-                                                    params: student.id,
+                                                    name: 'EditStudent',
+                                                    params: { id: student.id },
                                                 })
                                             "
                                             class="material-symbols-outlined text-emerald-600 mt-2 cursor-pointer"

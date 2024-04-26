@@ -21,7 +21,6 @@ class UserUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->input('id');
         return [
             'name' => 'required|string|max:255|min:3',
             'email' => 'required|email|unique:users,email,' . $this->input('id'),
