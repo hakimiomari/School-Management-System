@@ -1,10 +1,10 @@
 <script setup>
 import { computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
-const defaultLayout = "default";
 import "vue3-toastify/dist/index.css";
 import { useUser } from "@/composables/user/useUser";
 
+const defaultLayout = "default";
 const { userInfo } = useUser();
 const { currentRoute } = useRouter();
 

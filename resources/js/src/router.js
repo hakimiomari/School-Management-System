@@ -134,6 +134,7 @@ router.beforeEach((to, from, next) => {
             getUserRole(token)
                 .then((res) => {
                     user.userRole = res.data;
+                    user.userRole = res.data;
                     if (requiredRoles != res.data) {
                         next({ name: "NotFound" }); // Redirect to a not found page or appropriate route
                         return;
