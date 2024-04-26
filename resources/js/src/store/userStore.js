@@ -7,8 +7,10 @@ export const userStore = defineStore("user", () => {
     const isAuthenticated = ref(false);
     const isEdit = ref(true);
     const loading = ref(false);
+    const userImage = ref("");
 
     return {
+        userImage,
         loading,
         isAuthenticated,
         userData,

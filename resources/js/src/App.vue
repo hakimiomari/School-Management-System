@@ -3,13 +3,16 @@ import { computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 const defaultLayout = "default";
 import "vue3-toastify/dist/index.css";
+import { useUser } from "@/composables/user/useUser";
 
+const { userInfo } = useUser();
 const { currentRoute } = useRouter();
 
 const layout = computed(
     () => `${currentRoute.value.meta.layout || defaultLayout}-layout`
 );
 onMounted(() => {
+    userInfo();
     const iconPath = "/storage/assets/logo/logo.png";
     const iconLink = document.querySelector('link[rel="icon"]');
 

@@ -28,6 +28,7 @@ export const useUser = () => {
             })
             .then((res) => {
                 data.value = res.data;
+                user.userImage = res.data.image;
             })
             .catch((err) => {
                 if (err.response.status == 401) {
@@ -92,6 +93,7 @@ export const useUser = () => {
                 errors.value = "";
                 user.isEdit = true;
                 data.value = res.data;
+                user.userImage = res.data.image;
             })
             .catch((err) => {
                 user.loading = false;
