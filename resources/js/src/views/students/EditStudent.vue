@@ -316,8 +316,7 @@
                         <Skeleton width="100%" height="70px" class="mb-2"</Skeleton>
                         <Skeleton width="100%" height="70px" class="mb-2"</Skeleton>
                         <div class="flex justify-end gap-2 mt-3">
-                            <Skeleton width="4rem" height="2rem"></Skeleton>
-                            <Skeleton width="4rem" height="2rem"></Skeleton>
+                            <Skeleton width="10rem" height="3rem"></Skeleton>
                         </div>
                     </div>
                 </div>

@@ -208,7 +208,7 @@
                                         <popover>
                                             <span
                                                 @click="showModal(student)"
-                                                class="mt-2 material-symbols-outlined text-indigo-800 cursor-pointer"
+                                                class="mt-[6px] material-symbols-outlined text-indigo-800 cursor-pointer"
                                             >
                                                 visibility
                                             </span>
@@ -220,13 +220,13 @@
                                                     params: { id: student.id },
                                                 })
                                             "
-                                            class="material-symbols-outlined text-emerald-600 mt-2 cursor-pointer"
+                                            class="material-symbols-outlined text-emerald-600 cursor-pointer text-[20px]"
                                         >
                                             edit_square
                                         </span>
                                         <svg
                                             @click="deleteFunc(student.id)"
-                                            class="h-4 w-4 fill-red-600 cursor-pointer mt-2 cursor-pointer"
+                                            class="h-4 w-4 fill-red-600 cursor-pointer cursor-pointer"
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 448 512"
                                         >
