@@ -156,12 +156,12 @@
                                 :key="index"
                             >
                                 <td
-                                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                                    class="px-5 py-2 text-sm bg-white border-b border-gray-200"
                                 >
                                     {{ student.id }}
                                 </td>
                                 <td
-                                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                                    class="px-5 py-2 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p class="text-gray-900 whitespace-nowrap">
                                         <img
@@ -172,21 +172,21 @@
                                     </p>
                                 </td>
                                 <td
-                                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                                    class="px-5 py-2 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p class="text-gray-900 whitespace-nowrap">
                                         {{ student.name }}
                                     </p>
                                 </td>
                                 <td
-                                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                                    class="px-5 py-2 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p class="text-gray-900 whitespace-nowrap">
                                         {{ student.parent_name }}
                                     </p>
                                 </td>
                                 <td
-                                    class="px-4 py-5 text-sm bg-white border-b border-gray-200"
+                                    class="px-4 py-3 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p
                                         class="text-gray-900 whitespace-nowrap ms-2"
@@ -195,14 +195,14 @@
                                     </p>
                                 </td>
                                 <td
-                                    class="px-4 py-5 text-sm bg-white border-b border-gray-200"
+                                    class="px-4 py-3 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p class="text-gray-900 whitespace-nowrap">
                                         {{ student.email }}
                                     </p>
                                 </td>
                                 <td
-                                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                                    class="px-5 py-2 text-sm bg-white border-b border-gray-200"
                                 >
                                     <div class="flex items-center gap-2">
                                         <popover>
@@ -248,14 +248,45 @@
                         No record found!
                     </div>
                     <div v-else class="w-auto">
-                        <div class="h-4 bg-gray-400 mt-3 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-300 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-400 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-300 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-400 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-400 mt-3 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-300 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-400 mb-6 rounded"></div>
+                        <div class="card">
+                            <DataTable :value="products">
+                                <Column field="code" header="ID">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                                <Column field="name" header="Photo">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                                <Column field="category" header="Name">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                                <Column field="quantity" header="Father Name">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                                <Column field="quantity" header="Grade">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                                <Column field="quantity" header="Email">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                                <Column field="quantity" header="Action">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                            </DataTable>
+                        </div>
                     </div>
                     <Pagination v-if="paginatedData.length > 0" />
                 </div>
@@ -338,7 +369,11 @@ import { useAppStore } from "@/store/useAppStore";
 import Dialog from "primevue/dialog";
 import Button from "primevue/Button";
 import Swal from "sweetalert2";
+import Skeleton from "primevue/skeleton";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
 
+const products = ref(new Array(6));
 const { deleteStudent } = useStudent();
 const router = useRouter();
 const appStore = useAppStore();
@@ -368,9 +403,13 @@ const deleteFunc = (id) => {
     });
 };
 
+const page = JSON.parse(localStorage.getItem("pageName"));
 onBeforeMount(() => {
-    appStore.paginatedData = "";
-    appStore.current_page = 1;
+    if (page != "students") {
+        localStorage.setItem("pageName", JSON.stringify("students"));
+        appStore.paginatedData = "";
+        appStore.current_page = 1;
+    }
 });
 
 onMounted(() => {

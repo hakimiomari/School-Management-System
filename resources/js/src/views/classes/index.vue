@@ -216,14 +216,40 @@
                         No record found!
                     </div>
                     <div v-else class="w-auto">
-                        <div class="h-4 bg-gray-400 mt-3 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-300 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-400 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-300 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-400 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-400 mt-3 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-300 mb-6 rounded"></div>
-                        <div class="h-4 bg-gray-400 mb-6 rounded"></div>
+                        <div class="card">
+                            <DataTable :value="products">
+                                <Column field="code" header="ID">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                                <Column field="name" header="GRADE">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                                <Column field="category" header="CLASS">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                                <Column field="quantity" header="CREATED AT">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                                <Column field="quantity" header="STATUS">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                                <Column field="quantity" header="ACTION">
+                                    <template #body>
+                                        <Skeleton class="py-4"></Skeleton>
+                                    </template>
+                                </Column>
+                            </DataTable>
+                        </div>
                     </div>
                     <Pagination v-if="paginatedData.length > 0" />
                 </div>
@@ -607,6 +633,11 @@ import { computed, onMounted, ref, onBeforeMount } from "vue";
 import ProgressBar from "primevue/progressbar";
 import Dropdown from "primevue/dropdown";
 import Swal from "sweetalert2";
+import Skeleton from "primevue/skeleton";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+
+const products = ref(new Array(6));
 
 import {
     Dialog,
@@ -664,9 +695,13 @@ const showDeleteAlert = (id) => {
     });
 };
 
+const page = JSON.parse(localStorage.getItem("pageName"));
 onBeforeMount(() => {
-    appStore.paginatedData = "";
-    appStore.current_page = 1;
+    if (page != "classes") {
+        localStorage.setItem("pageName", JSON.stringify("classes"));
+        appStore.paginatedData = "";
+        appStore.current_page = 1;
+    }
 });
 
 onMounted(() => {

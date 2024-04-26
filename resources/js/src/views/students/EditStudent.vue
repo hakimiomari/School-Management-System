@@ -2,7 +2,7 @@
     <section class="py-1 bg-blueGray-50">
         <div class="w-full lg:w-10/12 px-4 mx-auto mt-6">
             <div
-                class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0"
+                class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0"
             >
                 <div class="rounded-t bg-white mb-0 px-6 py-6">
                     <div class="text-center flex justify-between">
@@ -11,7 +11,10 @@
                         </h6>
                     </div>
                 </div>
-                <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+                <div
+                    v-if="studentInfo"
+                    class="flex-auto px-4 lg:px-10 py-10 pt-0"
+                >
                     <form
                         @submit.prevent="updateStudentInfo(studentInfo, file)"
                     >
@@ -291,6 +294,33 @@
                         </div>
                     </form>
                 </div>
+                <div v-else class="card bg-slate-300 pt-2">
+                    <div
+                        class="border-round border-1 surface-border p-4 surface-card"
+                    >
+                        <div class="flex mb-3">
+                            <Skeleton
+                                shape="circle"
+                                size="4rem"
+                                class="mr-2"
+                            ></Skeleton>
+                            <div>
+                                <Skeleton width="10rem" class="mb-2"></Skeleton>
+                                <Skeleton width="5rem" class="mb-2"></Skeleton>
+                                <Skeleton height=".5rem"></Skeleton>
+                            </div>
+                        </div>
+                        <Skeleton width="100%" height="70px" class="mb-2"</Skeleton>
+                        <Skeleton width="100%" height="70px" class="mb-2"</Skeleton>
+                        <Skeleton width="100%" height="70px" class="mb-2"</Skeleton>
+                        <Skeleton width="100%" height="70px" class="mb-2"</Skeleton>
+                        <Skeleton width="100%" height="70px" class="mb-2"</Skeleton>
+                        <div class="flex justify-end gap-2 mt-3">
+                            <Skeleton width="4rem" height="2rem"></Skeleton>
+                            <Skeleton width="4rem" height="2rem"></Skeleton>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -303,6 +333,7 @@ import { useClass } from "@/composables/useClass";
 import { useUser } from "@/composables/user/useUser";
 import { useRoute } from "vue-router";
 import { useAppStore } from "@/store/useAppStore";
+import Skeleton from "primevue/skeleton";
 
 const appStore = useAppStore();
 const loading = computed(() => appStore.loading);
