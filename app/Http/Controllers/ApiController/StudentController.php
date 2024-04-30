@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRegisterRequest;
 use App\Http\Requests\StudentUpdateRequest;
 use App\Models\Student;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller

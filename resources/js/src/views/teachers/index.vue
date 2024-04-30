@@ -135,12 +135,17 @@
                                 <th
                                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
                                 >
-                                    Grade
+                                    Date of birth
                                 </th>
                                 <th
                                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
                                 >
-                                    Email
+                                    Address
+                                </th>
+                                <th
+                                    class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                                >
+                                    Contact
                                 </th>
                                 <th
                                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
@@ -152,13 +157,13 @@
 
                         <tbody class="w-full">
                             <tr
-                                v-for="(student, index) in paginatedData"
+                                v-for="(teacher, index) in paginatedData"
                                 :key="index"
                             >
                                 <td
                                     class="px-5 py-2 text-sm bg-white border-b border-gray-200"
                                 >
-                                    {{ student.id }}
+                                    {{ teacher.id }}
                                 </td>
                                 <td
                                     class="px-5 py-2 text-sm bg-white border-b border-gray-200"
@@ -166,7 +171,7 @@
                                     <p class="text-gray-900 whitespace-nowrap">
                                         <img
                                             class="rounded-full w-[50px] h-[50px]"
-                                            :src="`/storage/${student.photo}`"
+                                            :src="`/storage/${teacher.photo}`"
                                             alt=""
                                         />
                                     </p>
@@ -175,14 +180,14 @@
                                     class="px-5 py-2 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p class="text-gray-900 whitespace-nowrap">
-                                        {{ student.name }}
+                                        {{ teacher.name }}
                                     </p>
                                 </td>
                                 <td
                                     class="px-5 py-2 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p class="text-gray-900 whitespace-nowrap">
-                                        {{ student.parent_name }}
+                                        {{ teacher.father_name }}
                                     </p>
                                 </td>
                                 <td
@@ -191,33 +196,40 @@
                                     <p
                                         class="text-gray-900 whitespace-nowrap ms-2"
                                     >
-                                        {{ student.students.grade }}
+                                        {{ teacher.date_of_birth }}
                                     </p>
                                 </td>
                                 <td
                                     class="px-4 py-3 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p class="text-gray-900 whitespace-nowrap">
-                                        {{ student.email }}
+                                        {{ teacher.address }}
+                                    </p>
+                                </td>
+                                <td
+                                    class="px-4 py-3 text-sm bg-white border-b border-gray-200"
+                                >
+                                    <p class="text-gray-900 whitespace-nowrap">
+                                        {{ teacher.contact }}
                                     </p>
                                 </td>
                                 <td
                                     class="px-5 py-2 text-sm bg-white border-b border-gray-200"
                                 >
                                     <div class="flex items-center gap-2">
-                                        <popover>
+                                        <!-- <popover>
                                             <span
-                                                @click="showModal(student)"
+                                                @click="showModal(teacher)"
                                                 class="mt-[6px] material-symbols-outlined text-indigo-800 cursor-pointer"
                                             >
                                                 visibility
                                             </span>
-                                        </popover>
+                                        </popover> -->
                                         <span
                                             @click="
                                                 router.push({
                                                     name: 'EditStudent',
-                                                    params: { id: student.id },
+                                                    params: { id: teacher.id },
                                                 })
                                             "
                                             class="material-symbols-outlined text-emerald-600 cursor-pointer text-[20px]"
@@ -225,7 +237,7 @@
                                             edit_square
                                         </span>
                                         <svg
-                                            @click="deleteFunc(student.id)"
+                                            @click="deleteFunc(teacher.id)"
                                             class="h-4 w-4 fill-red-600 cursor-pointer cursor-pointer"
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 448 512"
@@ -295,7 +307,7 @@
     </div>
 
     <!-- modal -->
-    <div class="card flex justify-content-center">
+    <!-- <div class="card flex justify-content-center">
         <Dialog
             v-model:visible="visible"
             modal
@@ -356,7 +368,7 @@
                 </div>
             </div>
         </Dialog>
-    </div>
+    </div> -->
 </template>
 
 <script setup>
@@ -364,7 +376,7 @@ import { computed, onMounted, ref, onBeforeMount } from "vue";
 import ProgressBar from "primevue/progressbar";
 import { useRouter } from "vue-router";
 import Pagination from "@/components/Pagination.vue";
-import { useStudent } from "@/composables/useStudent";
+import { useTeacher } from "@/composables/useTeacher";
 import { useAppStore } from "@/store/useAppStore";
 import Dialog from "primevue/dialog";
 import Button from "primevue/Button";
@@ -374,7 +386,7 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 
 const products = ref(new Array(6));
-const { deleteStudent } = useStudent();
+const { deleteStudent } = useTeacher();
 const router = useRouter();
 const appStore = useAppStore();
 
@@ -405,15 +417,15 @@ const deleteFunc = (id) => {
 
 const page = JSON.parse(localStorage.getItem("pageName"));
 onBeforeMount(() => {
-    if (page != "students") {
-        localStorage.setItem("pageName", JSON.stringify("students"));
+    if (page != "teachers") {
+        localStorage.setItem("pageName", JSON.stringify("teachers"));
         appStore.paginatedData = "";
         appStore.current_page = 1;
     }
 });
 
 onMounted(() => {
-    appStore.url = "/api/students/index";
+    appStore.url = "/api/teachers/index";
     appStore.getData(appStore.url);
 });
 </script>
