@@ -18,6 +18,7 @@ import ClassesIndex from "@/views/classes/index.vue";
 import StudentList from "@/views/students/index.vue";
 import AddStudent from "@/views/students/AddStudent.vue";
 import EditStudent from "@/views/students/EditStudent.vue";
+import TeacherList from "@/views/teachers/index.vue";
 
 const routes = [
     {
@@ -78,9 +79,10 @@ const routes = [
         meta: { isAuth: true, role: "Admin" },
     },
     {
-        path: "/forms",
-        name: "Forms",
-        component: Forms,
+        path: "/school/teachers",
+        name: "TeacherList",
+        component: TeacherList,
+        meta: { isAuth: true, role: "Admin" },
     },
     {
         path: "/cards",
