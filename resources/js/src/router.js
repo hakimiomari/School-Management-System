@@ -19,6 +19,7 @@ import StudentList from "@/views/students/index.vue";
 import AddStudent from "@/views/students/AddStudent.vue";
 import EditStudent from "@/views/students/EditStudent.vue";
 import TeacherList from "@/views/teachers/index.vue";
+import AddTeacher from "@/views/teachers/AddTeacher.vue";
 
 const routes = [
     {
@@ -82,6 +83,12 @@ const routes = [
         path: "/school/teachers",
         name: "TeacherList",
         component: TeacherList,
+        meta: { isAuth: true, role: "Admin" },
+    },
+    {
+        path: "/school/teachers/add",
+        name: "AddTeacher",
+        component: AddTeacher,
         meta: { isAuth: true, role: "Admin" },
     },
     {

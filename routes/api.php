@@ -40,4 +40,5 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::post('/student/update', [StudentController::class, 'update']);
 
     Route::get('/teachers/index', [TeacherController::class, 'index']);
+    Route::post('/teacher/add', [TeacherController::class, 'store']);
 });

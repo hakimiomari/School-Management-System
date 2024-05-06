@@ -59,7 +59,7 @@
                         </div>
                         <div>
                             <button
-                                @click="router.push({ name: 'AddStudent' })"
+                                @click="router.push({ name: 'AddTeacher' })"
                                 type="button"
                                 class="text-white sm:hidden bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
                             >
@@ -89,7 +89,7 @@
                 </div>
 
                 <button
-                    @click="router.push({ name: 'AddStudent' })"
+                    @click="router.push({ name: 'AddTeacher' })"
                     type="button"
                     class="text-white mb-1 hidden sm:block bg-indigo-700 hover:bg-indigo-800 focus:ring-2 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
                 >

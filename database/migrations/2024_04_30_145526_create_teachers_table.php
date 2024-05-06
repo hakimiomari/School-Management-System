@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('father_name');
+            $table->string('email')->uniqid();
             $table->date('date_of_birth');
             $table->enum('gender', ['Male', 'Female'])->default('Male');
             $table->text('address');
