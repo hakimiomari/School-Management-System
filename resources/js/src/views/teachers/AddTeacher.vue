@@ -106,7 +106,56 @@
                                     </p>
                                 </div>
                             </div>
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label
+                                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                        htmlfor="grid-password"
+                                    >
+                                        Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        placeholder="hakimi@gmail.com"
+                                        v-model="student_data.email"
+                                    />
+                                    <p
+                                        v-if="errors?.email"
+                                        class="text-xs mt-1 text-red-500"
+                                    >
+                                        {{ errors?.email[0] }}
+                                    </p>
+                                </div>
+                            </div>
 
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label
+                                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                        htmlfor="grid-password"
+                                    >
+                                        Degree
+                                    </label>
+                                    <div
+                                        class="card flex justify-content-center"
+                                    >
+                                        <Dropdown
+                                            v-model="student_data.degree"
+                                            :options="degree"
+                                            optionLabel="name"
+                                            placeholder="Select a Degree"
+                                            class="w-full md:w-14rem"
+                                        />
+                                    </div>
+                                    <p
+                                        v-if="errors?.degree"
+                                        class="text-xs mt-1 text-red-500"
+                                    >
+                                        {{ errors?.degree[0] }}
+                                    </p>
+                                </div>
+                            </div>
                             <div class="w-full lg:w-6/12 px-4">
                                 <div class="relative w-full mb-3">
                                     <label
@@ -253,10 +302,17 @@ const { addTeacher, errors } = useTeacher();
 const { handleFileChange, imageUrl, file } = useUser();
 
 const options = ref([{ name: "Male" }, { name: "Female" }]);
+const degree = ref([
+    { name: "Bikloria" },
+    { name: "Bachlor" },
+    { name: "Master" },
+]);
 
 const student_data = ref({
     name: "",
     father_name: "",
+    email: "",
+    degree: "",
     gender: "",
     dob: "",
     address: "",

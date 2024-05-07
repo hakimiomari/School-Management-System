@@ -5,7 +5,6 @@ namespace App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TeacherRegisterRequest;
 use App\Models\Teacher;
-use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
@@ -18,8 +17,10 @@ class TeacherController extends Controller
     // store teacher
     public function store(TeacherRegisterRequest $request)
     {
-        $data = $request->all();
-        Teacher::create($request->all());
+        $teacher = Teacher::create($request->all());
+        $related_path = $request->photo->store('teacher_images', 'public');
+        $teacher->photo = $related_path;
+        $teacher->save();
         return response()->json('success');
     }
 }

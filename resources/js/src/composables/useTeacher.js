@@ -21,6 +21,8 @@ export const useTeacher = () => {
 
         data.append("name", form_data.name);
         data.append("father_name", form_data.father_name);
+        data.append("email", form_data.email);
+        data.append("degree", form_data.degree.name);
         data.append("date_of_birth", form_data.dob);
         data.append("gender", form_data.gender.name);
         data.append("address", form_data.address);
@@ -36,6 +38,14 @@ export const useTeacher = () => {
             .then((res) => {
                 appStore.loading = false;
                 errors.value = "";
+                router.push({ name: "TeacherList" });
+                toast("Teacher successfully Registered", {
+                    theme: "auto",
+                    type: "success",
+                    autoClose: 5000,
+                    dangerouslyHTMLString: true,
+                    zIndex: 9999,
+                });
             })
             .catch((err) => {
                 appStore.loading = false;
