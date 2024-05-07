@@ -294,7 +294,6 @@ import { useRouter } from "vue-router";
 import Pagination from "@/components/Pagination.vue";
 import { useTeacher } from "@/composables/useTeacher";
 import { useAppStore } from "@/store/useAppStore";
-import Dialog from "primevue/dialog";
 import Button from "primevue/Button";
 import Swal from "sweetalert2";
 import Skeleton from "primevue/skeleton";
@@ -302,19 +301,13 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 
 const products = ref(new Array(6));
-const { deleteStudent } = useTeacher();
+const { deleteTeacher } = useTeacher();
 const router = useRouter();
 const appStore = useAppStore();
 
 const paginatedData = computed(() => appStore.paginatedData);
 const paginatedLoader = computed(() => appStore.paginatedLoader);
 
-const visible = ref(false);
-const studentInfo = ref("");
-const showModal = (student) => {
-    visible.value = true;
-    studentInfo.value = student;
-};
 const deleteFunc = (id) => {
     Swal.fire({
         title: "Are you sure?",
@@ -326,7 +319,7 @@ const deleteFunc = (id) => {
         confirmButtonText: "Yes, delete it!",
     }).then((result) => {
         if (result.isConfirmed) {
-            deleteStudent(id);
+            deleteTeacher(id);
         }
     });
 };

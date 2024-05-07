@@ -53,5 +53,42 @@ export const useTeacher = () => {
             });
     };
 
-    return { addTeacher, errors };
+    // delete teacher
+    const deleteTeacher = async (id) => {
+        token.value = getCookie("access_token");
+        Swal.fire({
+            title: "Deleting Teacher!",
+            html: "Deleting teacher is on the process",
+            didOpen: () => {
+                Swal.showLoading();
+            },
+        });
+        await axios
+            .delete(`/api/teacher/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                Swal.close();
+                appStore.getData(
+                    `${appStore.url}?page=${appStore.current_page}`
+                );
+                toast("Teacher successfully Deleted!", {
+                    theme: "auto",
+                    type: "success",
+                    autoClose: 2000,
+                    dangerouslyHTMLString: true,
+                    zIndex: 9999,
+                });
+            })
+            .catch((err) => {
+                if (err.response.status == 401) {
+                    removeCookie("access_token");
+                }
+                errors.value = err.response.data.errors;
+            });
+    };
+
+    return { addTeacher, errors, deleteTeacher };
 };

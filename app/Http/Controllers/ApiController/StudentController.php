@@ -29,6 +29,9 @@ class StudentController extends Controller
     public function delete($id)
     {
         $student = Student::find($id);
+        if ($student->photo) {
+            Storage::disk('public')->delete($student->photo);
+        }
         $student->delete();
         return response()->json('success');
     }
