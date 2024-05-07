@@ -132,11 +132,7 @@
                                 >
                                     Father Name
                                 </th>
-                                <th
-                                    class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-                                >
-                                    Date of birth
-                                </th>
+
                                 <th
                                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
                                 >
@@ -193,15 +189,6 @@
                                 <td
                                     class="px-4 py-3 text-sm bg-white border-b border-gray-200"
                                 >
-                                    <p
-                                        class="text-gray-900 whitespace-nowrap ms-2"
-                                    >
-                                        {{ teacher.date_of_birth }}
-                                    </p>
-                                </td>
-                                <td
-                                    class="px-4 py-3 text-sm bg-white border-b border-gray-200"
-                                >
                                     <p class="text-gray-900 whitespace-nowrap">
                                         {{ teacher.address }}
                                     </p>
@@ -217,14 +204,6 @@
                                     class="px-5 py-2 text-sm bg-white border-b border-gray-200"
                                 >
                                     <div class="flex items-center gap-2">
-                                        <!-- <popover>
-                                            <span
-                                                @click="showModal(teacher)"
-                                                class="mt-[6px] material-symbols-outlined text-indigo-800 cursor-pointer"
-                                            >
-                                                visibility
-                                            </span>
-                                        </popover> -->
                                         <span
                                             @click="
                                                 router.push({
@@ -306,69 +285,6 @@
         </div>
     </div>
 
-    <!-- modal -->
-    <!-- <div class="card flex justify-content-center">
-        <Dialog
-            v-model:visible="visible"
-            modal
-            header="Student Profile"
-            :style="{ width: '25rem' }"
-        >
-            <div class="flex justify-center">
-                <img
-                    class="w-[130px] h-[130px] rounded-full border-[8px] p-1"
-                    :src="`/storage/${studentInfo.photo}`"
-                    alt=""
-                />
-            </div>
-            <div class="mt-4">
-                <div class="w-full flex justify-between border-b-2 py-2">
-                    <span>ID</span>
-                    <span>{{ studentInfo.id }}</span>
-                </div>
-                <div class="w-full flex justify-between border-b-2 py-2">
-                    <span>Name</span>
-                    <span>{{ studentInfo.name }}</span>
-                </div>
-                <div class="w-full flex justify-between border-b-2 py-2">
-                    <span>Father name</span>
-                    <span>{{ studentInfo.parent_name }}</span>
-                </div>
-                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
-                    <span>Email</span>
-                    <span>{{ studentInfo.email }}</span>
-                </div>
-                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
-                    <span>Phone</span>
-                    <span>{{ studentInfo.contact_number }}</span>
-                </div>
-                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
-                    <span>Date of birth</span>
-                    <span>{{ studentInfo.date_of_birth }}</span>
-                </div>
-                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
-                    <span>Gender</span>
-                    <span>{{ studentInfo.gender }}</span>
-                </div>
-                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
-                    <span>status</span>
-                    <span>{{ studentInfo.status }}</span>
-                </div>
-                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
-                    <span>Class</span>
-                    <span
-                        >{{ studentInfo.class }}/{{
-                            studentInfo.students.class
-                        }}</span
-                    >
-                </div>
-                <div class="w-full flex justify-between border-b-2 mt-2 py-2">
-                    <span>Created at</span>
-                    <span>{{ studentInfo.created_at }}</span>
-                </div>
-            </div>
-        </Dialog>
-    </div> -->
 </template>
 
 <script setup>
