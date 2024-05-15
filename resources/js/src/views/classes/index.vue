@@ -191,8 +191,15 @@
                                     >
                                 </td>
                                 <td
-                                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                                    class="px-5 py-5 text-sm bg-white flex items-center border-b border-gray-200"
                                 >
+                                    <popover>
+                                        <span
+                                            class="mt-[6px] material-symbols-outlined me-2 text-indigo-800 cursor-pointer"
+                                        >
+                                            visibility
+                                        </span>
+                                    </popover>
                                     <svg
                                         @click="showDeleteAlert(u.id)"
                                         class="h-4 w-4 fill-red-600 cursor-pointer"
