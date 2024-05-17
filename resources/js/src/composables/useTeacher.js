@@ -8,7 +8,6 @@ import Swal from "sweetalert2";
 
 export const useTeacher = () => {
     const data = new FormData();
-
     const token = ref("");
     const router = useRouter();
     const appStore = useAppStore();
@@ -111,33 +110,47 @@ export const useTeacher = () => {
     };
 
     // update teacher
-    const updateTeacher = async (data, file) => {
+    const updateTeacher = async (teacherData, file) => {
         token.value = getCookie("access_token");
         appStore.loading = true;
 
-        data.append("name", form_data.name);
-        data.append("father_name", form_data.father_name);
-        data.append("email", form_data.email);
-        data.append("degree", form_data.degree.name);
-        data.append("date_of_birth", form_data.dob);
-        data.append("gender", form_data.gender.name);
-        data.append("address", form_data.address);
-        data.append("contact", form_data.contact);
-        data.append("photo", file);
+        data.append("id", teacherData.id);
+        data.append("name", teacherData.name);
+        data.append("father_name", teacherData.father_name);
+        data.append("email", teacherData.email);
+        data.append("degree", teacherData.degree);
+        data.append("date_of_birth", teacherData.date_of_birth);
+        data.append("gender", teacherData.gender);
+        data.append("address", teacherData.address);
+        data.append("contact", teacherData.contact);
+        if (file) {
+            data.append("photo", file);
+        }
 
         axios
-            .patch("/api/teacher/update", FormData, {
+            .post("/api/teacher/update", data, {
                 headers: {
                     Authorization: `Bearer ${token.value}`,
                 },
             })
             .then((res) => {
+                errors.value = "";
                 appStore.loading = false;
-                console.log(res);
+                router.push({ name: "TeacherList" });
+                toast("Teacher successfully Updated", {
+                    theme: "auto",
+                    type: "success",
+                    autoClose: 3000,
+                    dangerouslyHTMLString: true,
+                    zIndex: 9999,
+                });
             })
             .catch((err) => {
                 appStore.loading = false;
-                console.log(err);
+                if (err.response.status == 401) {
+                    removeCookie("access_token");
+                }
+                errors.value = err.response.data.errors;
             });
     };
 
