@@ -13,6 +13,7 @@ export const useTeacher = () => {
     const appStore = useAppStore();
     const errors = ref("");
     const teacherInfo = ref("");
+    const teachersData = ref("");
     const { getCookie, removeCookie } = useLogin();
 
     const addTeacher = async (form_data, file) => {
@@ -108,6 +109,23 @@ export const useTeacher = () => {
                 }
             });
     };
+    const getTeachers = async () => {
+        token.value = getCookie("access_token");
+        axios
+            .get(`/api/teachers/all`, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                teachersData.value = res.data;
+            })
+            .catch((err) => {
+                if (res.status == 401) {
+                    removeCookie("access_token");
+                }
+            });
+    };
 
     // update teacher
     const updateTeacher = async (teacherData, file) => {
@@ -155,6 +173,8 @@ export const useTeacher = () => {
     };
 
     return {
+        getTeachers,
+        teachersData,
         addTeacher,
         errors,
         deleteTeacher,

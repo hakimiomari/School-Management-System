@@ -569,6 +569,41 @@
                                                                     }}
                                                                 </p>
                                                             </div>
+                                                            <div class="w-full">
+                                                                <label
+                                                                    class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                                                    htmlfor="grid-password"
+                                                                >
+                                                                    Select
+                                                                    Teacher
+                                                                </label>
+                                                                <div
+                                                                    class="card flex justify-content-center"
+                                                                >
+                                                                    <Dropdown
+                                                                        v-model="
+                                                                            classData.teacher
+                                                                        "
+                                                                        :options="
+                                                                            teachersData
+                                                                        "
+                                                                        optionLabel="name"
+                                                                        placeholder="Select Teacher"
+                                                                        class="w-full md:w-14rem"
+                                                                    />
+                                                                </div>
+                                                                <p
+                                                                    v-if="
+                                                                        errors?.teacher
+                                                                    "
+                                                                    class="text-xs mt-2 text-red-500"
+                                                                >
+                                                                    {{
+                                                                        errors
+                                                                            ?.teacher[0]
+                                                                    }}
+                                                                </p>
+                                                            </div>
                                                             <div
                                                                 class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
                                                             >
@@ -655,9 +690,10 @@ import {
 } from "@headlessui/vue";
 import { useClass } from "@/composables/useClass";
 import Pagination from "@/components/Pagination.vue";
-
+import { useTeacher } from "@/composables/useTeacher";
 import { useAppStore } from "@/store/useAppStore";
 
+const { getTeachers, teachersData } = useTeacher();
 const { addClass, errors, updateStatus, deleteClass } = useClass();
 const appStore = useAppStore();
 
@@ -669,6 +705,7 @@ const paginatedLoader = computed(() => appStore.paginatedLoader);
 const classData = ref({
     grade: null,
     class: "",
+    teacher: "",
 });
 
 const status = ref({ status: null });
@@ -714,6 +751,7 @@ onBeforeMount(() => {
 onMounted(() => {
     appStore.url = "/api/class/index";
     appStore.getData(appStore.url);
+    getTeachers();
 });
 
 const grades = [

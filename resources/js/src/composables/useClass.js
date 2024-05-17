@@ -13,37 +13,40 @@ export const useClass = () => {
     const grades = ref("");
 
     const addClass = async (data) => {
+        console.log(data);
         const newData = {
             grade: data.grade.name,
             class: data.class,
+            teacher: data.teacher.id,
         };
-        appStore.loading = true;
-        token.value = getCookie("access_token");
-        await axios
-            .post("/api/class/store", newData, {
-                headers: {
-                    Authorization: `Bearer ${token.value}`,
-                },
-            })
-            .then((res) => {
-                appStore.loading = false;
-                appStore.open = false;
-                appStore.onPageChange(appStore.current_page);
-                errors.value = "";
-                toast("Class successfully Added", {
-                    theme: "auto",
-                    type: "success",
-                    autoClose: 1500,
-                    dangerouslyHTMLString: true,
-                });
-            })
-            .catch((err) => {
-                appStore.loading = false;
-                errors.value = err.response.data.errors;
-                if (err.response.status == 401) {
-                    removeCookie("access_token");
-                }
-            });
+        console.log(newData);
+        // appStore.loading = true;
+        // token.value = getCookie("access_token");
+        // await axios
+        //     .post("/api/class/store", newData, {
+        //         headers: {
+        //             Authorization: `Bearer ${token.value}`,
+        //         },
+        //     })
+        //     .then((res) => {
+        //         appStore.loading = false;
+        //         appStore.open = false;
+        //         appStore.onPageChange(appStore.current_page);
+        //         errors.value = "";
+        //         toast("Class successfully Added", {
+        //             theme: "auto",
+        //             type: "success",
+        //             autoClose: 1500,
+        //             dangerouslyHTMLString: true,
+        //         });
+        //     })
+        //     .catch((err) => {
+        //         appStore.loading = false;
+        //         errors.value = err.response.data.errors;
+        //         if (err.response.status == 401) {
+        //             removeCookie("access_token");
+        //         }
+        //     });
     };
 
     const updateStatus = async (data) => {

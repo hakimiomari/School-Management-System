@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('grade');
             $table->string('class');
-            $table->integer('teacher_id');
+            $table->integer('teacher');
             $table->enum('status', ['Active', 'Disactive'])->default('Disactive');
             $table->timestamps();
         });

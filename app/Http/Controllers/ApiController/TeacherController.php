@@ -43,6 +43,12 @@ class TeacherController extends Controller
         $teacher = Teacher::find($id);
         return response()->json($teacher);
     }
+    // get teacher info
+    public function allTeachers()
+    {
+        $teacher = Teacher::all();
+        return response()->json($teacher);
+    }
 
     // update teacher
     public function update(TeacherUpdateRequest $request)

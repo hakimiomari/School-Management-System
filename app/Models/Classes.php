@@ -12,6 +12,7 @@ class Classes extends Model
     protected $fillable = [
         'grade',
         'class',
+        'teacher',
         'status'
     ];
 }
