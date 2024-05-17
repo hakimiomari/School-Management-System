@@ -42,4 +42,5 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::get('/teachers/index', [TeacherController::class, 'index']);
     Route::post('/teacher/add', [TeacherController::class, 'store']);
     Route::delete('/teacher/delete/{id}', [TeacherController::class, 'delete']);
+    Route::get('/teacher/get/info/{id}', [TeacherController::class, 'getInfo']);
 });

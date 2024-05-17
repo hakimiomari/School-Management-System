@@ -7,13 +7,13 @@
                 <div class="rounded-t bg-white mb-0 px-6 py-6">
                     <div class="text-center flex justify-between">
                         <h6 class="text-blueGray-700 text-xl font-bold">
-                            Add New Teacher
+                            Edit Teacher
                         </h6>
                     </div>
                 </div>
                 <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
                     <form @submit.prevent="addTeacher(student_data, file)">
-                        <div
+                        <!-- <div
                             class="flex my-8 flex-col items-center space-y-5 sm:flex-row sm:space-y-0"
                         >
                             <img
@@ -54,7 +54,7 @@
                             class="text-xs mt-1 text-red-500"
                         >
                             {{ errors?.photo[0] }}
-                        </p>
+                        </p> -->
                         <h6
                             class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase"
                         >
@@ -73,7 +73,7 @@
                                         type="text"
                                         class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                         placeholder="Ahmad.Kamran"
-                                        v-model="student_data.name"
+                                        v-model="teacherInfo.name"
                                     />
                                     <p
                                         v-if="errors?.name"
@@ -96,13 +96,13 @@
                                         type="text"
                                         class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                         placeholder="Omar"
-                                        v-model="student_data.father_name"
+                                        v-model="teacherInfo.father_name"
                                     />
                                     <p
-                                        v-if="errors?.parent_name"
+                                        v-if="errors?.father_name"
                                         class="text-xs mt-1 text-red-500"
                                     >
-                                        {{ errors?.parent_name[0] }}
+                                        {{ errors?.father_name[0] }}
                                     </p>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
                                         type="email"
                                         class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                         placeholder="hakimi@gmail.com"
-                                        v-model="student_data.email"
+                                        v-model="teacherInfo.email"
                                     />
                                     <p
                                         v-if="errors?.email"
@@ -141,7 +141,7 @@
                                         class="card flex justify-content-center"
                                     >
                                         <Dropdown
-                                            v-model="student_data.degree"
+                                            v-model="teacherInfo.degree"
                                             :options="degree"
                                             optionLabel="name"
                                             placeholder="Select a Degree"
@@ -168,7 +168,7 @@
                                         class="card flex justify-content-center"
                                     >
                                         <Dropdown
-                                            v-model="student_data.gender"
+                                            v-model="teacherInfo.gender"
                                             :options="options"
                                             optionLabel="name"
                                             placeholder="Select a Gender"
@@ -194,7 +194,7 @@
                                     <input
                                         type="date"
                                         class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                        v-model="student_data.dob"
+                                        v-model="teacherInfo.date_of_birth"
                                     />
                                     <p
                                         v-if="errors?.date_of_birth"
@@ -216,7 +216,7 @@
                                         type="text"
                                         class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                         placeholder="Kabul, Zone 5, Street No 6"
-                                        v-model="student_data.address"
+                                        v-model="teacherInfo.address"
                                     />
                                     <p
                                         v-if="errors?.address"
@@ -238,7 +238,7 @@
                                         type="number"
                                         class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                         placeholder="0781288992"
-                                        v-model="student_data.contact"
+                                        v-model="teacherInfo.contact"
                                     />
                                     <p
                                         v-if="errors?.contact"
@@ -290,11 +290,18 @@
     </section>
 </template>
 <script setup>
+import { onMounted, ref, computed } from "vue";
 import { useAppStore } from "@/store/useAppStore";
 import Dropdown from "primevue/dropdown";
+import { useUser } from "@/composables/user/useUser";
+import { useTeacher } from "@/composables/useTeacher";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const appStore = useAppStore();
 const loading = computed(() => appStore.loading);
+const { getTeacher,teacherInfo, errors } = useTeacher();
+const { handleFileChange, imageUrl, file } = useUser();
 
 const options = ref([{ name: "Male" }, { name: "Female" }]);
 const degree = ref([
@@ -302,4 +309,8 @@ const degree = ref([
     { name: "Bachlor" },
     { name: "Master" },
 ]);
+
+onMounted(() => {
+    getTeacher(route.params.id);
+});
 </script>

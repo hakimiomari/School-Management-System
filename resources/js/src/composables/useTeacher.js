@@ -13,6 +13,7 @@ export const useTeacher = () => {
     const router = useRouter();
     const appStore = useAppStore();
     const errors = ref("");
+    const teacherInfo = ref("");
     const { getCookie, removeCookie } = useLogin();
 
     const addTeacher = async (form_data, file) => {
@@ -90,5 +91,24 @@ export const useTeacher = () => {
             });
     };
 
-    return { addTeacher, errors, deleteTeacher };
+    // edit teacher
+    const getTeacher = async (id) => {
+        token.value = getCookie("access_token");
+        axios
+            .get(`/api/teacher/get/info/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                teacherInfo.value = res.data;
+            })
+            .catch((err) => {
+                if (res.status == 401) {
+                    removeCookie("access_token");
+                }
+            });
+    };
+
+    return { addTeacher, errors, deleteTeacher, getTeacher,teacherInfo };
 };

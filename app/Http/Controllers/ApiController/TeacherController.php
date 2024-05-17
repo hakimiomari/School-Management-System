@@ -35,4 +35,11 @@ class TeacherController extends Controller
         $teacher->delete();
         return response()->json('success');
     }
+
+    // get teacher info
+    public function getInfo($id)
+    {
+        $teacher = Teacher::find($id);
+        return response()->json($teacher);
+    }
 }

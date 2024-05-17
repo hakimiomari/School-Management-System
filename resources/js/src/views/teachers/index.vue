@@ -207,7 +207,7 @@
                                         <span
                                             @click="
                                                 router.push({
-                                                    name: 'EditStudent',
+                                                    name: 'EditTeacher',
                                                     params: { id: teacher.id },
                                                 })
                                             "
@@ -284,7 +284,6 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script setup>
