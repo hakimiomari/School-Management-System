@@ -23,8 +23,8 @@ class ClassRequest extends FormRequest
     {
         return [
             'grade' => 'required|numeric|gte:1|lte:12',
-            'class' => 'required|string|min:3|unique:classes,class,' . $this->input('id'),
-            // 'teacher' => 'required|unique:table,column,except,id'
+            'class' => 'required|string|min:3',
+            'teacher' => 'required|unique:classes,teacher'
         ];
     }
 }
