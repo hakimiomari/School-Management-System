@@ -13,6 +13,9 @@ class ClassController extends Controller
     public function index()
     {
         $classes = Classes::paginate(5);
+        foreach ($classes as $class) {
+            $class->teacherInfo;
+        }
         return response()->json($classes);
     }
 

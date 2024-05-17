@@ -15,4 +15,9 @@ class Classes extends Model
         'teacher',
         'status'
     ];
+
+    public function teacherInfo()
+    {
+        return $this->belongsTo(Teacher::class, 'teacher', 'id');
+    }
 }
