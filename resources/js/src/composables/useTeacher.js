@@ -110,5 +110,43 @@ export const useTeacher = () => {
             });
     };
 
-    return { addTeacher, errors, deleteTeacher, getTeacher,teacherInfo };
+    // update teacher
+    const updateTeacher = async (data, file) => {
+        token.value = getCookie("access_token");
+        appStore.loading = true;
+
+        data.append("name", form_data.name);
+        data.append("father_name", form_data.father_name);
+        data.append("email", form_data.email);
+        data.append("degree", form_data.degree.name);
+        data.append("date_of_birth", form_data.dob);
+        data.append("gender", form_data.gender.name);
+        data.append("address", form_data.address);
+        data.append("contact", form_data.contact);
+        data.append("photo", file);
+
+        axios
+            .patch("/api/teacher/update", FormData, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                appStore.loading = false;
+                console.log(res);
+            })
+            .catch((err) => {
+                appStore.loading = false;
+                console.log(err);
+            });
+    };
+
+    return {
+        addTeacher,
+        errors,
+        deleteTeacher,
+        getTeacher,
+        teacherInfo,
+        updateTeacher,
+    };
 };

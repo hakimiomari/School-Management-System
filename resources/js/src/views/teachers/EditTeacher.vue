@@ -13,7 +13,7 @@
                     </div>
                 </div>
                 <div v-if="teacherInfo" class="flex-auto px-4 lg:px-10 py-10 pt-0">
-                    <form @submit.prevent="addTeacher(student_data, file)">
+                    <form @submit.prevent="updateTeacher(teacherInfo, file)">
                         <div
                             class="flex my-8 flex-col items-center space-y-5 sm:flex-row sm:space-y-0"
                         >
@@ -325,7 +325,7 @@ import Skeleton from "primevue/skeleton";
 const route = useRoute();
 const appStore = useAppStore();
 const loading = computed(() => appStore.loading);
-const { getTeacher, teacherInfo, errors } = useTeacher();
+const { getTeacher, teacherInfo, errors,updateTeacher } = useTeacher();
 const { handleFileChange, imageUrl, file } = useUser();
 
 const options = ref(["Male", "Female"]);
