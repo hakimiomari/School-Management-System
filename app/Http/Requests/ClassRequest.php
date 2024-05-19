@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ClassRequest extends FormRequest
 {
@@ -22,9 +23,12 @@ class ClassRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'grade' => 'required|numeric|gte:1|lte:12',
+            'grade' => ['required',Rule::unique('classes')->where(function($query){
+                return $query->where('class',$this->input('class'));
+            })
+        ],
             'class' => 'required|string|min:3',
-            'teacher' => 'required|unique:classes,teacher'
+            'teacher' => 'required|unique:classes,teacher',
         ];
     }
 }

@@ -362,7 +362,7 @@ const inactiveClass = ref(
                         />
                     </svg>
 
-                    <span class="mx-4">Blank</span>
+                    <span class="mx-4">Other Staff</span>
                 </router-link>
             </nav>
         </div>
