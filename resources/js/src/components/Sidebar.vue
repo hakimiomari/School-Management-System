@@ -111,11 +111,11 @@ const inactiveClass = ref(
                     @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
                     :class="[
-                        route.name === 'UIElements'
+                        route.name === 'Attendance'
                             ? activeClass
                             : inactiveClass,
                     ]"
-                    to="/ui-elements"
+                    to="/school/attendance"
                 >
                     <svg
                         class="w-5 h-5"
@@ -141,7 +141,7 @@ const inactiveClass = ref(
                         />
                     </svg>
 
-                    <span class="mx-4">UI Elements</span>
+                    <span class="mx-4">Attendance</span>
                 </router-link>
 
                 <router-link

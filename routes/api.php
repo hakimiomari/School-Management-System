@@ -5,6 +5,7 @@ use App\Http\Controllers\ApiController\GradeController;
 use App\Http\Controllers\ApiController\StudentController;
 use App\Http\Controllers\ApiController\TeacherController;
 use App\Http\Controllers\ApiController\UserController;
+use App\Models\Student;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,7 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::delete('/student/delete/{id}', [StudentController::class, 'delete']);
     Route::get('/student/inof/{id}', [StudentController::class, 'getStudentData']);
     Route::post('/student/update', [StudentController::class, 'update']);
+    Route::get('/student/attendance', [StudentController::class, 'getClassStudent']);
 
     Route::get('/teachers/index', [TeacherController::class, 'index']);
     Route::post('/teacher/add', [TeacherController::class, 'store']);

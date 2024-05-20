@@ -62,4 +62,11 @@ class StudentController extends Controller
         }
         return response()->json('sucesss');
     }
+
+    // get all student belong to one class
+    public function getClassStudent()
+    {
+        $students = Student::where('class', '13')->get();
+        return response()->json($students);
+    }
 }
