@@ -21,6 +21,7 @@ import EditStudent from "@/views/students/EditStudent.vue";
 import TeacherList from "@/views/teachers/index.vue";
 import AddTeacher from "@/views/teachers/AddTeacher.vue";
 import EditTeacher from "@/views/teachers/EditTeacher.vue";
+import Attendance from "@/views/attendance/index.vue";
 
 const routes = [
     {
@@ -96,6 +97,12 @@ const routes = [
         path: "/school/teachers/edit/:id",
         name: "EditTeacher",
         component: EditTeacher,
+        meta: { isAuth: true, role: "Admin" },
+    },
+    {
+        path: "/school/attendance",
+        name: "Attendance",
+        component: Attendance,
         meta: { isAuth: true, role: "Admin" },
     },
     {
