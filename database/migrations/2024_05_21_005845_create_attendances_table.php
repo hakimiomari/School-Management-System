@@ -27,7 +27,7 @@ return new class extends Migration
             $table->json('Jadi')->default('{"present"=>0,"obsent"=>0,"leave"=>0}');
             $table->json('Dalwa')->default('{"present"=>0,"obsent"=>0,"leave"=>0}');
             $table->json('Hout')->default('{"present"=>0,"obsent"=>0,"leave"=>0}');
-            $table->enum('today', ['Present', 'Obsent', 'Leave']);
+            $table->enum('today', ['Present', 'Obsent', 'Leave'])->default('Present');
             $table->json('summary')->default('{"present"=>0,"obsent"=>0,"leave"=>0}');
             $table->timestamps();
         });
