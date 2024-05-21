@@ -16,7 +16,6 @@ export const useAttendance = () => {
             })
             .then((res) => {
                 students.value = res.data;
-                console.log(res);
             })
             .catch((err) => {
                 console.log(err);
