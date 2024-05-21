@@ -7,19 +7,19 @@ export const useAttendance = () => {
     const students = ref("");
     const { getCookie, removeCookie } = useLogin();
     const index = async () => {
-        token.value = getCookie("access_token");
-        await axios
-            .get("/api/student/attendance", {
-                headers: {
-                    Authorization: `Bearer ${token.value}`,
-                },
-            })
-            .then((res) => {
-                students.value = res.data;
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        //     token.value = getCookie("access_token");
+        //     await axios
+        //         .get("/api/student/attendance", {
+        //             headers: {
+        //                 Authorization: `Bearer ${token.value}`,
+        //             },
+        //         })
+        //         .then((res) => {
+        //             students.value = res.data;
+        //         })
+        //         .catch((err) => {
+        //             console.log(err);
+        //         });
     };
     return { index, students };
 };
