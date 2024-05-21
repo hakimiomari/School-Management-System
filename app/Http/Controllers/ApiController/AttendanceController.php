@@ -40,7 +40,7 @@ class AttendanceController extends Controller
                 Attendance::create([
                     'student_id' => $student['id'],
                     'in' => $student['attendance'],
-                    // 'created_at' =>
+                    'persainYear' => $persianYear
                 ]);
             }
         }
@@ -55,6 +55,7 @@ class AttendanceController extends Controller
                     $attendance = Attendance::create([
                         'student_id' => $student['id'],
                         'in' => 'Obsent',
+                        'persainYear' => $persianYear
                     ]);
                 }
                 $attendance->out = $student['attendance'];
@@ -66,4 +67,7 @@ class AttendanceController extends Controller
         }
         return response()->json('success');
     }
+
+    // get class monthly report
+    
 }
