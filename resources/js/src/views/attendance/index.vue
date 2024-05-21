@@ -1,7 +1,8 @@
 <template>
     <div class="flex flex-wrap" v-if="students.length > 0">
         <div
-            v-for="student in students"
+            v-for="(student, index) in students"
+            :key="index"
             class="mx-4 bg-white p-4 flex flex-col items-center gap-2 justify-center"
         >
             <img
@@ -11,28 +12,56 @@
             />
 
             <h5>{{ student.name }}</h5>
-            <div>
+            <div class="flex">
                 <label for="present">
-                    <input type="radio" name="attendance" id="present" />
-                    <span>Present</span>
+                    <input
+                        @change="handleChange"
+                        type="radio"
+                        hidden
+                        name="attendance"
+                        id="present"
+                    />
+                    <span
+                        class="w-[25px] h-[25px] p-2 hover:bg-green-500 text-sm cursor-pointer rounded-full mx-1 bg-slate-900 text-white"
+                        >P</span
+                    >
                 </label>
                 <label for="obsent">
-                    <input type="radio" name="attendance" id="obsent" />
-                    <span>Obsent</span>
+                    <input type="radio" hidden name="attendance" id="obsent" />
+                    <span
+                        class="w-[25px] h-[25px] p-2 hover:bg-green-500 text-sm cursor-pointer rounded-full mx-1 bg-slate-900 text-white"
+                        >O</span
+                    >
                 </label>
                 <label for="leave">
-                    <input type="radio" name="attendance" id="leave" />
-                    <span>Leave</span>
+                    <input type="radio" hidden name="attendance" id="leave" />
+                    <span
+                        class="w-[25px] h-[25px] p-2 hover:bg-green-500 text-sm cursor-pointer rounded-full mx-1 bg-slate-900 text-white"
+                        >L</span
+                    >
                 </label>
             </div>
         </div>
     </div>
 </template>
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useAttendance } from "@/composables/useAttendance";
 
 const { index, students } = useAttendance();
+
+const studentAttendaceData = ref([
+    {
+        id: "",
+        Present: 0,
+        Obsent: 0,
+        Leave: 0,
+    },
+]);
+
+const handleChange = (event) => {
+    console.log(event.target.value);
+};
 
 onMounted(() => {
     index();
