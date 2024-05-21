@@ -51,6 +51,15 @@ export const useAttendance = () => {
                         zIndex: 9999,
                     });
                 }
+                if (err.response.status == 405) {
+                    toast("Attendance already token", {
+                        theme: "auto",
+                        type: "error",
+                        autoClose: 3000,
+                        dangerouslyHTMLString: true,
+                        zIndex: 9999,
+                    });
+                }
             });
     };
     return { index, students, takeAttendance };
