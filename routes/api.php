@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController\AttendanceController;
 use App\Http\Controllers\ApiController\ClassController;
 use App\Http\Controllers\ApiController\GradeController;
 use App\Http\Controllers\ApiController\StudentController;
@@ -39,7 +40,8 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::delete('/student/delete/{id}', [StudentController::class, 'delete']);
     Route::get('/student/inof/{id}', [StudentController::class, 'getStudentData']);
     Route::post('/student/update', [StudentController::class, 'update']);
-    Route::get('/student/attendance', [StudentController::class, 'getClassStudent']);
+    Route::get('/student/attendance', [AttendanceController::class, 'getClassStudent']);
+    Route::post('/attendance/take', [AttendanceController::class, 'takeAttendance']);
 
     Route::get('/teachers/index', [TeacherController::class, 'index']);
     Route::post('/teacher/add', [TeacherController::class, 'store']);
