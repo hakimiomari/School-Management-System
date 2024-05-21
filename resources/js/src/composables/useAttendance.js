@@ -6,9 +6,13 @@ import { toast } from "vue3-toastify";
 export const useAttendance = () => {
     const token = ref("");
     const students = ref("");
+    const loading = ref(false);
     const { getCookie, removeCookie } = useLogin();
+
+    // get all students
     const index = async () => {
         token.value = getCookie("access_token");
+        loading.value = true;
         await axios
             .get("/api/student/attendance", {
                 headers: {
@@ -16,15 +20,20 @@ export const useAttendance = () => {
                 },
             })
             .then((res) => {
+                loading.value = false;
                 students.value = res.data;
             })
             .catch((err) => {
-                console.log(err);
+                loading.value = false;
+                if (err.response.status == 401) {
+                    removeCookie("access_token");
+                }
             });
     };
 
     // take attendance
     const takeAttendance = (students) => {
+        loading.value = true;
         token.value = getCookie("access_token");
         axios
             .post("/api/attendance/take", students, {
@@ -33,6 +42,7 @@ export const useAttendance = () => {
                 },
             })
             .then((res) => {
+                loading.value = false;
                 toast("Attendance successfully taken", {
                     theme: "auto",
                     type: "success",
@@ -42,6 +52,10 @@ export const useAttendance = () => {
                 });
             })
             .catch((err) => {
+                loading.value = false;
+                if (err.response.status == 401) {
+                    removeCookie("access_token");
+                }
                 if (err.response.status == 403) {
                     toast("It's not time to take Attendance", {
                         theme: "auto",
@@ -62,5 +76,5 @@ export const useAttendance = () => {
                 }
             });
     };
-    return { index, students, takeAttendance };
+    return { index, students, takeAttendance, loading };
 };
