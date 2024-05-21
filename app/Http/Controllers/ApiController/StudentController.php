@@ -24,11 +24,6 @@ class StudentController extends Controller
         $related_path = $request->photo->store('student_images', 'public');
         $student = Student::create($filterData);
         $student->update(['photo' => $related_path]);
-        $class = Classes::find($request->class);
-        Attendance::create([
-            'student_id'=>$student->id,
-            'teacher_id' => $class->teacher,
-        ]);
         return response()->json('Success');
     }
 
