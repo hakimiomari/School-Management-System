@@ -59,7 +59,10 @@
 </template>
 <script setup>
 import { useAttendance } from "@/composables/useAttendance";
+import { userStore } from "@/store/userStore";
 
+const user = userStore();
+console.log(user.userData);
 const { takeAttendance } = useAttendance();
 defineProps({
     students: {
