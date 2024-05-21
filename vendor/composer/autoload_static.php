@@ -19,10 +19,11 @@ class ComposerStaticInitbfe12996eeecb6fdc8713a9fd9d431f8
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
         '3bd81c9b8fcc150b69d8b63b4d2ccf23' => __DIR__ . '/..' . '/spatie/flare-client-php/src/helpers.php',
+        'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '35a6ad97d21e794e7e22a17d806652e4' => __DIR__ . '/..' . '/nunomaduro/termwind/src/Functions.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
-        'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
+        'a4ecaeafb8cfb009ad0e052c90355e98' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/functions.php',
         '47e1160838b5e5a10346ac4084b58c23' => __DIR__ . '/..' . '/laravel/prompts/src/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
@@ -35,6 +36,7 @@ class ComposerStaticInitbfe12996eeecb6fdc8713a9fd9d431f8
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'c72349b1fe8d0deeedd3a52e8aa814d8' => __DIR__ . '/..' . '/mockery/mockery/library/helpers.php',
         'ce9671a430e4846b44e1c68c7611f9f5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
+        'e4e590a9b5afe940db71ee1662c02677' => __DIR__ . '/..' . '/morilog/jalali/src/helpers.php',
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
@@ -117,6 +119,7 @@ class ComposerStaticInitbfe12996eeecb6fdc8713a9fd9d431f8
         ),
         'M' => 
         array (
+            'Morilog\\Jalali\\' => 15,
             'Monolog\\' => 8,
             'Mockery\\' => 8,
         ),
@@ -177,6 +180,7 @@ class ComposerStaticInitbfe12996eeecb6fdc8713a9fd9d431f8
         ),
         'A' => 
         array (
+            'Assert\\' => 7,
             'App\\' => 4,
         ),
     );
@@ -391,6 +395,10 @@ class ComposerStaticInitbfe12996eeecb6fdc8713a9fd9d431f8
         array (
             0 => __DIR__ . '/..' . '/nunomaduro/collision/src',
         ),
+        'Morilog\\Jalali\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/morilog/jalali/src',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -527,6 +535,10 @@ class ComposerStaticInitbfe12996eeecb6fdc8713a9fd9d431f8
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
         ),
+        'Assert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/beberlei/assert/lib/Assert',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
@@ -538,6 +550,10 @@ class ComposerStaticInitbfe12996eeecb6fdc8713a9fd9d431f8
         'App\\Console\\Commands\\ClearExpiredTokens' => __DIR__ . '/../..' . '/app/Console/Commands/ClearExpiredTokens.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\ApiController\\AttendanceController' => __DIR__ . '/../..' . '/app/Http/Controllers/ApiController/AttendanceController.php',
+        'App\\Http\\Controllers\\ApiController\\ClassController' => __DIR__ . '/../..' . '/app/Http/Controllers/ApiController/ClassController.php',
+        'App\\Http\\Controllers\\ApiController\\StudentController' => __DIR__ . '/../..' . '/app/Http/Controllers/ApiController/StudentController.php',
+        'App\\Http\\Controllers\\ApiController\\TeacherController' => __DIR__ . '/../..' . '/app/Http/Controllers/ApiController/TeacherController.php',
         'App\\Http\\Controllers\\ApiController\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/ApiController/UserController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
@@ -550,14 +566,33 @@ class ComposerStaticInitbfe12996eeecb6fdc8713a9fd9d431f8
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\ValidateSignature' => __DIR__ . '/../..' . '/app/Http/Middleware/ValidateSignature.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Requests\\ChangingUserPasswordRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ChangingUserPasswordRequest.php',
+        'App\\Http\\Requests\\ClassRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ClassRequest.php',
         'App\\Http\\Requests\\LoginRequest' => __DIR__ . '/../..' . '/app/Http/Requests/LoginRequest.php',
+        'App\\Http\\Requests\\StudentRegisterRequest' => __DIR__ . '/../..' . '/app/Http/Requests/StudentRegisterRequest.php',
+        'App\\Http\\Requests\\StudentUpdateRequest' => __DIR__ . '/../..' . '/app/Http/Requests/StudentUpdateRequest.php',
+        'App\\Http\\Requests\\TeacherRegisterRequest' => __DIR__ . '/../..' . '/app/Http/Requests/TeacherRegisterRequest.php',
+        'App\\Http\\Requests\\TeacherUpdateRequest' => __DIR__ . '/../..' . '/app/Http/Requests/TeacherUpdateRequest.php',
+        'App\\Http\\Requests\\UserRegisterRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UserRegisterRequest.php',
+        'App\\Http\\Requests\\UserUpdateRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UserUpdateRequest.php',
+        'App\\Models\\Attendance' => __DIR__ . '/../..' . '/app/Models/Attendance.php',
+        'App\\Models\\Classes' => __DIR__ . '/../..' . '/app/Models/Classes.php',
         'App\\Models\\Student' => __DIR__ . '/../..' . '/app/Models/Student.php',
+        'App\\Models\\Teacher' => __DIR__ . '/../..' . '/app/Models/Teacher.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Services\\Service' => __DIR__ . '/../..' . '/app/Services/Service.php',
+        'Assert\\Assert' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/Assert.php',
+        'Assert\\Assertion' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/Assertion.php',
+        'Assert\\AssertionChain' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/AssertionChain.php',
+        'Assert\\AssertionFailedException' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/AssertionFailedException.php',
+        'Assert\\InvalidArgumentException' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/InvalidArgumentException.php',
+        'Assert\\LazyAssertion' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/LazyAssertion.php',
+        'Assert\\LazyAssertionException' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/LazyAssertionException.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',
@@ -669,7 +704,9 @@ class ComposerStaticInitbfe12996eeecb6fdc8713a9fd9d431f8
         'Cron\\MinutesField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
+        'Database\\Seeders\\AdminSeeder' => __DIR__ . '/../..' . '/database/seeders/AdminSeeder.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
+        'Database\\Seeders\\RoleSeeder' => __DIR__ . '/../..' . '/database/seeders/RoleSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
         'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
         'DateInvalidOperationException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',
@@ -3448,6 +3485,9 @@ class ComposerStaticInitbfe12996eeecb6fdc8713a9fd9d431f8
         'Monolog\\SignalHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/SignalHandler.php',
         'Monolog\\Test\\TestCase' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Test/TestCase.php',
         'Monolog\\Utils' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Utils.php',
+        'Morilog\\Jalali\\CalendarUtils' => __DIR__ . '/..' . '/morilog/jalali/src/CalendarUtils.php',
+        'Morilog\\Jalali\\Converter' => __DIR__ . '/..' . '/morilog/jalali/src/Converter.php',
+        'Morilog\\Jalali\\Jalalian' => __DIR__ . '/..' . '/morilog/jalali/src/Jalalian.php',
         'Nette\\ArgumentOutOfRangeException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
         'Nette\\DeprecatedException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
         'Nette\\DirectoryNotFoundException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
