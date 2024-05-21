@@ -12,6 +12,7 @@ class Attendance extends Model
     protected $fillable = [
         'student_id',
         'in',
-        'out'
+        'out',
+        'persainYear'
     ];
 }
