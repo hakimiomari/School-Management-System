@@ -5,6 +5,8 @@ namespace App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRegisterRequest;
 use App\Http\Requests\StudentUpdateRequest;
+use App\Models\Attendance;
+use App\Models\Classes;
 use App\Models\Student;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,6 +24,11 @@ class StudentController extends Controller
         $related_path = $request->photo->store('student_images', 'public');
         $student = Student::create($filterData);
         $student->update(['photo' => $related_path]);
+        $class = Classes::find($request->class);
+        $attendance = Attendance::create([
+            'student_id'=>$student->id,
+            'teacher->id' => $class->teacher,
+        ]);
         return response()->json('Success');
     }
 
@@ -67,6 +74,12 @@ class StudentController extends Controller
     public function getClassStudent()
     {
         $students = Student::where('class', '13')->get();
+        $attendances = Attendance::where('teacher_id', 4)->get();
+        foreach ($attendances as $attendance) {
+            // $data = $attendance->test;g
+            $attendance->test = ['name' => 'Kamranullah', 'age' => 23, 'address' => 'Kabul'];
+            $attendance->save();
+        }
         return response()->json($students);
     }
 }
