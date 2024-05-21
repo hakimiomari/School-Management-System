@@ -69,17 +69,4 @@ class StudentController extends Controller
         }
         return response()->json('sucesss');
     }
-
-    // get all student belong to one class
-    public function getClassStudent()
-    {
-        $students = Student::where('class', '13')->get();
-        $attendances = Attendance::where('teacher_id', 4)->get();
-        foreach ($attendances as $attendance) {
-            // $data = $attendance->test;g
-            $attendance->test = ['name' => 'Kamranullah', 'age' => 23, 'address' => 'Kabul'];
-            $attendance->save();
-        }
-        return response()->json($students);
-    }
 }
