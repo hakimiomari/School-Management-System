@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->integer('student_id');
-            $table->enum('in', ['Present', 'Obsent', 'Leave']);
-            $table->enum('out', ['Present', 'Obsent', 'Leave']);
+            $table->integer('class_id');
+            $table->enum('in', ['Present', 'Obsent', 'Leave'])->default('Obsent');
+            $table->enum('out', ['Present', 'Obsent', 'Leave'])->default('Obsent');
             $table->date('persainYear');
             $table->timestamps();
         });
