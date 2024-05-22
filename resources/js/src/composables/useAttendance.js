@@ -32,10 +32,10 @@ export const useAttendance = () => {
     };
 
     // take attendance
-    const takeAttendance = (students) => {
+    const takeAttendance = async (students) => {
         loading.value = true;
         token.value = getCookie("access_token");
-        axios
+        await axios
             .post("/api/attendance/take", students, {
                 headers: {
                     Authorization: `Bearer ${token.value}`,
@@ -76,5 +76,26 @@ export const useAttendance = () => {
                 }
             });
     };
-    return { index, students, takeAttendance, loading };
+
+    // / classDailyReport
+    const classDailyReport = async () => {
+        loading.value = true;
+        token.value = getCookie("access_token");
+        await axios
+            .get("/api/attendance/class/daily_report", {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                loading.value = false;
+                console.log(res);
+            })
+            .catch((err) => {
+                loading.value = false;
+                console.log(err);
+            });
+    };
+
+    return { index, students, takeAttendance, loading, classDailyReport };
 };
