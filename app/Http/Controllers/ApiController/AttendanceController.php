@@ -27,7 +27,7 @@ class AttendanceController extends Controller
 
         $persianYear = Jalalian::forge($currentTime);
 
-        $morningStartTime = Carbon::createFromFormat('H:i', '8:00');
+        $morningStartTime = Carbon::createFromFormat('H:i', '6:00');
         $morningEndTime = Carbon::createFromFormat('H:i', '20:45');
         $noonStartTime = Carbon::createFromFormat('H:i', '21:20');
         $noonEndTime = Carbon::createFromFormat('H:i', '23:50');
@@ -39,6 +39,7 @@ class AttendanceController extends Controller
                 }
                 Attendance::create([
                     'student_id' => $student['id'],
+                    'class_id' => $student['class'],
                     'in' => $student['attendance'],
                     'persainYear' => $persianYear
                 ]);
@@ -54,6 +55,7 @@ class AttendanceController extends Controller
                 if (!$attendance) {
                     $attendance = Attendance::create([
                         'student_id' => $student['id'],
+                        'class_id' => $student['class'],
                         'in' => 'Obsent',
                         'persainYear' => $persianYear
                     ]);
@@ -69,5 +71,15 @@ class AttendanceController extends Controller
     }
 
     // get class monthly report
-    
+    public function getClassDailyReport()
+    {
+        date_default_timezone_set('Asia/Kabul');
+        $currentTime = Carbon::now();
+        $persianYear = Jalalian::forge($currentTime);
+        $month =  $persianYear->getMonth();
+        $year =  $persianYear->getYear();
+        $startDate = "$year/$month/1";
+
+        // $attendance = Attendance::where('class',10)->whereDate()
+    }
 }
