@@ -27,10 +27,10 @@ class AttendanceController extends Controller
 
         $persianYear = Jalalian::forge($currentTime);
 
-        $morningStartTime = Carbon::createFromFormat('H:i', '6:00');
-        $morningEndTime = Carbon::createFromFormat('H:i', '20:45');
-        $noonStartTime = Carbon::createFromFormat('H:i', '21:20');
-        $noonEndTime = Carbon::createFromFormat('H:i', '23:50');
+        $morningStartTime = Carbon::createFromFormat('H:i', '8:00');
+        $morningEndTime = Carbon::createFromFormat('H:i', '8:15');
+        $noonStartTime = Carbon::createFromFormat('H:i', '13:00');
+        $noonEndTime = Carbon::createFromFormat('H:i', '13:15');
         if ($currentTime->between($morningStartTime, $morningEndTime)) {
             foreach ($request->all() as $student) {
                 $checkStudent = Attendance::where('student_id', $student['id'])->whereBetween('created_at', [$morningStartTime, $morningEndTime])->first();
@@ -80,6 +80,7 @@ class AttendanceController extends Controller
         $year =  $persianYear->getYear();
         $startDate = "$year/$month/1";
 
-        // $attendance = Attendance::where('class',10)->whereDate()
+        $attendance = Attendance::where('class_id', 10)->whereBetween('persainYear', [$startDate, $persianYear])->get();
+        return response()->json($attendance);
     }
 }
