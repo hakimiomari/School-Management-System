@@ -9,7 +9,7 @@ import Tables from "@/views/Tables.vue";
 import UIElements from "@/views/UIElements.vue";
 import Login from "@/views/Login.vue";
 import Modal from "@/views/Modal.vue";
-import Card from "@/views/Card.vue";
+import Room from "@/views/Room.vue";
 import Blank from "@/views/Blank.vue";
 import Profile from "@/views/profile/Profile.vue";
 import ChangePassword from "@/views/profile/ChangePassword.vue";
@@ -106,9 +106,10 @@ const routes = [
         meta: { isAuth: true, role: "Admin" },
     },
     {
-        path: "/cards",
-        name: "Cards",
-        component: Card,
+        path: "/rooms",
+        name: "Room",
+        component: Room,
+        meta: { isAuth: true, role: "Admin" },
     },
     {
         path: "/tables",
