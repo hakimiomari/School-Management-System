@@ -2,11 +2,10 @@
 
 use App\Http\Controllers\ApiController\AttendanceController;
 use App\Http\Controllers\ApiController\ClassController;
-use App\Http\Controllers\ApiController\GradeController;
 use App\Http\Controllers\ApiController\StudentController;
 use App\Http\Controllers\ApiController\TeacherController;
 use App\Http\Controllers\ApiController\UserController;
-use App\Models\Student;
+use App\Http\Controllers\ApiController\RoomController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +44,7 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::get('/attendance/class/daily_report', [AttendanceController::class, 'getClassDailyReport']);
     Route::get('/admin/dashboard/data', [AttendanceController::class, 'getDataForDashboard']);
 
+    Route::get('/rooms/index', [RoomController::class, 'index']);
 
     Route::get('/teachers/index', [TeacherController::class, 'index']);
     Route::post('/teacher/add', [TeacherController::class, 'store']);
