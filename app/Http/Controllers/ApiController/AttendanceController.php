@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Student;
+use App\Models\Teacher;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
@@ -82,5 +83,33 @@ class AttendanceController extends Controller
 
         $attendance = Attendance::where('class_id', 10)->whereBetween('persainYear', [$startDate, $persianYear])->get();
         return response()->json($attendance);
+    }
+
+    // getDataForDashboard
+    public function getDataForDashboard()
+    {
+        $teachers = Teacher::count();
+        $students = Student::count();
+
+        $morningStartTime = Carbon::createFromFormat('H:i', '1:00');
+        $morningEndTime = Carbon::createFromFormat('H:i', '12:15');
+        $noonStartTime = Carbon::createFromFormat('H:i', '12:15');
+        $noonEndTime = Carbon::createFromFormat('H:i', '24:00');
+
+        $presentStudent = 0;
+        $obsentStudent = 0;
+        $currentTime = Carbon::now();
+
+        if ($currentTime->between($morningStartTime, $morningEndTime)) {
+            $presentStudent = Attendance::where('in', 'Present')->whereBetween('created_at', [$morningStartTime, $morningEndTime])->count();
+            $obsentStudent = Attendance::whereIn('in', ['Obsent', 'Leave'])->whereBetween('created_at', [$morningStartTime, $morningEndTime])->count();
+        }
+
+        if ($currentTime->between($noonStartTime, $noonEndTime)) {
+            $presentStudent = Attendance::where('out', 'Present')->whereBetween('created_at', [$morningStartTime, $morningEndTime])->count();
+            $obsentStudent = Attendance::whereIn('out', ['Obsent', 'Leave'])->whereBetween('created_at', [$morningStartTime, $morningEndTime])->count();
+        }
+
+        return response()->json(['teachers' => $teachers, 'students' => $students, 'presentStudent' => $presentStudent, 'obsentStudent' => $obsentStudent]);
     }
 }
