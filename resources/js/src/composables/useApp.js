@@ -23,7 +23,6 @@ export const useApp = () => {
             })
             .then((res) => {
                 appStore.loading = false;
-                console.log(res);
                 totalTeachers.value = res.data.teachers;
                 totalStudents.value = res.data.students;
                 presentStudents.value = res.data.presentStudent;
