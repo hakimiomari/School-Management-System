@@ -313,7 +313,7 @@ const inactiveClass = ref(
                         />
                     </svg>
 
-                    <span class="mx-4">Cards</span>
+                    <span class="mx-4">Rooms</span>
                 </router-link>
 
                 <router-link
