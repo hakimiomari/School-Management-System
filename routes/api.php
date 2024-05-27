@@ -43,6 +43,8 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::get('/student/attendance', [AttendanceController::class, 'getClassStudent']);
     Route::post('/attendance/take', [AttendanceController::class, 'takeAttendance']);
     Route::get('/attendance/class/daily_report', [AttendanceController::class, 'getClassDailyReport']);
+    Route::get('/admin/dashboard/data', [AttendanceController::class, 'getDataForDashboard']);
+
 
     Route::get('/teachers/index', [TeacherController::class, 'index']);
     Route::post('/teacher/add', [TeacherController::class, 'store']);
