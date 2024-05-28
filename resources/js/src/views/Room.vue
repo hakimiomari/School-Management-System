@@ -301,7 +301,7 @@
                                                 <DialogTitle
                                                     as="h3"
                                                     class="text-base font-semibold leading-6 text-gray-900"
-                                                    >Add New Class</DialogTitle
+                                                    >Add New Room</DialogTitle
                                                 >
                                                 <svg
                                                     @click="
@@ -321,7 +321,7 @@
                                                     class="space-y-4"
                                                     action="#"
                                                     @submit.prevent="
-                                                        addRom(roomData)
+                                                        store(roomData)
                                                     "
                                                 >
                                                     <div class="w-full">
@@ -386,7 +386,7 @@
                                                             Capicity
                                                         </label>
                                                         <input
-                                                            type="capicity"
+                                                            type="number"
                                                             name="capicity"
                                                             id="capicity"
                                                             class="bg-slate-100 border border-gray-900 text-gray-900 text-sm rounded-lg focus:ring-blue-100 focus:border-blue-100 block w-full p-2.5 dark:bg-slate-50 dark:border-gray-100 dark:placeholder-gray-400"
@@ -475,6 +475,7 @@ import Skeleton from "primevue/skeleton";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Pagination from "@/components/Pagination.vue";
+import { useRoom } from "@/composables/useRoom";
 
 import {
     Dialog,
@@ -484,12 +485,14 @@ import {
     TransitionRoot,
 } from "@headlessui/vue";
 
+const { store, errors } = useRoom();
 const products = ref(new Array(6));
 
 const appStore = useAppStore();
 const paginatedData = computed(() => appStore.paginatedData);
 const paginatedLoader = computed(() => appStore.paginatedLoader);
 const open = computed(() => appStore.open);
+const loading = computed(() => appStore.loading);
 
 const roomData = ref({
     name: "",
