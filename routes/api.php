@@ -47,6 +47,8 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     // room
     Route::get('/rooms/index', [RoomController::class, 'index']);
     Route::post('/school/room/store', [RoomController::class, 'store']);
+    Route::delete('/school/room/delete/{id}', [RoomController::class, 'deleteRoom']);
+    Route::patch('/school/room/update', [RoomController::class, 'updateRoom']);
 
     Route::get('/teachers/index', [TeacherController::class, 'index']);
     Route::post('/teacher/add', [TeacherController::class, 'store']);
