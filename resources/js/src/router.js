@@ -4,7 +4,6 @@ import { useLogin } from "@/composables/user/useLogin";
 import { useUser } from "@/composables/user/useUser";
 import { userStore } from "@/store/userStore";
 import Dashboard from "@/views/Dashboard.vue";
-import Forms from "@/views/Forms.vue";
 import Tables from "@/views/Tables.vue";
 import UIElements from "@/views/UIElements.vue";
 import Login from "@/views/Login.vue";

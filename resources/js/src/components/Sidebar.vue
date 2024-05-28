@@ -288,7 +288,7 @@ const inactiveClass = ref(
                         />
                     </svg>
 
-                    <span class="mx-4">Forms</span>
+                    <span class="mx-4">Schedule</span>
                 </router-link>
 
                 <router-link
