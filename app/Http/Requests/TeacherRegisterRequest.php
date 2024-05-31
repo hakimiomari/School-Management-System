@@ -22,10 +22,7 @@ class TeacherRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,avif,webp|max:4196',
-            'name' => 'required|string|min:3',
             'father_name' => 'required|string|min:3',
-            'email' => 'required|email|unique:teachers,email',
             'degree' => 'required|string',
             'gender' => 'required|in:Male,Female',
             'date_of_birth' => 'required|date',
