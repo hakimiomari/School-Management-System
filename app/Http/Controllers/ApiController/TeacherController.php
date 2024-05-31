@@ -19,7 +19,7 @@ class TeacherController extends Controller
     // store teacher
     public function store(TeacherRegisterRequest $request)
     {
-        $teacher = Teacher::create($request->all());
+        $teacher = Teacher::create($request->all())->assignRole('Teacher');
         $related_path = $request->photo->store('teacher_images', 'public');
         $teacher->photo = $related_path;
         $teacher->save();
