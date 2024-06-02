@@ -22,12 +22,16 @@ class TeacherRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => 'required|string|min:3',
             'father_name' => 'required|string|min:3',
-            'degree' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'degree' => 'required|in:Bikloria,Bachlor,Master',
             'gender' => 'required|in:Male,Female',
             'date_of_birth' => 'required|date',
             'address' => 'required|string',
             'contact' => 'required|regex:/^[0-9]{9,13}$/',
+            'bio' => 'required|string|min:20',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif,webp,avif|max:4196',
         ];
     }
 }
