@@ -167,7 +167,7 @@
                                     <p class="text-gray-900 whitespace-nowrap">
                                         <img
                                             class="rounded-full w-[50px] h-[50px]"
-                                            :src="`/storage/${teacher.photo}`"
+                                            :src="`/storage/${teacher.teacher.image}`"
                                             alt=""
                                         />
                                     </p>
@@ -176,7 +176,7 @@
                                     class="px-5 py-2 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p class="text-gray-900 whitespace-nowrap">
-                                        {{ teacher.name }}
+                                        {{ teacher.teacher.name }}
                                     </p>
                                 </td>
                                 <td
