@@ -23,7 +23,7 @@ class UserRegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|min:3',
-            'email' => 'required|email|unique:users,emial',
+            'email' => 'required|email|unique:users,email',
             'profession' => 'required|string|max:255|min:3',
             'bio' => 'required|string|max:2000',
             'file' => 'image|mimes:jpeg,png,jpg,gif,webp,avif|max:4196',
