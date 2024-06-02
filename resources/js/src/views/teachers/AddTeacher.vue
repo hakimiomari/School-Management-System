@@ -99,10 +99,10 @@
                                         v-model="student_data.father_name"
                                     />
                                     <p
-                                        v-if="errors?.parent_name"
+                                        v-if="errors?.father_name"
                                         class="text-xs mt-1 text-red-500"
                                     >
-                                        {{ errors?.parent_name[0] }}
+                                        {{ errors?.father_name[0] }}
                                     </p>
                                 </div>
                             </div>
@@ -248,6 +248,69 @@
                                     </p>
                                 </div>
                             </div>
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label
+                                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                        htmlfor="grid-password"
+                                    >
+                                        Profession
+                                    </label>
+                                    <input
+                                        value="Teacher"
+                                        disabled
+                                        type="text"
+                                        class="border-0 px-3 py-3 placeholder-blueGray-200 text-blueGray-200 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        placeholder="Manager,Teacher"
+                                        v-model="student_data.profession"
+                                    />
+                                    <p
+                                        v-if="errors?.profession"
+                                        class="text-xs mt-1 text-red-500"
+                                    >
+                                        {{ errors?.profession[0] }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="w-full lg:w-6/12 px-4">
+                                <div class="relative w-full mb-3">
+                                    <label
+                                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                        htmlfor="grid-password"
+                                    >
+                                        Password
+                                    </label>
+                                    <input
+                                        type="number"
+                                        disabled
+                                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        placeholder="password"
+                                    />
+                                </div>
+                            </div>
+
+                            <!-- ////////////// -->
+                            <div class="relative w-full px-4 mb-3">
+                                <label
+                                    class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                    htmlfor="grid-password"
+                                >
+                                    Bio
+                                </label>
+                                <textarea
+                                    rows="4"
+                                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                    placeholder="Passionate educator, inspiring students daily"
+                                    v-model="student_data.bio"
+                                />
+                                <p
+                                    v-if="errors?.bio"
+                                    class="text-xs mt-1 text-red-500"
+                                >
+                                    {{ errors?.bio[0] }}
+                                </p>
+                            </div>
+                            <!-- ////////////// -->
                         </div>
 
                         <div class="flex justify-end mt-5 pe-3">
@@ -296,7 +359,6 @@ import { useTeacher } from "@/composables/useTeacher";
 import Dropdown from "primevue/dropdown";
 import { useAppStore } from "@/store/useAppStore";
 
-
 const appStore = useAppStore();
 const loading = computed(() => appStore.loading);
 const { addTeacher, errors } = useTeacher();
@@ -318,5 +380,6 @@ const student_data = ref({
     dob: "",
     address: "",
     contact: "",
+    bio: "",
 });
 </script>
