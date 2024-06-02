@@ -28,6 +28,7 @@ export const useTeacher = () => {
         data.append("gender", form_data.gender.name);
         data.append("address", form_data.address);
         data.append("contact", form_data.contact);
+        data.append("bio", form_data.bio);
         data.append("photo", file);
 
         await axios
@@ -133,19 +134,21 @@ export const useTeacher = () => {
         appStore.loading = true;
 
         data.append("id", teacherData.id);
-        data.append("name", teacherData.name);
+        data.append("name", teacherData.teacher.name);
         data.append("father_name", teacherData.father_name);
-        data.append("email", teacherData.email);
+        data.append("email", teacherData.teacher.email);
         data.append("degree", teacherData.degree);
         data.append("date_of_birth", teacherData.date_of_birth);
         data.append("gender", teacherData.gender);
         data.append("address", teacherData.address);
         data.append("contact", teacherData.contact);
+        data.append("bio", teacherData.teacher.bio);
+        data.append("user_id", teacherData.user_id);
         if (file) {
             data.append("photo", file);
         }
 
-        axios
+        await axios
             .post("/api/teacher/update", data, {
                 headers: {
                     Authorization: `Bearer ${token.value}`,
