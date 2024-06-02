@@ -25,12 +25,13 @@ class TeacherUpdateRequest extends FormRequest
             'photo' => 'image|mimes:jpeg,png,jpg,gif,avif,webp|max:4196',
             'name' => 'required|string|min:3',
             'father_name' => 'required|string|min:3',
-            'email' => 'required|email|unique:teachers,email,' . $this->input('id'),
+            'email' => 'required|email|unique:users,email,' . $this->input('user_id'),
             'degree' => 'required|string',
             'gender' => 'required|in:Male,Female',
             'date_of_birth' => 'required|date',
             'address' => 'required|string',
             'contact' => 'required|regex:/^[0-9]{9,13}$/',
+            'bio' => 'required|string|min:20'
         ];
     }
 }
