@@ -22,7 +22,7 @@
                                 :src="
                                     imageUrl
                                         ? imageUrl
-                                        : `/storage/${teacherInfo.photo}`
+                                        : `/storage/${teacherInfo.teacher.image}`
                                 "
                                 alt="Bordered avatar"
                             />
@@ -74,7 +74,7 @@
                                         type="text"
                                         class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                         placeholder="Ahmad.Kamran"
-                                        v-model="teacherInfo.name"
+                                        v-model="teacherInfo.teacher.name"
                                     />
                                     <p
                                         v-if="errors?.name"
@@ -119,7 +119,7 @@
                                         type="email"
                                         class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                         placeholder="hakimi@gmail.com"
-                                        v-model="teacherInfo.email"
+                                        v-model="teacherInfo.teacher.email"
                                     />
                                     <p
                                         v-if="errors?.email"
@@ -242,6 +242,29 @@
                                         class="text-xs mt-1 text-red-500"
                                     >
                                         {{ errors?.contact[0] }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="w-full  px-4">
+                                <div class="relative w-full mb-3">
+                                    <label
+                                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                        htmlfor="grid-password"
+                                    >
+                                        Bio
+                                    </label>
+                                    <textarea
+                                    rows="3"
+                                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        placeholder="0781288992"
+                                        v-model="teacherInfo.teacher.bio"
+                                    />
+                                    <p
+                                        v-if="errors?.bio"
+                                        class="text-xs mt-1 text-red-500"
+                                    >
+                                        {{ errors?.bio[0] }}
                                     </p>
                                 </div>
                             </div>
