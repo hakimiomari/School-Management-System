@@ -14,7 +14,7 @@ class ClassController extends Controller
     {
         $classes = Classes::paginate(5);
         foreach ($classes as $class) {
-            $class->teacherInfo;
+            $class->teacherInfo->teacher;
         }
         return response()->json($classes);
     }
