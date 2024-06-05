@@ -69,8 +69,11 @@ class TeacherController extends Controller
     // get teacher info
     public function allTeachers()
     {
-        $teacher = Teacher::all();
-        return response()->json($teacher);
+        $teachers = Teacher::with('teacher')->get();
+        foreach ($teachers as $teacher) {
+            $teacher['name'] = $teacher->teacher->name;
+        }
+        return response()->json($teachers);
     }
 
     // update teacher
