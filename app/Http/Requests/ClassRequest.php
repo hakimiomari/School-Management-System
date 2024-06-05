@@ -23,11 +23,13 @@ class ClassRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'grade' => ['required',Rule::unique('classes')->where(function($query){
-                return $query->where('class',$this->input('class'));
-            })
-        ],
+            'grade' => [
+                'required', Rule::unique('classes')->where(function ($query) {
+                    return $query->where('class', $this->input('class'));
+                })
+            ],
             'class' => 'required|string|min:3',
+            'fee' => 'required|numeric',
             'teacher' => 'required|unique:classes,teacher',
         ];
     }
