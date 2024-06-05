@@ -21,6 +21,7 @@ import TeacherList from "@/views/teachers/index.vue";
 import AddTeacher from "@/views/teachers/AddTeacher.vue";
 import EditTeacher from "@/views/teachers/EditTeacher.vue";
 import Attendance from "@/views/attendance/index.vue";
+import Fees from "@/views/fees/index.vue";
 
 const routes = [
     {
@@ -108,6 +109,12 @@ const routes = [
         path: "/rooms",
         name: "Room",
         component: Room,
+        meta: { isAuth: true, role: "Admin" },
+    },
+    {
+        path: "/fees",
+        name: "Fees",
+        component: Fees,
         meta: { isAuth: true, role: "Admin" },
     },
     {
