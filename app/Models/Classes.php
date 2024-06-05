@@ -13,6 +13,7 @@ class Classes extends Model
         'grade',
         'class',
         'teacher',
+        'fee',
         'status'
     ];
 
