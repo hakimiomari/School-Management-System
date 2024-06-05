@@ -16,6 +16,7 @@ export const useClass = () => {
         const newData = {
             grade: data.grade.name,
             class: data.class,
+            fee: data.fee,
             teacher: data.teacher.id,
         };
         appStore.loading = true;
@@ -107,7 +108,7 @@ export const useClass = () => {
                 }
             });
     };
-    
+
     const selectClass = async (grade) => {
         token.value = getCookie("access_token");
         await axios
