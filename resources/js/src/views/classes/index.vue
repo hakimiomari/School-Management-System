@@ -110,7 +110,6 @@
                         v-if="paginatedData.length > 0"
                         class="min-w-full leading-normal"
                     >
-
                         <thead>
                             <tr>
                                 <th
@@ -174,7 +173,7 @@
                                     class="px-5 py-5 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p class="text-gray-900 whitespace-nowrap">
-                                        {{ u.teacher_info.name }}
+                                        {{ u.teacher_info.teacher.name }}
                                     </p>
                                 </td>
                                 <td
@@ -572,6 +571,35 @@
                                                             </div>
                                                             <div class="w-full">
                                                                 <label
+                                                                    for="class"
+                                                                    class="block mb-2 text-sm font-medium text-gray-900"
+                                                                    >Fees</label
+                                                                >
+                                                                <input
+                                                                    type="number"
+                                                                    name="class"
+                                                                    id="class"
+                                                                    class="bg-slate-100 border border-gray-900 text-gray-900 text-sm rounded-lg focus:ring-blue-100 focus:border-blue-100 block w-full p-2.5 dark:bg-slate-50 dark:border-gray-100 dark:placeholder-gray-400"
+                                                                    placeholder="1000"
+                                                                    required
+                                                                    v-model="
+                                                                        classData.fee
+                                                                    "
+                                                                />
+                                                                <p
+                                                                    v-if="
+                                                                        errors?.fee
+                                                                    "
+                                                                    class="text-xs mt-1 text-red-500"
+                                                                >
+                                                                    {{
+                                                                        errors
+                                                                            ?.fee[0]
+                                                                    }}
+                                                                </p>
+                                                            </div>
+                                                            <div class="w-full">
+                                                                <label
                                                                     class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                                                                     htmlfor="grid-password"
                                                                 >
@@ -706,6 +734,7 @@ const paginatedLoader = computed(() => appStore.paginatedLoader);
 const classData = ref({
     grade: null,
     class: "",
+    fee: "",
     teacher: "",
 });
 
