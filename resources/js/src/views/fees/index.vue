@@ -53,6 +53,31 @@
                         </div>
                     </div>
                 </div>
+                <div class="w-full lg:w-5/12 px-4">
+                    <div class="relative w-full mb-3">
+                        <label
+                            class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            htmlfor="grid-password"
+                        >
+                            Months
+                        </label>
+                        <div class="card flex justify-content-center">
+                            <Dropdown
+                                v-model="class_data.month"
+                                :options="months"
+                                optionLabel="name"
+                                placeholder="Select month"
+                                class="w-full md:w-14rem"
+                            />
+                            <p
+                                v-if="errors?.month"
+                                class="text-xs mt-1 text-red-500"
+                            >
+                                {{ errors?.month[0] }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 <div class="w-full lg:w-2/12 px-4 mt-8">
                     <button
                         v-if="loading"
@@ -104,6 +129,57 @@ const class_data = ref({
     grade_level: "",
     class: "",
 });
+
+const months = [
+    {
+        id: 1,
+        name: "January",
+    },
+    {
+        id: 2,
+        name: "February",
+    },
+    {
+        id: 3,
+        name: "March",
+    },
+    {
+        id: 4,
+        name: "April",
+    },
+    {
+        id: 5,
+        name: "May",
+    },
+    {
+        id: 6,
+        name: "June",
+    },
+    {
+        id: 7,
+        name: "July",
+    },
+    {
+        id: 8,
+        name: "Augest",
+    },
+    {
+        id: 9,
+        name: "September",
+    },
+    {
+        id: 10,
+        name: "October",
+    },
+    {
+        id: 11,
+        name: "November",
+    },
+    {
+        id: 12,
+        name: "December",
+    },
+];
 
 onMounted(() => {
     getGrades();
