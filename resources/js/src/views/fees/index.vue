@@ -1,7 +1,7 @@
 <template>
-    <div class="p-4 bg-white">
+    <div class="p-4 bg-white rounded">
         <h1 class="font-bold text-2xl mb-3">Fees</h1>
-        <form @submit.prevent="SelectClassStudent(class_data)">
+        <form @submit.prevent="getClassByMonth(class_data)">
             <div class="flex flex-wrap">
                 <div class="w-full lg:w-5/12 px-4">
                     <div class="relative w-full mb-3">
@@ -21,10 +21,10 @@
                             />
                         </div>
                         <p
-                            v-if="errors?.grade_level"
+                            v-if="errors?.class_id"
                             class="text-xs mt-1 text-red-500"
                         >
-                            {{ errors?.grade_level[0] }}
+                            Grade and Class are required
                         </p>
                     </div>
                 </div>
@@ -69,13 +69,13 @@
                                 placeholder="Select month"
                                 class="w-full md:w-14rem"
                             />
-                            <p
-                                v-if="errors?.month"
-                                class="text-xs mt-1 text-red-500"
-                            >
-                                {{ errors?.month[0] }}
-                            </p>
                         </div>
+                        <p
+                            v-if="errors?.month"
+                            class="text-xs mt-1 text-red-500"
+                        >
+                            {{ errors?.month[0] }}
+                        </p>
                     </div>
                 </div>
                 <div class="w-full lg:w-2/12 px-4 mt-8">
@@ -114,20 +114,23 @@
             </div>
         </form>
     </div>
+    <div class="p-4 mt-4 rounded bg-white">
+        <h1 class="text-xl font-bold">Student Info</h1>
+    </div>
 </template>
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import Dropdown from "primevue/dropdown";
-import { useAppStore } from "@/store/useAppStore";
 import { useClass } from "@/composables/useClass";
+import { useFees } from "@/composables/useFees";
 
-const appStore = useAppStore();
-const loading = computed(() => appStore.loading);
+const { getClassByMonth, loading, errors, students } = useFees();
 const { selectClass, gradeClasses, getGrades, grades } = useClass();
 
 const class_data = ref({
     grade_level: "",
     class: "",
+    month: "",
 });
 
 const months = [
