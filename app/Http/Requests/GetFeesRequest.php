@@ -23,7 +23,7 @@ class GetFeesRequest extends FormRequest
     {
         return [
             'class_id' => 'required',
-            'month' => 'required'
+            'date' => 'required'
         ];
     }
 }
