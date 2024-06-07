@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Fee extends Model
 {
     use HasFactory;
+    protected $fillable = ['student_id', 'class_id', 'fee', 'payed', 'remain'];
 
-    protected $fillable = ['student_id', 'class_id', 'year', 'months', 'fee', 'payed', 'remaind'];
+    public function studentInfo()
+    {
+        return $this->hasOne(Student::class, 'id', 'student_id');
+    }
 }
