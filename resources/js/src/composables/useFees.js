@@ -8,15 +8,17 @@ export const useFees = () => {
     const students = ref("");
     const loading = ref(false);
     const errors = ref("");
+    const isStudent = ref(false);
     const { getCookie, removeCookie } = useLogin();
 
     const getClassByMonth = async (formData) => {
         loading.value = true;
         token.value = getCookie("access_token");
+        isStudent.value = true
 
         const data = {
             class_id: formData.class.id,
-            month: formData.month.name,
+            date: formData.date,
         };
         await axios
             .post("/api/class/student/fess_info", data, {
@@ -27,7 +29,6 @@ export const useFees = () => {
             .then((res) => {
                 loading.value = false;
                 errors.value = "";
-                console.log(res);
                 students.value = res.data;
             })
             .catch((err) => {
@@ -39,5 +40,5 @@ export const useFees = () => {
             });
     };
 
-    return { getClassByMonth, loading, errors,students };
+    return { getClassByMonth, loading, errors, students, isStudent };
 };
