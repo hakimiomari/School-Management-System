@@ -3,7 +3,7 @@
         <h1 class="font-bold text-2xl mb-3">Fees</h1>
         <form @submit.prevent="getClassByMonth(class_data)">
             <div class="flex flex-wrap">
-                <div class="w-full lg:w-5/12 px-4">
+                <div class="w-full lg:w-6/12 px-4">
                     <div class="relative w-full mb-3">
                         <label
                             class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -28,7 +28,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="w-full lg:w-5/12 px-4">
+                <div class="w-full lg:w-6/12 px-4">
                     <div class="relative w-full mb-3">
                         <label
                             class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -53,32 +53,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-full lg:w-5/12 px-4">
+                <div class="w-full lg:w-6/12 px-4">
                     <div class="relative w-full mb-3">
                         <label
                             class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                             htmlfor="grid-password"
                         >
-                            Months
+                            Date
                         </label>
-                        <div class="card flex justify-content-center">
-                            <Dropdown
-                                v-model="class_data.month"
-                                :options="months"
-                                optionLabel="name"
-                                placeholder="Select month"
-                                class="w-full md:w-14rem"
-                            />
-                        </div>
+                        <input
+                            type="date"
+                            class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            v-model="class_data.date"
+                        />
                         <p
-                            v-if="errors?.month"
+                            v-if="errors?.date"
                             class="text-xs mt-1 text-red-500"
                         >
-                            {{ errors?.month[0] }}
+                            {{ errors?.date[0] }}
                         </p>
                     </div>
                 </div>
-                <div class="w-full lg:w-2/12 px-4 mt-8">
+
+                <div class="w-full lg:w-4/12 px-4 mt-8">
                     <button
                         v-if="loading"
                         class="bg-indigo-700 hover:bg-indigo-600 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
@@ -114,8 +111,125 @@
             </div>
         </form>
     </div>
-    <div class="p-4 mt-4 rounded bg-white">
-        <h1 class="text-xl font-bold">Student Info</h1>
+    <div class="p-4 mt-4 rounded bg-white overflow-x-auto">
+        <h1 class="text-xl font-bold mb-4">Student Info</h1>
+        <table class="min-w-full leading-normal">
+            <thead>
+                <tr>
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                    >
+                        ID
+                    </th>
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                    >
+                        Photo
+                    </th>
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                    >
+                        Name
+                    </th>
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                    >
+                        Father Name
+                    </th>
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                    >
+                        Fees
+                    </th>
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                    >
+                        Payed
+                    </th>
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                    >
+                        Remain
+                    </th>
+                    <th
+                        class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                    >
+                        Action
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody v-if="students.length > 0" class="w-full">
+                <tr v-for="(student, index) in students" :key="index">
+                    <td
+                        class="px-5 py-2 text-sm bg-white border-b border-gray-200"
+                        v-if="student.student_info"
+                    >
+                        {{ student.student_info.id }}
+                    </td>
+                    <td
+                        class="px-5 py-2 text-sm bg-white border-b border-gray-200"
+                        v-if="student.student_info"
+                    >
+                        <p class="text-gray-900 whitespace-nowrap">
+                            <img
+                                class="rounded-full w-[50px] h-[50px]"
+                                :src="`/storage/${student.student_info.photo}`"
+                                alt=""
+                            />
+                        </p>
+                    </td>
+                    <td
+                        class="px-5 py-2 text-sm bg-white border-b border-gray-200"
+                        v-if="student.student_info"
+                    >
+                        <p class="text-gray-900 whitespace-nowrap">
+                            {{ student.student_info.name }}
+                        </p>
+                    </td>
+                    <td
+                        class="px-5 py-2 text-sm bg-white border-b border-gray-200"
+                        v-if="student.student_info"
+                    >
+                        <p class="text-gray-900 whitespace-nowrap">
+                            {{ student.student_info.parent_name }}
+                        </p>
+                    </td>
+                    <td
+                        class="px-4 py-3 text-sm bg-white border-b border-gray-200"
+                    >
+                        <p class="text-gray-900 whitespace-nowrap ms-2">
+                            {{ student.fee }}
+                        </p>
+                    </td>
+                    <td
+                        class="px-4 py-3 text-sm bg-white border-b border-gray-200"
+                    >
+                        <p class="text-gray-900 whitespace-nowrap">
+                            {{ student.payed }}
+                        </p>
+                    </td>
+                    <td
+                        class="px-4 py-3 text-sm bg-white border-b border-gray-200"
+                    >
+                        <p class="text-gray-900 whitespace-nowrap">
+                            {{ student.remain }}
+                        </p>
+                    </td>
+                    <td
+                        class="px-4 py-3 text-sm bg-white border-b border-gray-200"
+                    >
+                        <p class="text-gray-900 whitespace-nowrap">Take Fee</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div
+            class="p-2 border-t-2 w-full flex border-indigo-500"
+            v-if="!students.length > 0 && isStudent"
+        >
+            <span>No record found!</span>
+        </div>
     </div>
 </template>
 <script setup>
@@ -124,13 +238,13 @@ import Dropdown from "primevue/dropdown";
 import { useClass } from "@/composables/useClass";
 import { useFees } from "@/composables/useFees";
 
-const { getClassByMonth, loading, errors, students } = useFees();
+const { getClassByMonth, loading, errors, students, isStudent } = useFees();
 const { selectClass, gradeClasses, getGrades, grades } = useClass();
 
 const class_data = ref({
     grade_level: "",
     class: "",
-    month: "",
+    date: "",
 });
 
 const months = [
