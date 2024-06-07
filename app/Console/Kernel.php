@@ -35,19 +35,15 @@ class Kernel extends ConsoleKernel
     protected function monthlyFeesServices()
     {
         $students = Student::all();
-        $month = Carbon::now()->format('m');
-        $year = Carbon::now()->format('Y');
 
         foreach ($students as $student) {
             $class = Classes::find($student->class);
             Fee::create([
                 'student_id' => $student->id,
                 'class_id' => $student->class,
-                'year' => $year,
-                'months' => $month,
                 'fee' => $class->fee,
                 'payed' => 0,
-                'remaind' => $class->fee,
+                'remain' => $class->fee,
             ]);
         }
 
