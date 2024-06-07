@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApiController\AttendanceController;
 use App\Http\Controllers\ApiController\ClassController;
+use App\Http\Controllers\ApiController\FeesController;
 use App\Http\Controllers\ApiController\StudentController;
 use App\Http\Controllers\ApiController\TeacherController;
 use App\Http\Controllers\ApiController\UserController;
@@ -56,4 +57,7 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::get('/teacher/get/info/{id}', [TeacherController::class, 'getInfo']);
     Route::get('/teachers/all', [TeacherController::class, 'allTeachers']);
     Route::post('/teacher/update', [TeacherController::class, 'update']);
+
+    // fees routes
+    Route::post('/class/student/fess_info', [FeesController::class, 'getClassMonthlyInfo']);
 });
