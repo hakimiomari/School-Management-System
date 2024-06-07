@@ -219,7 +219,11 @@
                     <td
                         class="px-4 py-3 text-sm bg-white border-b border-gray-200"
                     >
-                        <p class="text-gray-900 whitespace-nowrap">Take Fee</p>
+                        <p
+                            class="text-gray-900 whitespace-nowrap bg-green-500 py-1 cursor-pointer rounded-[25px] text-center text-white hover:bg-green-400"
+                        >
+                            Take Fee
+                        </p>
                     </td>
                 </tr>
             </tbody>
