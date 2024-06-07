@@ -17,6 +17,7 @@ export const useAppStore = defineStore("app", () => {
     const asPerPage = ref("");
     const url = ref("");
     const displayedPages = ref("");
+    const students = ref("");
     const paginatedLoader = ref(false);
 
     const token = ref("");
@@ -94,6 +95,7 @@ export const useAppStore = defineStore("app", () => {
     };
 
     return {
+        students,
         showStatus,
         paginatedLoader,
         displayedPages,
