@@ -13,6 +13,7 @@ export const useFees = () => {
     const { getCookie, removeCookie } = useLogin();
     const appStore = useAppStore();
     const data = ref("");
+    const studentFees = ref("");
 
     const getData = async (data) => {
         await axios
@@ -113,7 +114,32 @@ export const useFees = () => {
             });
     };
 
+    // getStudentFee
+    const getStudentFee = async (id) => {
+        loading.value = true;
+        token.value = getCookie("access_token");
+
+        await axios
+            .get(`/api/student/fee/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                loading.value = false;
+                studentFees.value = res.data;
+            })
+            .catch((err) => {
+                loading.value = false;
+                if (err.response.status == 401) {
+                    removeCookie("access_token");
+                }
+            });
+    };
+
     return {
+        studentFees,
+        getStudentFee,
         getClassByMonth,
         loading,
         errors,
