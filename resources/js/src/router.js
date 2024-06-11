@@ -15,6 +15,7 @@ import ChangePassword from "@/views/profile/ChangePassword.vue";
 import NotFound from "@/views/not_found/NotFound.vue";
 import ClassesIndex from "@/views/classes/index.vue";
 import StudentList from "@/views/students/index.vue";
+import StudentFees from "@/views/students/StudentFees.vue";
 import AddStudent from "@/views/students/AddStudent.vue";
 import EditStudent from "@/views/students/EditStudent.vue";
 import TeacherList from "@/views/teachers/index.vue";
@@ -61,6 +62,12 @@ const routes = [
         path: "/school/classes",
         name: "classes-list",
         component: ClassesIndex,
+        meta: { isAuth: true, role: "Admin" },
+    },
+    {
+        path: "/school/student/fees/:id",
+        name: "StudentFees",
+        component: StudentFees,
         meta: { isAuth: true, role: "Admin" },
     },
     {
