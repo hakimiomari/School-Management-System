@@ -242,7 +242,7 @@
                             class="text-gray-900 whitespace-nowrap py-[5px] px-2 text-sm rounded-[25px] text-center text-white"
                             :class="
                                 student.payed > 0
-                                    ? 'bg-slate-400 '
+                                    ? 'bg-slate-400 cursor-not-allowed '
                                     : 'bg-green-500 hover:bg-green-400 cursor-pointer'
                             "
                             @click="
