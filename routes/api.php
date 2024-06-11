@@ -62,4 +62,5 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::post('/class/student/fess_info', [FeesController::class, 'getClassMonthlyInfo']);
     Route::post('/class/student/fee/taking', [FeesController::class, 'takeFees']);
     Route::post('/class/student/remain/taking', [FeesController::class, 'takeRemain']);
+    Route::get('/student/fee/{id}', [FeesController::class, 'getStudentFee']);
 });
