@@ -55,4 +55,15 @@ class FeesController extends Controller
         }
         return response()->json('success');
     }
+    // getStudentFee
+    public function getStudentFee($id)
+    {
+        $fees = Fee::where('student_id', $id)->get();
+        foreach ($fees as $fee) {
+            $createdAt = Carbon::parse($fee->created_at);
+            $fee['year'] = $createdAt->format('Y');
+            $fee['month'] = $createdAt->format('F');
+        }
+        return response()->json($fees);
+    }
 }
