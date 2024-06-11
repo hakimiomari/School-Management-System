@@ -88,12 +88,13 @@ export const useAttendance = () => {
                 },
             })
             .then((res) => {
-                loading.value = false;
                 console.log(res);
+                loading.value = false;
+                students.value = res.data;
+                
             })
             .catch((err) => {
                 loading.value = false;
-                console.log(err);
             });
     };
 
