@@ -145,6 +145,11 @@
                                 <th
                                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
                                 >
+                                    Fees
+                                </th>
+                                <th
+                                    class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                                >
                                     Action
                                 </th>
                             </tr>
@@ -199,6 +204,29 @@
                                 >
                                     <p class="text-gray-900 whitespace-nowrap">
                                         {{ student.email }}
+                                    </p>
+                                </td>
+                                <td
+                                    class="px-4 py-3 text-sm bg-white text-center border-b border-gray-200"
+                                >
+                                    <p
+                                        class="text-gray-900 whitespace-nowrap cursor-pointer"
+                                    >
+                                        <popover>
+                                            <span
+                                                @click.prevent="
+                                                    router.push({
+                                                        name: 'StudentFees',
+                                                        params: {
+                                                            id: student.id,
+                                                        },
+                                                    })
+                                                "
+                                                class="mt-[6px] material-symbols-outlined text-indigo-800 cursor-pointer"
+                                            >
+                                                wallet
+                                            </span>
+                                        </popover>
                                     </p>
                                 </td>
                                 <td
