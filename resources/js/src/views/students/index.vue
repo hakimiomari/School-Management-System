@@ -145,6 +145,11 @@
                                 <th
                                     class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
                                 >
+                                    Attendence
+                                </th>
+                                <th
+                                    class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                                >
                                     Fees
                                 </th>
                                 <th
@@ -202,8 +207,19 @@
                                 <td
                                     class="px-4 py-3 text-sm bg-white border-b border-gray-200"
                                 >
-                                    <p class="text-gray-900 whitespace-nowrap">
-                                        {{ student.email }}
+                                    <p
+                                        class="text-gray-900 whitespace-nowrap ms-2"
+                                    >
+                                        {{ student.students.grade }}
+                                    </p>
+                                </td>
+                                <td
+                                    class="px-4 py-3 text-sm bg-white border-b border-gray-200"
+                                >
+                                    <p
+                                        class="text-gray-900 whitespace-nowrap cursor-pointer"
+                                    >
+                                        Attendence
                                     </p>
                                 </td>
                                 <td
