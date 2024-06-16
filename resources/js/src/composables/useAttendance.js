@@ -7,24 +7,29 @@ export const useAttendance = () => {
     const token = ref("");
     const students = ref("");
     const loading = ref(false);
+    const isClass = ref(false);
     const { getCookie, removeCookie } = useLogin();
 
     // get all students
-    const index = async () => {
+    const index = async (classInof) => {
         token.value = getCookie("access_token");
-        loading.value = true;
+        isClass.value = true;
         await axios
-            .get("/api/student/attendance", {
-                headers: {
-                    Authorization: `Bearer ${token.value}`,
-                },
-            })
+            .post(
+                "/api/student/attendance",
+                { class: classInof.class },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token.value}`,
+                    },
+                }
+            )
             .then((res) => {
-                loading.value = false;
+                isClass.value = false;
                 students.value = res.data;
             })
             .catch((err) => {
-                loading.value = false;
+                isClass.value = false;
                 if (err.response.status == 401) {
                     removeCookie("access_token");
                 }
@@ -91,12 +96,18 @@ export const useAttendance = () => {
                 console.log(res);
                 loading.value = false;
                 students.value = res.data;
-                
             })
             .catch((err) => {
                 loading.value = false;
             });
     };
 
-    return { index, students, takeAttendance, loading, classDailyReport };
+    return {
+        index,
+        students,
+        takeAttendance,
+        loading,
+        isClass,
+        classDailyReport,
+    };
 };
