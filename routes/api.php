@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::delete('/student/delete/{id}', [StudentController::class, 'delete']);
     Route::get('/student/inof/{id}', [StudentController::class, 'getStudentData']);
     Route::post('/student/update', [StudentController::class, 'update']);
-    Route::get('/student/attendance', [AttendanceController::class, 'getClassStudent']);
+    Route::post('/student/attendance', [AttendanceController::class, 'getClassStudent']);
     Route::post('/attendance/take', [AttendanceController::class, 'takeAttendance']);
     Route::get('/attendance/class/daily_report', [AttendanceController::class, 'getClassDailyReport']);
     Route::get('/admin/dashboard/data', [AttendanceController::class, 'getDataForDashboard']);
