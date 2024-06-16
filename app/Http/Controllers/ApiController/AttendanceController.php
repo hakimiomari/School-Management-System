@@ -12,9 +12,9 @@ use Morilog\Jalali\Jalalian;
 
 class AttendanceController extends Controller
 {
-    public function getClassStudent()
+    public function getClassStudent(Request $request)
     {
-        $students = Student::where('class', 10)->get();
+        $students = Student::where('class', $request->class['id'])->get();
         foreach ($students as $student) {
             $student['attendance'] = 'Present';
         }
