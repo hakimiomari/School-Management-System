@@ -15,8 +15,16 @@ class AttendanceController extends Controller
     public function getClassStudent(Request $request)
     {
         $students = Student::where('class', $request->class['id'])->get();
+        date_default_timezone_set('Asia/Kabul');
+        $morningStartTime = Carbon::createFromFormat('H:i', '8:00');
+        $morningEndTime = Carbon::createFromFormat('H:i', '8:15');
         foreach ($students as $student) {
-            $student['attendance'] = 'Present';
+            $attendance = Attendance::where('student_id', $student->id)->whereBetween('created_at', [$morningStartTime, $morningEndTime])->first();
+            if ($attendance) {
+                $student['attendance'] = $attendance->in;
+            } else {
+                $student['attendance'] = 'Present';
+            }
         }
         return response()->json($students);
     }
@@ -25,10 +33,9 @@ class AttendanceController extends Controller
     {
         date_default_timezone_set('Asia/Kabul');
         $currentTime = Carbon::now();
-
         $persianYear = Jalalian::forge($currentTime);
 
-        $morningStartTime = Carbon::createFromFormat('H:i', '8:00');
+        $morningStartTime = Carbon::createFromFormat('H:i', '4:55');
         $morningEndTime = Carbon::createFromFormat('H:i', '8:15');
         $noonStartTime = Carbon::createFromFormat('H:i', '13:00');
         $noonEndTime = Carbon::createFromFormat('H:i', '13:15');
@@ -90,9 +97,9 @@ class AttendanceController extends Controller
     {
         $teachers = Teacher::count();
         $students = Student::count();
-
-        $morningStartTime = Carbon::createFromFormat('H:i', '1:00');
-        $morningEndTime = Carbon::createFromFormat('H:i', '12:15');
+        date_default_timezone_set('Asia/Kabul');
+        $morningStartTime = Carbon::createFromFormat('H:i', '8:00');
+        $morningEndTime = Carbon::createFromFormat('H:i', '8:15');
         $noonStartTime = Carbon::createFromFormat('H:i', '12:15');
         $noonEndTime = Carbon::createFromFormat('H:i', '24:00');
 
