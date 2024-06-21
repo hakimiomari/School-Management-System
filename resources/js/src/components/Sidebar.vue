@@ -143,37 +143,6 @@ const inactiveClass = ref(
 
                     <span class="mx-4">Attendance</span>
                 </router-link>
-
-                <router-link
-                    @click="isOpen = false"
-                    class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
-                    :class="[
-                        route.name === 'Tables' ? activeClass : inactiveClass,
-                    ]"
-                    to="/tables"
-                >
-                    <svg
-                        class="w-5 h-5"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M7 3C6.44772 3 6 3.44772 6 4C6 4.55228 6.44772 5 7 5H13C13.5523 5 14 4.55228 14 4C14 3.44772 13.5523 3 13 3H7Z"
-                            fill="currentColor"
-                        />
-                        <path
-                            d="M4 7C4 6.44772 4.44772 6 5 6H15C15.5523 6 16 6.44772 16 7C16 7.55228 15.5523 8 15 8H5C4.44772 8 4 7.55228 4 7Z"
-                            fill="currentColor"
-                        />
-                        <path
-                            d="M2 11C2 9.89543 2.89543 9 4 9H16C17.1046 9 18 9.89543 18 11V15C18 16.1046 17.1046 17 16 17H4C2.89543 17 2 16.1046 2 15V11Z"
-                            fill="currentColor"
-                        />
-                    </svg>
-
-                    <span class="mx-4">Tables</span>
-                </router-link>
                 <router-link
                     @click="isOpen = false"
                     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
@@ -314,35 +283,7 @@ const inactiveClass = ref(
                     </svg>
 
                     <span class="mx-4">Rooms</span>
-                </router-link>
-
-                <router-link
-                    @click="isOpen = false"
-                    class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
-                    :class="[
-                        route.name === 'Modal' ? activeClass : inactiveClass,
-                    ]"
-                    to="/modal"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                    >
-                        <path
-                            d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z"
-                        />
-                        <path
-                            d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z"
-                        />
-                        <path
-                            d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z"
-                        />
-                    </svg>
-
-                    <span class="mx-4">Modal</span>
-                </router-link>
+                </router-link>  
 
                 <router-link
                     @click="isOpen = false"
