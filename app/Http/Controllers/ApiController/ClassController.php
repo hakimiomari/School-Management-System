@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClassRequest;
 use App\Models\Classes;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class ClassController extends Controller
@@ -15,6 +16,7 @@ class ClassController extends Controller
         $classes = Classes::paginate(5);
         foreach ($classes as $class) {
             $class->teacherInfo->teacher;
+            $class['student_number'] = Student::where('class', $class->id)->count();
         }
         return response()->json($classes);
     }
