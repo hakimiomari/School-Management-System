@@ -2,6 +2,8 @@
 import { ref, onMounted } from "vue";
 import { useApp } from "@/composables/useApp";
 import { useAppStore } from "@/store/useAppStore";
+import Chart from 'primevue/chart';
+
 
 const appStore = useAppStore();
 const {
@@ -406,6 +408,14 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <h1 class="text-3xl">
+                Attendence Report
+            </h1>
+            <div>
+
             </div>
         </div>
     </div>
