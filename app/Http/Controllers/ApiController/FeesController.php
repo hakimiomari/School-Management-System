@@ -24,7 +24,9 @@ class FeesController extends Controller
     // /takeFees
     public function takeFees(TakeFeesRequest $request)
     {
-        $fee = Fee::where('student_id', $request->id)->first();
+        $carbon = Carbon::parse($request->date);
+        $month = $carbon->format('m');
+        $fee = Fee::where('student_id', $request->id)->whereMonth('created_at', $month)->first();
         if ($request->fee <= $fee->fee) {
             $remain = $fee->remain  - $request->fee;
             $fee->update([
@@ -41,7 +43,9 @@ class FeesController extends Controller
     // takeRemain
     public function takeRemain(TakeRemainRequest $request)
     {
-        $fee = Fee::where('student_id', $request->id)->first();
+        $carbon = Carbon::parse($request->date);
+        $month = $carbon->format('m');
+        $fee = Fee::where('student_id', $request->id)->whereMonth('created_at', $month)->first();
         if ($request->remain <= $fee->remain) {
             $remain = $fee->remain  - $request->remain;
             $payed = $fee->payed + $request->remain;
