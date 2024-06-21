@@ -21,7 +21,9 @@ onMounted(() => {
 
 <template>
     <div>
-        <h3 class="text-3xl font-medium text-gray-700">Dashboard</h3>
+        <h3 class="text-3xl font-medium text-gray-700">
+            {{ $t("Dashboard") }}
+        </h3>
 
         <div class="mt-4">
             <div class="flex flex-wrap -mx-6">
