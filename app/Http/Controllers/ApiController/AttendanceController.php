@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\findStudentMonthlyAttendenceReportRequest;
 use App\Models\Attendance;
+use App\Models\Fee;
 use App\Models\Student;
 use App\Models\Teacher;
 use Carbon\Carbon;
@@ -97,6 +99,13 @@ class AttendanceController extends Controller
     {
         $teachers = Teacher::count();
         $students = Student::count();
+        $fees = Fee::all();
+        $revenue = 0;
+        $remain = 0;
+        foreach ($fees as $fee) {
+            $revenue +=  $fee->payed;
+            $remain += $fee->remain;
+        }
         date_default_timezone_set('Asia/Kabul');
         $morningStartTime = Carbon::createFromFormat('H:i', '8:00');
         $morningEndTime = Carbon::createFromFormat('H:i', '8:15');
@@ -117,6 +126,25 @@ class AttendanceController extends Controller
             $obsentStudent = Attendance::whereIn('out', ['Obsent', 'Leave'])->whereBetween('created_at', [$morningStartTime, $morningEndTime])->count();
         }
 
-        return response()->json(['teachers' => $teachers, 'students' => $students, 'presentStudent' => $presentStudent, 'obsentStudent' => $obsentStudent]);
+        return response()->json(['teachers' => $teachers, 'students' => $students, 'presentStudent' => $presentStudent, 'revenue' => $revenue,'remain' => $remain, 'obsentStudent' => $obsentStudent]);
+    }
+
+    // findStudentMonthlyAttendenceReport
+    public function findStudentMonthlyAttendenceReport(findStudentMonthlyAttendenceReportRequest $request)
+    {
+        $carbon = Carbon::parse($request->date);
+        $month = $carbon->format('m');
+        $attendences = Attendance::where('student_id', $request->id)->whereMonth('created_at', $month)->get();
+        return response()->json($attendences);
+    }
+
+    // getStudentLastMonthAttendenceReport
+    public function getStudentLastMonthAttendenceReport($id)
+    {
+        date_default_timezone_set('Asia/Kabul');
+        $date = Carbon::now();
+        $month = $date->format('m');
+        $attendences = Attendance::where('student_id', $id)->whereMonth('created_at', $month)->get();
+        return response()->json($attendences);
     }
 }
