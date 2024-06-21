@@ -8,6 +8,9 @@ export const useAttendance = () => {
     const students = ref("");
     const loading = ref(false);
     const isClass = ref(false);
+    const attendances = ref("");
+    const errors = ref("");
+    const isAttendence = ref(false);
     const { getCookie, removeCookie } = useLogin();
 
     // get all students
@@ -93,12 +96,50 @@ export const useAttendance = () => {
                 },
             })
             .then((res) => {
-                console.log(res);
                 loading.value = false;
                 students.value = res.data;
             })
             .catch((err) => {
                 loading.value = false;
+            });
+    };
+
+    const findStudentMonthlyAttendenceReport = async (data) => {
+        loading.value = true;
+        token.value = getCookie("access_token");
+        await axios
+            .post("/api/attendance/student/monthly_report", data, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                loading.value = false;
+                attendances.value = res.data;
+            })
+            .catch((err) => {
+                errors.value = err.response.data.errors;
+                loading.value = false;
+            });
+    };
+
+    // getStudentLastMonthAttendence
+
+    const getStudentLastMonthAttendence = async (id) => {
+        isAttendence.value = true;
+        token.value = getCookie("access_token");
+        await axios
+            .get(`/api/attendance/student/last_month/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                isAttendence.value = false;
+                attendances.value = res.data;
+            })
+            .catch((err) => {
+                isAttendence.value = false;
             });
     };
 
@@ -109,5 +150,10 @@ export const useAttendance = () => {
         loading,
         isClass,
         classDailyReport,
+        findStudentMonthlyAttendenceReport,
+        attendances,
+        isAttendence,
+        errors,
+        getStudentLastMonthAttendence,
     };
 };
