@@ -41,6 +41,8 @@ Route::middleware('auth:sanctum', 'role:Admin|Student|Teacher|Parent')->group(fu
     Route::get('/student/inof/{id}', [StudentController::class, 'getStudentData']);
     Route::post('/student/update', [StudentController::class, 'update']);
     Route::post('/student/attendance', [AttendanceController::class, 'getClassStudent']);
+    Route::post('/attendance/student/monthly_report', [AttendanceController::class, 'findStudentMonthlyAttendenceReport']);
+    Route::get('/attendance/student/last_month/{id}', [AttendanceController::class, 'getStudentLastMonthAttendenceReport']);
     Route::post('/attendance/take', [AttendanceController::class, 'takeAttendance']);
     Route::get('/attendance/class/daily_report', [AttendanceController::class, 'getClassDailyReport']);
     Route::get('/admin/dashboard/data', [AttendanceController::class, 'getDataForDashboard']);
