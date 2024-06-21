@@ -1,4 +1,5 @@
 <template>
+    <h1 class="text-2xl my-2 font-bold">Student Attendance</h1>
     <div class="flex w-full flex-wrap items-center bg-white p-4 rounded">
         <div class="w-full lg:w-5/12 px-4">
             <div class="relative w-full mb-3">
@@ -160,16 +161,6 @@
             </button>
         </div>
     </div>
-    <!-- <div v-else class="flex justify-center items-center flex-wrap gap-6">
-        <div class="card" v-for="index in 20">
-            <div class="profile_thumb"></div>
-            <h1 class="post_title"></h1>
-            <div class="flex mt-3 buttons">
-                <div class="w-[20px] h-[20px] mx-2"></div>
-                <div class="w-[20px] h-[20px] mx-2"></div>
-            </div>
-        </div>
-    </div> -->
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
