@@ -29,7 +29,7 @@ onMounted(() => {
             <div class="flex flex-wrap -mx-6">
                 <div
                     v-if="!appStore.loading"
-                    class="w-full px-6 sm:w-1/2 xl:w-1/3"
+                    class="w-full px-6 mb-6 sm:w-1/2 xl:w-1/3"
                 >
                     <div
                         class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm"
@@ -95,7 +95,7 @@ onMounted(() => {
                 </div>
                 <div
                     v-if="!appStore.loading"
-                    class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 xl:mt-0"
+                    class="w-full px-6 mb-6 sm:w-1/2 xl:w-1/3"
                 >
                     <div
                         class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm"
@@ -159,7 +159,7 @@ onMounted(() => {
                 </div>
                 <div
                     v-if="!appStore.loading"
-                    class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 sm:mt-0"
+                    class="w-full px-6 mb-6 sm:w-1/2 xl:w-1/3"
                 >
                     <div
                         class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm"
@@ -211,7 +211,7 @@ onMounted(() => {
                 </div>
                 <div
                     v-if="!appStore.loading"
-                    class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3"
+                    class="w-full px-6 mb-6 sm:w-1/2 xl:w-1/3"
                 >
                     <div
                         class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm"
