@@ -613,19 +613,23 @@ const class_data = ref({
 const studentFee = ref({
     fee: "",
     id: "",
+    date: "",
 });
 
 const studentRemain = ref({
     remain: "",
     id: "",
+    date: "",
 });
 const takingFee = (id) => {
     studentFee.value.id = id;
     appStore.open = true;
+    studentFee.value.date = class_data.value.date;
 };
 
 const takingRemain = (id) => {
     studentRemain.value.id = id;
+    studentRemain.value.date = class_data.value.date;
     appStore.showStatus = true;
 };
 
