@@ -7,6 +7,9 @@ import PrimeVue from "primevue/config";
 import DashboardLayout from "@/components/DashboardLayout.vue";
 import EmptyLayout from "@/components/EmptyLayout.vue";
 import { createPinia } from "pinia";
+import { createI18n } from "vue-i18n";
+import EN from "@/locale/en.json";
+import PA from "@/locale/pa.json";
 
 //in main.js
 import "primevue/resources/themes/aura-light-green/theme.css";
@@ -25,11 +28,21 @@ app.use(PrimeVue, {
     unstyled: false,
 });
 
+const i18n = createI18n({
+    // something i18n options here
+    locale: "PA",
+    messages: {
+        EN: EN,
+        PA: PA,
+    },
+});
+
 app.use(VTooltip);
 
 app.component("DefaultLayout", DashboardLayout);
 app.component("EmptyLayout", EmptyLayout);
 
+app.use(i18n);
 app.use(pinia);
 app.use(Vue3Toasity);
 app.use(PrimeVue);
