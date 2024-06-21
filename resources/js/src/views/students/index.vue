@@ -217,6 +217,12 @@
                                     class="px-4 py-3 text-sm bg-white border-b border-gray-200"
                                 >
                                     <p
+                                        @click.prevent="
+                                            router.push({
+                                                name: 'StudentAttendence',
+                                                params: { id: student.id },
+                                            })
+                                        "
                                         class="text-gray-900 whitespace-nowrap cursor-pointer"
                                     >
                                         Attendence
