@@ -11,6 +11,8 @@ export const useApp = () => {
     const totalStudents = ref(0);
     const presentStudents = ref(0);
     const obsentStudents = ref(0);
+    const revenue = ref(0);
+    const remain = ref(0);
 
     const getDataForDashboard = async () => {
         token.value = getCookie("access_token");
@@ -27,6 +29,8 @@ export const useApp = () => {
                 totalStudents.value = res.data.students;
                 presentStudents.value = res.data.presentStudent;
                 obsentStudents.value = res.data.obsentStudent;
+                revenue.value = res.data.revenue;
+                remain.value = res.data.remain;
             })
             .catch((err) => {
                 appStore.loading = false;
@@ -34,6 +38,8 @@ export const useApp = () => {
             });
     };
     return {
+        remain,
+        revenue,
         getDataForDashboard,
         totalStudents,
         totalTeachers,
