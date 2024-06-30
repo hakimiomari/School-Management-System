@@ -13,6 +13,7 @@ export const useApp = () => {
     const obsentStudents = ref(0);
     const revenue = ref(0);
     const remain = ref(0);
+    const chartData = ref();
 
     const getDataForDashboard = async () => {
         token.value = getCookie("access_token");
@@ -37,8 +38,8 @@ export const useApp = () => {
             });
     };
 
+    // /fee/monthly/report
     const getMonthlyFeeReport = async () => {
-        // /fee/monthly/report
         await axios
             .get("/api/fee/monthly/report", {
                 headers: {
@@ -46,14 +47,58 @@ export const useApp = () => {
                 },
             })
             .then((res) => {
-                console.log(res);
+                chartData.value = setChartData(res.data.label, res.data.fees);
             })
             .catch((err) => {
                 appStore.loading = false;
                 console.log(err);
             });
     };
+
+    const setChartData = (label, data) => {
+        return {
+            labels: label,
+            datasets: [
+                {
+                    label: "Fee",
+                    data: data,
+                    backgroundColor: [
+                        "rgba(249, 115, 22, 0.2)",
+                        "rgba(6, 182, 212, 0.2)",
+                        "rgb(107, 114, 128, 0.2)",
+                        "rgba(139, 92, 246 0.2)",
+                        "rgba(139, 12, 151 0.2)",
+                        "rgba(139, 52, 161 0.2)",
+                        "rgba(139, 82, 181 0.2)",
+                        "rgba(139, 112, 141 0.2)",
+                        "rgba(139,132, 51 0.2)",
+                        "rgba(39, 222, 151 0.2)",
+                        "rgba(197, 62, 151 0.2)",
+                        "rgba(16, 12, 151 0.2)",
+                    ],
+                    borderColor: [
+                        "rgb(249, 115, 22)",
+                        "rgb(6, 182, 212)",
+                        "rgb(107, 114, 128)",
+                        "rgb(139, 92, 246)",
+                        "rgb(234, 23, 212)",
+                        "rgb(24, 23, 212)",
+                        "rgb(123, 73, 212)",
+                        "rgb(34, 23, 12)",
+                        "rgb(114, 123, 212)",
+                        "rgb(24, 123, 112)",
+                        "rgb(23, 231, 100)",
+                        "rgb(24, 230, 200)",
+                    ],
+                    borderWidth: 1,
+                },
+            ],
+        };
+    };
+
+
     return {
+        chartData,
         remain,
         revenue,
         getDataForDashboard,
@@ -61,6 +106,6 @@ export const useApp = () => {
         totalTeachers,
         presentStudents,
         obsentStudents,
-        getMonthlyFeeReport
+        getMonthlyFeeReport,
     };
 };
