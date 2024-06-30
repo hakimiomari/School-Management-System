@@ -70,4 +70,19 @@ class FeesController extends Controller
         }
         return response()->json($fees);
     }
+    // monthly report for fee
+    public function getMonthlyFeeReport()
+    {
+        $fees = [];
+        $label = [];
+        $transactions = Fee::all()
+            ->groupBy(function ($fee) {
+                return Carbon::parse($fee->created_at)->format('F Y');
+            });
+        foreach($transactions as $transaction){
+            foreach($transaction as $item){
+                $fees[0] += $item->payed;
+            }
+        }
+    }
 }
