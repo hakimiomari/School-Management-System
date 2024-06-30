@@ -34,6 +34,22 @@ export const useApp = () => {
             })
             .catch((err) => {
                 appStore.loading = false;
+            });
+    };
+
+    const getMonthlyFeeReport = async () => {
+        // /fee/monthly/report
+        await axios
+            .get("/api/fee/monthly/report", {
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                appStore.loading = false;
                 console.log(err);
             });
     };
@@ -45,5 +61,6 @@ export const useApp = () => {
         totalTeachers,
         presentStudents,
         obsentStudents,
+        getMonthlyFeeReport
     };
 };
