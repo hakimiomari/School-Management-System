@@ -13,43 +13,18 @@ const {
     obsentStudents,
     revenue,
     remain,
-    getMonthlyFeeReport
+    getMonthlyFeeReport,
+    chartData,
 } = useApp();
 
-const chartData = ref();
 const chartOptions = ref();
 
 onMounted(() => {
     getDataForDashboard();
-    chartData.value = setChartData();
     chartOptions.value = setChartOptions();
     getMonthlyFeeReport();
 });
 
-const setChartData = () => {
-    return {
-        labels: ["Q1", "Q2", "Q3", "Q4"],
-        datasets: [
-            {
-                label: "Fee",
-                data: [540, 325, 702, 620],
-                backgroundColor: [
-                    "rgba(249, 115, 22, 0.2)",
-                    "rgba(6, 182, 212, 0.2)",
-                    "rgb(107, 114, 128, 0.2)",
-                    "rgba(139, 92, 246 0.2)",
-                ],
-                borderColor: [
-                    "rgb(249, 115, 22)",
-                    "rgb(6, 182, 212)",
-                    "rgb(107, 114, 128)",
-                    "rgb(139, 92, 246)",
-                ],
-                borderWidth: 1,
-            },
-        ],
-    };
-};
 const setChartOptions = () => {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue("--p-text-color");
@@ -480,9 +455,10 @@ const setChartOptions = () => {
                 </div>
             </div>
         </div>
-        <div class="mt-4 flex report">
-            <h1 class="text-3xl">Attendence Report</h1>
-            <div class="w-2/3 mt-6">
+        <div class="mt-7 flex report ">
+            <h1 class="text-2xl font-normal">Fee Monthly Report</h1>
+
+            <div v-if="!appStore.loading" class="w-2/3 mt-6">
                 <Chart type="bar" :data="chartData" :options="chartOptions" />
             </div>
         </div>
