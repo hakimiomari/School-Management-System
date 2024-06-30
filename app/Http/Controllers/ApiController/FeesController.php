@@ -73,16 +73,37 @@ class FeesController extends Controller
     // monthly report for fee
     public function getMonthlyFeeReport()
     {
+        $fee = 0;
+        $i = 0;
         $fees = [];
         $label = [];
-        $transactions = Fee::all()
+        $now = Carbon::now();
+        $start = $now->startOfYear();
+        $endDate = Carbon::now();
+        $end = $endDate->endOfYear();
+
+        $transactions = Fee::whereBetween('created_at', [$start, $end])
+            ->orderBy('created_at', 'asc')
+            ->get()
             ->groupBy(function ($fee) {
-                return Carbon::parse($fee->created_at)->format('F Y');
+                return Carbon::parse($fee->created_at)->format('F');
             });
-        foreach($transactions as $transaction){
-            foreach($transaction as $item){
-                $fees[0] += $item->payed;
+
+        $data = $transactions->map(function ($monthTransactions, $monthName) {
+            return [
+                'month' => $monthName,
+                'transactions' => $monthTransactions,
+            ];
+        })->values();
+
+        foreach ($data as $monthlyData) {
+            $label[$i] = $monthlyData['month'];
+            $fees[$i] = 0;
+            foreach ($monthlyData['transactions'] as $transaction) {
+                $fees[$i] += $transaction->payed;
             }
+            $i++;
         }
+        return response()->json(['label' => $label, 'fees' => $fees]);
     }
 }
