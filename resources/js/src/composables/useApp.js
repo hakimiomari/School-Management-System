@@ -14,6 +14,7 @@ export const useApp = () => {
     const revenue = ref(0);
     const remain = ref(0);
     const chartData = ref();
+    const loading = ref(false);
 
     const getDataForDashboard = async () => {
         token.value = getCookie("access_token");
@@ -40,6 +41,7 @@ export const useApp = () => {
 
     // /fee/monthly/report
     const getMonthlyFeeReport = async () => {
+        loading.value = true;
         await axios
             .get("/api/fee/monthly/report", {
                 headers: {
@@ -47,11 +49,12 @@ export const useApp = () => {
                 },
             })
             .then((res) => {
+                loading.value = false;
                 chartData.value = setChartData(res.data.label, res.data.fees);
             })
             .catch((err) => {
+                loading.value = false;
                 appStore.loading = false;
-                console.log(err);
             });
     };
 
@@ -96,8 +99,8 @@ export const useApp = () => {
         };
     };
 
-
     return {
+        loading,
         chartData,
         remain,
         revenue,
