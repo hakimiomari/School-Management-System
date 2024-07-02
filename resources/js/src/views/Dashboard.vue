@@ -15,6 +15,7 @@ const {
     remain,
     getMonthlyFeeReport,
     chartData,
+    loading,
 } = useApp();
 
 const chartOptions = ref();
@@ -458,7 +459,7 @@ const setChartOptions = () => {
         <div class="mt-7 flex report ">
             <h1 class="text-2xl font-normal">Fee Monthly Report</h1>
 
-            <div v-if="!appStore.loading" class="w-2/3 mt-6">
+            <div v-if="!loading" class="w-2/3 mt-6">
                 <Chart type="bar" :data="chartData" :options="chartOptions" />
             </div>
         </div>
